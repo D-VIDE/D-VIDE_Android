@@ -13,7 +13,18 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
+        // splash
         composable(route = Screen.Splash.route) {}
+
+        // nav bar routes
         composable(route = Screen.RecruitingsScreen.route) {}
+        composable(route = Screen.ReviewsScreen.route) {}
+        composable(route = Screen.ChattingsScreen.route) {}
+        composable(route = Screen.MyPageScreen.route) {}
+
+        // routed by event
+        composable(route = Screen.PostRecruitingScreen.route) {}
+        composable(route = Screen.TaggedReviewsScreen.route) {}
+
     }
 }
