@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 
 class MainActivity : ComponentActivity() {
@@ -17,11 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DVIDETheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                val navController = rememberNavController()
+                NavGraph(navController)
             }
         }
     }
