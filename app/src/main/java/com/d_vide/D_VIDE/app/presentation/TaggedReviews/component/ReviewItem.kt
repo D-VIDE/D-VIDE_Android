@@ -50,7 +50,8 @@ fun ReviewItem(){
         shape = RoundedCornerShape(
             topEnd = 30.dp,
             bottomEnd = 30.dp
-        )
+        ),
+        elevation = 3.dp
 
     ) {
        Column(
@@ -243,7 +244,7 @@ fun ReviewImage(
         modifier = modifier
             .padding(end = 10.dp)
             .size(100.dp, 100.dp)
-            .clip(shape = MaterialTheme.shapes.medium)
+            .clip(shape = RoundedCornerShape(20.dp))
 
     )
 }
