@@ -2,8 +2,12 @@ package com.d_vide.D_VIDE.app.presentation.Recruitings
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.*
@@ -22,19 +26,32 @@ import com.d_vide.D_VIDE.ui.theme.mainYellow
 @Composable
 fun RecruitingsScreen() {
     val scrollState = rememberScrollState()
+    var selectedItem by remember{ mutableStateOf("")}
+    val categoryList = listOf("분식", "한식", "일식", "중식", "양식", "디저트", "피자", "패스트푸드")
+
     Column(
         modifier = Modifier
             .background(background)
             .verticalScroll(scrollState)
     ){
         TopRoundContainer{
-            Row(
-                modifier = Modifier.padding(15.dp)
-            ) {
-                val categoryList = listOf("분식", "한식", "일식", "중식", "디저트", "아시안")
-                repeat(categoryList.size) {
-                    RecruitingCategory(categoryList.get(it))
-                    Spacer(Modifier.width(8.dp))
+            LazyRow{
+                item {
+                    Spacer(modifier = Modifier.width(20.dp))
+                }
+                this.items(items = categoryList) {
+                    Row {
+                        RecruitingCategory(
+                            text = it,
+                            isSelected = if (selectedItem == it) true else false,
+                            modifier = Modifier
+                                .selectable(
+                                    selected = selectedItem == it,
+                                    onClick = { selectedItem = it }
+                                )
+                        )
+                        Spacer(modifier = Modifier.width(7.dp))
+                    }
                 }
             }
         }
