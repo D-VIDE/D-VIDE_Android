@@ -65,6 +65,6 @@ fun PostRecruitingScreen(
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-//    val navController = rememberNavController()
-//    PostRecruitingScreen()
+    val navController = rememberNavController()
+    PostRecruitingScreen(navController)
 }
