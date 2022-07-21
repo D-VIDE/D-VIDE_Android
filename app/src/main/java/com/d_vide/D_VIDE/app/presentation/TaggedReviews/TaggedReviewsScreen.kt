@@ -13,13 +13,18 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
+import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import javax.annotation.RegEx
 
 @Composable
 fun TaggedReviewsScreen(){
-    Scaffold { innerPadding->
+    Scaffold (
+        floatingActionButton = {
+            FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
+        }
+            ){ innerPadding->
         Column {
             TagTitle()
             LazyColumn(
@@ -37,9 +42,8 @@ fun TaggedReviewsScreen(){
                 item { ReviewItem() }
                 item { ReviewItem() }
             }
-            TagBottomButton()
+//            TagBottomButton()
         }
-
     }
 }
 

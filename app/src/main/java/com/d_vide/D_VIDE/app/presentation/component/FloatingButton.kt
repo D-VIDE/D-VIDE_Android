@@ -32,7 +32,7 @@ fun FloatingButton(
         backgroundColor = mainOrange,
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(0.9f),
-        shape = MaterialTheme.shapes.large.copy(CornerSize(percent = 30))
+        shape = MaterialTheme.shapes.large.copy(CornerSize(percent = 100))
     )
 }
 
