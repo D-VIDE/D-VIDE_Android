@@ -42,7 +42,6 @@ fun TaggedReviewsScreen(){
                 item { ReviewItem() }
                 item { ReviewItem() }
             }
-//            TagBottomButton()
         }
     }
 }

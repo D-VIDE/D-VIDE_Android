@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
+import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.graph_gray
@@ -26,48 +27,15 @@ fun RecruitingsScreen() {
             .background(background)
             .verticalScroll(scrollState)
     ){
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(26.dp), clip = false)
-        ) {
-            Canvas(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-            ) {
-
-                val cornerRadius = CornerRadius(26.dp.toPx(), 26.dp.toPx())
-                val path = Path().apply {
-                    addRoundRect(
-                        RoundRect(
-                            rect = Rect(
-                                offset = Offset(0f, 0f),
-                                size = size,
-                            ),
-                            bottomLeft = cornerRadius,
-                            bottomRight = cornerRadius,
-                        )
-                    )
-                }
-                drawPath(path, color = Color.White)
-
-            }
-
+        TopRoundContainer{
             Row(
                 modifier = Modifier.padding(15.dp)
             ) {
-                RecruitingCategory("분식")
-                Spacer(Modifier.width(8.dp))
-                RecruitingCategory("한식")
-                Spacer(Modifier.width(8.dp))
-                RecruitingCategory("일식")
-                Spacer(Modifier.width(8.dp))
-                RecruitingCategory("중식")
-                Spacer(Modifier.width(8.dp))
-                RecruitingCategory("디저트")
-                Spacer(Modifier.width(8.dp))
-                RecruitingCategory("아시안")
+                val categoryList = listOf("분식", "한식", "일식", "중식", "디저트", "아시안")
+                repeat(categoryList.size) {
+                    RecruitingCategory(categoryList.get(it))
+                    Spacer(Modifier.width(8.dp))
+                }
             }
         }
         Column(
