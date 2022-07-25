@@ -231,11 +231,11 @@ fun UserId(
 @Composable
 fun ReviewImage(
     modifier: Modifier = Modifier,
-    imageURL: String
+    imageURL: String = ""
 ){
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(imageURL)
+            .data("https://yt3.ggpht.com/ytc/AKedOLR5NNn9lbbFQqPkHCTMgvgvCjZi94G2JRU7DjsM=s900-c-k-c0x00ffffff-no-rj")
             .crossfade(true)
             .build(),
         contentDescription = null,

@@ -30,7 +30,7 @@ import java.text.DecimalFormat
 @Composable
 fun RecruitingItem(
     modifier: Modifier = Modifier,
-    userName: String = "kksmedd10204",
+    userName: String = "kksmed204",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Int = 36,
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
@@ -41,7 +41,7 @@ fun RecruitingItem(
 ) {
     Box(
         modifier = modifier
-            .size(350.dp, 156.dp)
+            .fillMaxWidth(0.9f).height(156.dp)
             .background(background)
     ) {
         RecruitingUserName(Modifier, userName, userLocation)
