@@ -10,7 +10,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -33,7 +37,9 @@ fun RecruitingsScreen() {
         topBar = { categoryContainer() }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().background(background)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(background)
         ){
             LazyColumn(
                 modifier = Modifier.align(CenterHorizontally),
@@ -64,6 +70,7 @@ fun RecruitingsScreen() {
                     progress = 1.0f
                 )
                 }
+                /*
                 item { RecruitingItem(
                     userName = "hihihi",
                     userLocation = "서울시 강남구",
@@ -75,7 +82,11 @@ fun RecruitingsScreen() {
                     progress = 0.7f
                 )
                 }
+                 */
             }
+            BlankIndicator(
+                modifier = Modifier.fillMaxSize()
+            )
         }
         it
     }
