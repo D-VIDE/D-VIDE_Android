@@ -32,6 +32,8 @@ import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.component.BottomButton
+import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
+import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
@@ -40,12 +42,18 @@ import java.util.*
 @Composable
 fun PostRecruitingScreen(
     navController: NavController,
-    viewModel: PostRecruitingViewModel = hiltViewModel(),
+//    viewModel: PostRecruitingViewModel,
 ) {
     val scrollState = rememberScrollState()
 
     Scaffold(
-        topBar = { TopRoundBar("D/VIDE 모집글 작성") }
+        topBar = { TopRoundBar("D/VIDE 모집글 작성") },
+        bottomBar = { BottomNavigationBar(navController) },
+        floatingActionButton = {
+            FloatingButton(text = "업로드 하기", onClick = {
+                navController.navigate(Screen.RecruitingsScreen.route)
+            })
+        }
     ) {
         Column(
             modifier = Modifier
@@ -79,10 +87,7 @@ fun PostRecruitingScreen(
             EditableFieldItem(labelText = "내용", height = 200.dp) {
                 EditableTextField(height = 200.dp, singleLine = false) {}
             }
-            Spacer(modifier = Modifier.padding(10.dp))
-            BottomButton("업로드 하기", onClick = {
-                navController.navigate(Screen.RecruitingsScreen.route)
-            })
+            Spacer(modifier = Modifier.padding(50.dp))
         }
         it
     }
@@ -182,11 +187,12 @@ fun timePicker() {
 
 @Composable
 fun photoPicker(
-    viewModel: PostRecruitingViewModel = hiltViewModel()
+//    viewModel: PostRecruitingViewModel
 ) {
+    var imageUri  by remember { mutableStateOf<Uri?>(null) }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? -> viewModel.imageUri.value = uri }
+    ) { uri: Uri? -> imageUri = uri }
     var isSelected by remember { mutableStateOf(false) }
 
     Row() {
@@ -207,7 +213,7 @@ fun photoPicker(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
-                        if (isSelected) viewModel.imageUri.value
+                        if (isSelected) imageUri
                         else R.drawable.add_photo
                     )
                     .crossfade(true)
@@ -228,6 +234,5 @@ fun photoPicker(
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-    val navController = rememberNavController()
-    PostRecruitingScreen(navController)
+//    PostRecruitingScreen(rememberNavController())
 }
