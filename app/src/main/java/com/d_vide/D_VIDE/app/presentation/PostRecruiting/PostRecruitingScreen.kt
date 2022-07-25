@@ -32,6 +32,7 @@ import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.component.BottomButton
+import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
@@ -45,7 +46,8 @@ fun PostRecruitingScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        topBar = { TopRoundBar("D/VIDE 모집글 작성") }
+        topBar = { TopRoundBar("D/VIDE 모집글 작성") },
+        bottomBar = { BottomNavigationBar(navController) }
     ) {
         Column(
             modifier = Modifier

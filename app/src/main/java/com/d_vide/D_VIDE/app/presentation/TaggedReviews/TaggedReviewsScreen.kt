@@ -13,19 +13,22 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
+import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
-import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
-import javax.annotation.RegEx
 
 @Composable
-fun TaggedReviewsScreen(){
-    Scaffold (
+fun TaggedReviewsScreen() {
+    Scaffold(
         floatingActionButton = {
             FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
-        }
-            ){ innerPadding->
-        Column {
+        },
+        bottomBar = { BottomNavigationBar() }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.background(background)
+        ) {
             TagTitle()
             LazyColumn(
                 modifier = Modifier
@@ -33,7 +36,7 @@ fun TaggedReviewsScreen(){
                     .weight(1f),
                 contentPadding = PaddingValues(vertical = 10.dp, horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
-            ){
+            ) {
                 item { ReviewItem() }
                 item { ReviewItem() }
                 item { ReviewItem() }
@@ -47,7 +50,7 @@ fun TaggedReviewsScreen(){
 }
 
 @Composable
-fun TagTitle(title: String = "금돼지 식당"){
+fun TagTitle(title: String = "금돼지 식당") {
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -66,21 +69,21 @@ fun TagTitle(title: String = "금돼지 식당"){
 
 @Composable
 fun TagBottomButton(
-    onClick: () -> Unit = {}
-){
+    onClick: () -> Unit = {},
+) {
     Button(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange)
-        ) {
+    ) {
         Text("지금 D/VIDE 하기", color = Color.White)
     }
 }
 
 @Preview
 @Composable
-fun Preview(){
+fun Preview() {
     TaggedReviewsScreen()
 }
