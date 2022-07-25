@@ -23,23 +23,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.graph_gray
 import com.d_vide.D_VIDE.ui.theme.mainYellow
 
 @Composable
-fun RecruitingsScreen() {
+fun RecruitingsScreen(
+    navController: NavController,
+) {
     Scaffold (
         topBar = { categoryContainer() },
-        bottomBar = { BottomNavigationBar() }
+        bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
+            FloatingButton(text = "지금 D/VIDE 하기", onClick = {
+                navController.navigate(Screen.PostRecruitingScreen.route)
+            })
         }
     ) {
         Column(
@@ -136,6 +143,6 @@ fun categoryContainer() {
 @Composable
 fun DefaultPreview() {
     DVIDETheme {
-        RecruitingsScreen()
+//        RecruitingsScreen(rememberNavController())
     }
 }

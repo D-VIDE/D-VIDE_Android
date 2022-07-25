@@ -7,19 +7,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
+import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
+import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route
+        startDestination = Screen.RecruitingsScreen.route
     ) {
         // splash
-        composable(route = Screen.Splash.route) {}
+        composable(route = Screen.ReviewsScreen.route) {}
 
         // nav bar routes
-        composable(route = Screen.RecruitingsScreen.route) {}
+        composable(route = Screen.RecruitingsScreen.route) {
+            RecruitingsScreen(navController)
+        }
         composable(route = Screen.ReviewsScreen.route) {}
         composable(route = Screen.ChattingsScreen.route) {}
         composable(route = Screen.MyPageScreen.route) {}

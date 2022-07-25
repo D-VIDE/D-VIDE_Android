@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
@@ -19,12 +21,14 @@ import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
-fun TaggedReviewsScreen() {
+fun TaggedReviewsScreen(
+    navController: NavController
+) {
     Scaffold(
         floatingActionButton = {
             FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
         },
-        bottomBar = { BottomNavigationBar() }
+        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier.background(background)
@@ -85,5 +89,5 @@ fun TagBottomButton(
 @Preview
 @Composable
 fun Preview() {
-    TaggedReviewsScreen()
+//    TaggedReviewsScreen(rememberNavController())
 }

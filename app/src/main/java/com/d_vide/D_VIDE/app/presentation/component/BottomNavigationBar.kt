@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.os.ConfigurationCompat
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.Purple700
@@ -32,10 +33,13 @@ import java.util.*
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavController = rememberNavController(),
+    navController: NavController,
 ) {
 //    val currentRoute = currentRoute(navController = navController)
 //    val context = LocalContext.current
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     BottomNavigation(
         modifier = Modifier
@@ -72,7 +76,7 @@ fun BottomNavigationBar(
                 )
             },
             onClick = {
-                navController.navigate(Screen.ReviewsScreen.route)
+                navController.navigate(Screen.TaggedReviewsScreen.route)
             }
         )
         BottomNavigationItem(
@@ -110,5 +114,5 @@ fun BottomNavigationBar(
 @Preview
 @Composable
 fun BottomBarPreview() {
-    BottomNavigationBar()
+//    BottomNavigationBar(navController)
 }
