@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
+import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
@@ -34,7 +35,10 @@ import com.d_vide.D_VIDE.ui.theme.mainYellow
 @Composable
 fun RecruitingsScreen() {
     Scaffold (
-        topBar = { categoryContainer() }
+        topBar = { categoryContainer() },
+        floatingActionButton = {
+            FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
+        }
     ) {
         Column(
             modifier = Modifier
