@@ -68,7 +68,6 @@ fun RecruitingCategory(
         )
     }
 }
-/*
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
@@ -76,4 +75,4 @@ fun DefaultPreview() {
         RecruitingCategory("분식", true)
 
     }
-}*/
+}
