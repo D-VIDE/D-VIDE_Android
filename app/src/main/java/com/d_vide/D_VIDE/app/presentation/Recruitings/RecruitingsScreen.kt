@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.*
@@ -32,7 +34,6 @@ fun RecruitingsScreen() {
     Column(
         modifier = Modifier
             .background(background)
-            .verticalScroll(scrollState)
     ){
         TopRoundContainer{
             LazyRow{
@@ -55,15 +56,46 @@ fun RecruitingsScreen() {
                 }
             }
         }
-        Column(
-            modifier = Modifier.padding(start = 22.dp)
+        LazyColumn(
+            modifier = Modifier.align(CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ){
-            Spacer(Modifier.height(5.dp))
-            RecruitingItem()
-            Spacer(Modifier.height(15.dp))
-            RecruitingItem()
-            Spacer(Modifier.height(15.dp))
-            RecruitingItem()
+            item {
+                Spacer(modifier = Modifier.width(20.dp))
+            }
+            item { RecruitingItem() }
+            item { RecruitingItem(
+                userName = "asdfasdfsge",
+                userLocation = "부산시 수영구",
+                title = "짬뽕 땡기시는 분~! 빨리 모여라!!",
+                deadLineHour = 6,
+                deadLineMinute = 23,
+                timeRemaining = 9999,
+                insufficientMoney = 1500000,
+                progress = 0.3f
+            ) }
+            item { RecruitingItem(
+                userName = "dividividip",
+                userLocation = "부산시 금정구",
+                title = "비건 다이어트 같이 하실 분~",
+                deadLineHour = 8,
+                deadLineMinute = 32,
+                timeRemaining = 66,
+                insufficientMoney = 5000,
+                progress = 1.0f
+             )
+            }
+            item { RecruitingItem(
+                userName = "hihihi",
+                userLocation = "서울시 강남구",
+                title = "야식으로는 애플파이지!~",
+                deadLineHour = 12,
+                deadLineMinute = 12,
+                timeRemaining = 120,
+                insufficientMoney = 300,
+                progress = 0.7f
+            )
+            }
         }
 
 
