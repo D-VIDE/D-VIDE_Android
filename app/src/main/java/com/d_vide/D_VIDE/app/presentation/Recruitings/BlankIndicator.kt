@@ -40,7 +40,7 @@ fun BlankIndicator(
                 color = Color(0xFFB0B0B0),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                lineHeight = 16.sp
+                lineHeight = 20.sp
             )
 
         }
