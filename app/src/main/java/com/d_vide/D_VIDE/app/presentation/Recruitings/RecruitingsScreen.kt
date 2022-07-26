@@ -46,7 +46,7 @@ fun RecruitingsScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.align(CenterHorizontally),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+              //  verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(top = 20.dp, bottom = 170.dp)
             ) {

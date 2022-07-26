@@ -44,7 +44,7 @@ fun RecruitingItem(
     Box(
         modifier = modifier
             .fillMaxWidth().height(156.dp)
-            .scale(0.9f, 1f)
+            .scale(0.9f)
             .background(background)
     ) {
         RecruitingUserName(Modifier, userName, userLocation)
