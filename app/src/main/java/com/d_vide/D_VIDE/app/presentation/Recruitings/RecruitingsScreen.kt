@@ -53,7 +53,7 @@ fun RecruitingsScreen(
                 item {
                     Spacer(modifier = Modifier.width(20.dp))
                 }
-                item { RecruitingItem() }
+                item { RecruitingItem()}
                 item {
                     RecruitingItem(
                         userName = "asdfasdfsge",
