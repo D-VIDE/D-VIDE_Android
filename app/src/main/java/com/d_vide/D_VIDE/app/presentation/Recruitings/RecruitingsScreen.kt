@@ -1,22 +1,36 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
+import android.widget.ImageButton
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
@@ -25,6 +39,7 @@ import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
+import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
 fun RecruitingsScreen(
@@ -32,11 +47,25 @@ fun RecruitingsScreen(
 ) {
     Scaffold(
         topBar = { categoryContainer() },
-        bottomBar = { BottomNavigationBar(navController) },
+        bottomBar = {
+            Column{
+                BottomNavigationBar(navController)
+            }
+        },
         floatingActionButton = {
+                Image(
+                    painterResource(id = R.drawable.plus_icon),
+                    contentDescription = "plus",
+                    modifier = Modifier
+                        .size(52.dp)
+                        .clickable {
+                            navController.navigate(Screen.PostRecruitingScreen.route)
+                        }
+                )
+             /*
             FloatingButton(text = "지금 D/VIDE 하기", onClick = {
                 navController.navigate(Screen.PostRecruitingScreen.route)
-            })
+            })*/
         }
     ) {
         Column(
@@ -62,7 +91,7 @@ fun RecruitingsScreen(
                         deadLineHour = 6,
                         deadLineMinute = 23,
                         timeRemaining = 9999,
-                        insufficientMoney = 1500,
+                        insufficientMoney = 15000,
                         progress = 0.3f
                     )
                 }
