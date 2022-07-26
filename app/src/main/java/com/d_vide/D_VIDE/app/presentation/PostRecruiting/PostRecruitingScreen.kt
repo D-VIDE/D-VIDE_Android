@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -37,7 +38,12 @@ import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
+import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.google.accompanist.flowlayout.FlowRow
 import java.util.*
+
+
+val datalist = listOf("분식", "한식", "일식", "중식", "디저트", "아시안","패스트푸드", "족발", "분식")
 
 @Composable
 fun PostRecruitingScreen(
@@ -45,6 +51,8 @@ fun PostRecruitingScreen(
 //    viewModel: PostRecruitingViewModel,
 ) {
     val scrollState = rememberScrollState()
+    var isDropDownMenuExpanded by remember { mutableStateOf(false) }
+    var selectedText by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = { TopRoundBar("D/VIDE 모집글 작성") },
@@ -64,7 +72,23 @@ fun PostRecruitingScreen(
 
             EditableFieldItem(labelText = "제목") { EditableTextField() {} }
             EditableFieldItem(labelText = "가게이름") { EditableTextField() {} }
-            EditableFieldItem(labelText = "카테고리") { DropDownComp() }
+            Box {
+                if(isDropDownMenuExpanded) ExpandedCategory(
+                    onTagClick = {
+                        isDropDownMenuExpanded = !isDropDownMenuExpanded
+                        selectedText = it
+                    },
+                    currentTag = selectedText
+                )
+                EditableFieldItem(labelText = "카테고리") {
+                    DropDownComp(
+                        isDropDownMenuExpanded = isDropDownMenuExpanded,
+                        onCheckedChange = {isDropDownMenuExpanded = !isDropDownMenuExpanded },
+                        selectedText = selectedText
+                    )
+                }
+            }
+
             EditableFieldItem(labelText = "배달비") { EditableTextField(unitText = "원") {} }
             EditableFieldItem(labelText = "주문자 수") { EditableTextField(unitText = "명") {} }
             EditableFieldItem(labelText = "마감시간") { timePicker() }
@@ -94,52 +118,79 @@ fun PostRecruitingScreen(
 }
 
 @Composable
-fun DropDownComp() {
-    val categoryList = listOf("분식", "한식", "일식", "중식", "디저트", "아시안")
-    var selectedText by remember { mutableStateOf("") }
+fun DropDownComp(
+    isDropDownMenuExpanded: Boolean,
+    onCheckedChange: () -> Unit,
+    selectedText: String
+) {
+
     EditableTextField(
         inputText = selectedText,
         readOnly = true,
-        contentAlignment = Alignment.CenterEnd
+        contentAlignment = Alignment.CenterEnd,
     ) {
-        var isDropDownMenuExpanded by remember { mutableStateOf(false) }
-        Button(
-            onClick = {
-                isDropDownMenuExpanded = true
-            },
+        IconToggleButton(
             modifier = Modifier
                 .size(45.dp)
-                .padding(end = 3.dp),
-            shape = CircleShape,
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color(0xFF8F8F8F),
-                backgroundColor = Color(0xFFFFFFFF)
-            )
+                .padding(end = 3.dp)
+            ,
+            checked = isDropDownMenuExpanded,
+            onCheckedChange = {
+                onCheckedChange()
+            },
         ) {
             Icon(
-                Icons.Default.ArrowDropDownCircle,
+                imageVector = Icons.Default.ArrowDropDownCircle,
                 contentDescription = "content description",
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(50.dp),
+                tint = Color.Black,
             )
+
         }
 
-        DropdownMenu(
-            modifier = Modifier.wrapContentSize(),
-            expanded = isDropDownMenuExpanded,
-            onDismissRequest = { isDropDownMenuExpanded = false },
+    }
+}
+
+/**
+ * click된 category state필요
+ */
+
+
+@Composable
+fun ExpandedCategory(
+    modifier: Modifier = Modifier.fillMaxWidth(0.9f),
+    currentTag: String,
+    onTagClick: (String) -> Unit
+){
+
+
+    Row(
+        modifier = Modifier
+            .padding(top = 5.dp)
+    ) {
+        Spacer(modifier = Modifier.size(100.dp))
+        Surface(
+            color = Color(0xFFEFEFF0),
+            shape = RoundedCornerShape(30.dp),
+            modifier = Modifier.fillMaxWidth(0.9f)
+
         ) {
-            repeat(6) {
-                DropdownMenuItem(
-                    modifier = Modifier.width(200.dp),
-                    onClick = {
-                        selectedText = categoryList.get(it)
-                        isDropDownMenuExpanded = false
-                    },
-                    contentPadding = PaddingValues(horizontal = 20.dp)
-                ) {
-                    Text(text = categoryList.get(it))
+            FlowRow(
+                mainAxisSpacing = 10.dp,
+                crossAxisSpacing = 10.dp,
+                modifier = Modifier.padding(
+                    bottom = 10.dp,
+                    top = 60.dp,
+                    start = 10.dp,
+                    end = 10.dp
+                ),
+
+                ){
+                datalist.forEach{ it ->
+                    if(currentTag == it) ItemTag(it, true, onTagClick)
+                    else ItemTag(it,false, onTagClick)
                 }
+
             }
         }
     }
@@ -231,8 +282,48 @@ fun photoPicker(
     }
 }
 
+
+@Composable
+private fun ItemTag(
+    string: String = "기본",
+    isClicked: Boolean = false,
+    onClick:(String)->Unit
+){
+    Box(
+        modifier = Modifier
+            .background(
+                color = if (isClicked) mainOrange
+                else Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(
+                start = 14.dp,
+                end = 14.dp,
+                top = 6.dp,
+                bottom = 6.dp
+            )
+            .clickable { onClick(string) }
+
+    ) {
+        Text(
+            text = "$string",
+            color = if (isClicked) Color.White
+                    else Color.Gray,
+            fontSize = 12.sp,
+
+        )
+    }
+}
+
+@Composable
+@Preview
+fun PreviewItemTag(){
+    //ItemTag(isClicked = true)
+}
+
+
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-//    PostRecruitingScreen(rememberNavController())
+    PostRecruitingScreen(rememberNavController())
 }
