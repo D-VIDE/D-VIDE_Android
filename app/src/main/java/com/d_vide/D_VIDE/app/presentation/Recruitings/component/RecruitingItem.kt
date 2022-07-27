@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
@@ -30,7 +32,7 @@ import java.text.DecimalFormat
 @Composable
 fun RecruitingItem(
     modifier: Modifier = Modifier,
-    userName: String = "kksmed204",
+    userName: String = "kksmedd10204",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Int = 36,
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
@@ -41,7 +43,8 @@ fun RecruitingItem(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth(0.9f).height(156.dp)
+            .fillMaxWidth().height(156.dp)
+            .scale(0.9f)
             .background(background)
     ) {
         RecruitingUserName(Modifier, userName, userLocation)
@@ -91,7 +94,7 @@ fun RecruitingItem(
                             color = line_gray,
                             modifier = Modifier
                                 .padding(start = 22.dp)
-                                .padding(end = 22.dp)
+                                .padding(end = 36.dp)
                                 .height(55.dp)
                                 .width(1.dp)
                         )
