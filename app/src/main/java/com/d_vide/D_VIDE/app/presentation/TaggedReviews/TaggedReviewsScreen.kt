@@ -26,9 +26,12 @@ fun TaggedReviewsScreen(
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingButton(text = "지금 D/VIDE 하기", onClick = { /*TODO*/ })
+            FloatingButton(
+                text = "지금 D/VIDE 하기",
+                onClick = { /*TODO*/ },
+                shouldShowBottomBar = true
+            )
         },
-        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier.background(background)

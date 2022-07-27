@@ -17,24 +17,6 @@ import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            DVIDETheme {
-                val navController = rememberNavController()
-                NavGraph(navController)
-            }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DVIDETheme {
-        Greeting("Android")
+        setContent { DivideApp() }
     }
 }
