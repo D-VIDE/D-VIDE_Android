@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.app._constants.UIConst
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
-import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -32,11 +32,12 @@ fun RecruitingsScreen(
 ) {
     Scaffold(
         topBar = { categoryContainer() },
-        bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            FloatingButton(text = "지금 D/VIDE 하기", onClick = {
-                navController.navigate(Screen.PostRecruitingScreen.route)
-            })
+            FloatingButton(
+                text = "지금 D/VIDE 하기",
+                onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
+                shouldShowBottomBar = true
+            )
         }
     ) {
         Column(

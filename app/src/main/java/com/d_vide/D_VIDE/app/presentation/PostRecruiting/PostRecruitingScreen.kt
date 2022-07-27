@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.UIConst
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.component.BottomButton
@@ -43,16 +44,18 @@ import java.util.*
 fun PostRecruitingScreen(
     navController: NavController,
 //    viewModel: PostRecruitingViewModel,
+    upPress: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = { TopRoundBar("D/VIDE 모집글 작성") },
-        bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            FloatingButton(text = "업로드 하기", onClick = {
-                navController.navigate(Screen.RecruitingsScreen.route)
-            })
+            FloatingButton(
+                text = "업로드 하기",
+                onClick = { navController.navigate(Screen.RecruitingsScreen.route) },
+                shouldShowBottomBar = false
+            )
         }
     ) {
         Column(
@@ -70,6 +73,7 @@ fun PostRecruitingScreen(
             EditableFieldItem(labelText = "마감시간") { timePicker() }
             EditableFieldItem(labelText = "사진", height = 100.dp) { photoPicker() }
             EditableFieldItem(labelText = "장소", height = 200.dp) {
+                /* 구현 예정 */
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -234,5 +238,5 @@ fun photoPicker(
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-//    PostRecruitingScreen(rememberNavController())
+    PostRecruitingScreen(rememberNavController())
 }
