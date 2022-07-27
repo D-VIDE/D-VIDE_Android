@@ -87,4 +87,5 @@ dependencies {
 
     // Coil - Image Loading
     implementation "io.coil-kt:coil-compose:2.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.0"
 }
