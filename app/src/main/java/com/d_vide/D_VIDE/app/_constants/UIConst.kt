@@ -4,6 +4,6 @@ import androidx.compose.ui.unit.dp
 
 class UIConst {
     object UIConstant {
-        val HEIGHT_BOTTOM_BAR = 60.dp
+        val HEIGHT_BOTTOM_BAR = 74.dp
     }
 }
