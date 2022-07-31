@@ -4,6 +4,7 @@ import android.app.TimePickerDialog
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,8 +19,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,7 +47,7 @@ import com.google.accompanist.flowlayout.FlowRow
 import java.util.*
 
 
-val datalist = listOf("분식", "한식", "일식", "중식", "디저트", "아시안","패스트푸드", "족발", "분식")
+val datalist = listOf("분식", "한식", "치킨", "일식", "디저트", "피자", "패스트푸드", "족발", "카레", "....")
 
 @Composable
 fun PostRecruitingScreen(
@@ -70,19 +73,29 @@ fun PostRecruitingScreen(
             modifier = Modifier
                 .verticalScroll(scrollState)
                 .background(background)
+                .padding(horizontal = 20.dp)
+            ,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(bottom = 28.dp))
 
+            // 제목
             EditableFieldItem(labelText = "제목") { EditableTextField() {} }
+
+            // 가게이름
             EditableFieldItem(labelText = "가게이름") { EditableTextField() {} }
+
+            // 카테고리
             Box {
-                if(isDropDownMenuExpanded) ExpandedCategory(
-                    onTagClick = {
-                        isDropDownMenuExpanded = !isDropDownMenuExpanded
-                        selectedText = it
-                    },
-                    currentTag = selectedText
-                )
+                if(isDropDownMenuExpanded) {
+                    ExpandedCategory(
+                        onTagClick = {
+                            isDropDownMenuExpanded = !isDropDownMenuExpanded
+                            selectedText = it
+                        },
+                        currentTag = selectedText
+                    )
+                }
                 EditableFieldItem(labelText = "카테고리") {
                     DropDownComp(
                         isDropDownMenuExpanded = isDropDownMenuExpanded,
@@ -92,29 +105,34 @@ fun PostRecruitingScreen(
                 }
             }
 
+            // 배달비
             EditableFieldItem(labelText = "배달비") { EditableTextField(unitText = "원") {} }
-            EditableFieldItem(labelText = "주문자 수") { EditableTextField(unitText = "명") {} }
+
+            // 주문자 수
+//            EditableFieldItem(labelText = "주문자 수") { EditableTextField(unitText = "명") {} }
+
+            // 마감시간
             EditableFieldItem(labelText = "마감시간") { timePicker() }
-            EditableFieldItem(labelText = "사진", height = 100.dp) { photoPicker() }
+
+            // 사진
+            EditableFieldItem(labelText = "사진", height = 80.dp) {
+                photoPicker(iconId = R.drawable.select_photo)
+                photoPicker(iconId = R.drawable.add_photo)
+            }
+
+            // 장소
             EditableFieldItem(labelText = "장소", height = 200.dp) {
                 /* 구현 예정 */
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 23.dp)
-                        .shadow(
-                            elevation = 5.dp,
-                            shape = RoundedCornerShape(0.dp, 24.dp, 24.dp, 0.dp),
-                            clip = true
-                        )
-                        .border(1.dp, Color.Gray, RoundedCornerShape(0.dp, 24.dp, 24.dp, 0.dp))
-                        .background(color = Color(0xFFFFFFFF)),
-                    contentAlignment = Alignment.Center
-                ) {}
+                EditableTextField(enabled = false, readOnly = true, height = 200.dp) {
+                    
+                }
             }
+
+            // 내용
             EditableFieldItem(labelText = "내용", height = 200.dp) {
                 EditableTextField(height = 200.dp, singleLine = false) {}
             }
+
             Spacer(modifier = Modifier.padding(50.dp))
         }
         it
@@ -127,29 +145,21 @@ fun DropDownComp(
     onCheckedChange: () -> Unit,
     selectedText: String
 ) {
-
     EditableTextField(
         inputText = selectedText,
         readOnly = true,
         contentAlignment = Alignment.CenterEnd,
     ) {
         IconToggleButton(
-            modifier = Modifier
-                .size(45.dp)
-                .padding(end = 3.dp)
-            ,
+            modifier = Modifier.size(36.dp),
             checked = isDropDownMenuExpanded,
-            onCheckedChange = {
-                onCheckedChange()
-            },
+            onCheckedChange = { onCheckedChange() },
         ) {
-            Icon(
-                imageVector = Icons.Default.ArrowDropDownCircle,
+            Image(
+                painterResource(id = R.drawable.dropdown_button),
                 contentDescription = "content description",
-                modifier = Modifier.size(50.dp),
-                tint = Color.Black,
+                modifier = Modifier.size(36.dp),
             )
-
         }
 
     }
@@ -159,42 +169,37 @@ fun DropDownComp(
  * click된 category state필요
  */
 
-
 @Composable
 fun ExpandedCategory(
-    modifier: Modifier = Modifier.fillMaxWidth(0.9f),
+    modifier: Modifier = Modifier.fillMaxWidth(),
     currentTag: String,
     onTagClick: (String) -> Unit
 ){
-
-
-    Row(
-        modifier = Modifier
-            .padding(top = 5.dp)
-    ) {
-        Spacer(modifier = Modifier.size(100.dp))
+    Row(Modifier.padding(bottom = 12.dp)) {
+        Spacer(modifier = Modifier
+            .padding(start = 99.dp)
+            .height(80.dp))
         Surface(
             color = Color(0xFFEFEFF0),
-            shape = RoundedCornerShape(30.dp),
-            modifier = Modifier.fillMaxWidth(0.9f)
-
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .shadow(
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 18.dp),
+                    clip = true
+                )
         ) {
             FlowRow(
                 mainAxisSpacing = 10.dp,
                 crossAxisSpacing = 10.dp,
-                modifier = Modifier.padding(
-                    bottom = 10.dp,
-                    top = 60.dp,
-                    start = 10.dp,
-                    end = 10.dp
-                ),
-
-                ){
-                datalist.forEach{ it ->
+                modifier = Modifier
+                    .padding(bottom = 10.dp, top = 50.dp)
+                    .padding(horizontal = 10.dp)
+            ) {
+                datalist.forEach {
                     if(currentTag == it) ItemTag(it, true, onTagClick)
                     else ItemTag(it,false, onTagClick)
                 }
-
             }
         }
     }
@@ -203,9 +208,8 @@ fun ExpandedCategory(
 @Composable
 fun timePicker() {
     val mContext = LocalContext.current
-    val mCalendar = Calendar.getInstance()
-    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
-    val mMinute = mCalendar[Calendar.MINUTE]
+    val mHour = Calendar.getInstance()[Calendar.HOUR_OF_DAY]
+    val mMinute = Calendar.getInstance()[Calendar.MINUTE]
     val mTime = remember { mutableStateOf("") }
 
     val mTimePickerDialog = TimePickerDialog(
@@ -214,34 +218,18 @@ fun timePicker() {
             mTime.value = "$mHour 시 $mMinute 분"
         }, mHour, mMinute, false
     )
-    Box(
-        modifier = Modifier
-            .shadow(
-                elevation = 5.dp,
-                shape = RoundedCornerShape(0.dp, 24.dp, 24.dp, 0.dp),
-                clip = true
-            )
-            .clickable(onClick = { mTimePickerDialog.show() }),
-        contentAlignment = Alignment.Center
-    ) {
-        OutlinedTextField(
-            value = mTime.value,
-            onValueChange = { mTime.value = it },
-            readOnly = true,
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(60.dp)
-                .align(Alignment.CenterEnd)
-                .background(color = Color(0xFFFFFFFF))
-                .padding(0.dp),
-            enabled = false,
-            shape = RoundedCornerShape(0.dp, 24.dp, 24.dp, 0.dp),
-        )
-    }
+
+    EditableTextField(
+        modifier = Modifier.clickable(onClick = { mTimePickerDialog.show() }),
+        inputText = mTime.value,
+        readOnly = true,
+        enabled = false
+    ) {}
 }
 
 @Composable
 fun photoPicker(
+     @DrawableRes iconId: Int,
 //    viewModel: PostRecruitingViewModel
 ) {
     var imageUri  by remember { mutableStateOf<Uri?>(null) }
@@ -274,7 +262,7 @@ fun photoPicker(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                placeholder = painterResource(R.drawable.add_photo),
+                placeholder = painterResource(iconId),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(80.dp, 75.dp)
@@ -296,25 +284,19 @@ private fun ItemTag(
     Box(
         modifier = Modifier
             .background(
-                color = if (isClicked) mainOrange
-                else Color.White,
+                color = if (isClicked) mainOrange else Color.White,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(
-                start = 14.dp,
-                end = 14.dp,
-                top = 6.dp,
-                bottom = 6.dp
-            )
-            .clickable { onClick(string) }
-
+            .padding(horizontal = 14.dp, vertical = 6.dp)
+            .clickable { onClick(string) },
     ) {
         Text(
             text = "$string",
             color = if (isClicked) Color.White
-                    else Color.Gray,
+                    else Color(0xFF8D8D8D),
             fontSize = 12.sp,
-
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.align(Alignment.Center)
         )
     }
 }
@@ -322,7 +304,21 @@ private fun ItemTag(
 @Composable
 @Preview
 fun PreviewItemTag(){
-    //ItemTag(isClicked = true)
+    Box {
+        if(true) {
+            ExpandedCategory(
+                onTagClick = {},
+                currentTag = "selected"
+            )
+        }
+        EditableFieldItem(labelText = "카테고리") {
+            DropDownComp(
+                isDropDownMenuExpanded = true,
+                onCheckedChange = {},
+                selectedText = "selected"
+            )
+        }
+    }
 }
 
 
