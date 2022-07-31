@@ -108,8 +108,8 @@ fun PostRecruitingScreen(
             // 배달비
             EditableFieldItem(labelText = "배달비") { EditableTextField(unitText = "원") {} }
 
-            // 주문자 수
-//            EditableFieldItem(labelText = "주문자 수") { EditableTextField(unitText = "명") {} }
+            // 목표 금액
+            EditableFieldItem(labelText = "목표 금액") { EditableTextField(unitText = "원") {} }
 
             // 마감시간
             EditableFieldItem(labelText = "마감시간") { timePicker() }
