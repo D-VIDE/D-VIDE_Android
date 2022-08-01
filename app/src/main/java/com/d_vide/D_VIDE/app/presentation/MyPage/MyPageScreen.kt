@@ -42,7 +42,7 @@ fun MyPageScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp, vertical = 20.dp)
+                .padding(20.dp)
                 .zIndex(2F)
             ,
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -54,8 +54,26 @@ fun MyPageScreen(
             MyPageCommonCell("내가 쓴 리뷰 보기")
             MyPageCommonCell("고객센터로 이동 ")
         }
+        BackgroundImage(Modifier.align(Alignment.BottomEnd))
     }
 
+}
+
+@Composable
+fun BackgroundImage(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painterResource(id = R.drawable.character_d),
+        contentDescription = "character_circle",
+        modifier = modifier
+            .padding(bottom = UIConst.UIConstant.HEIGHT_BOTTOM_BAR)
+            .size(200.dp)
+            .zIndex(1F)
+            .clipToBounds()
+        ,
+        alpha = 0.2F
+    )
 }
 
 @Composable
