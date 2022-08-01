@@ -2,32 +2,118 @@ package com.d_vide.D_VIDE.app.presentation.MyPage
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.SpaceEvenly
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.UIConst
+import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
+import com.google.accompanist.flowlayout.MainAxisAlignment
+import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun MyPageScreen(
     navController: NavController,
 ) {
+    Box(modifier = Modifier.background(background)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp, vertical = 20.dp)
+                .zIndex(2F)
+            ,
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            MyPageUserProfile()
+            MyPageSavings()
+            MyPageCommonCell("나의 주문내역 보기")
+            MyPageCommonCell("내가 쓴 리뷰 보기")
+            MyPageCommonCell("고객센터로 이동 ")
+        }
+    }
 
+}
+
+@Composable
+fun MyPageCommonCell(
+    text : String,
+    onClick : () -> Unit = {}
+) {
+    CardContainer(onClick = onClick) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)) {
+            Text(
+                text = text,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = mainOrange,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            Icon(
+                modifier = Modifier
+                    .size(11.dp)
+                    .align(Alignment.CenterEnd),
+                imageVector = Icons.Default.ArrowForwardIos,
+                contentDescription = "arrow",
+                tint = mainOrange
+            )
+        }
+    }
+}
+
+@Composable
+fun MyPageSavings() {
+    CardContainer(verticalPadding = 25.dp) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("절약한 탄소배출", fontSize = 12.sp)
+            Divider(modifier = Modifier.size(0.dp, 12.dp), )
+            Text("절약한 배달비", fontSize = 12.sp)
+        }
+        Spacer(modifier = Modifier.size(15.dp))
+        Divider(thickness = 1.dp)
+        Spacer(modifier = Modifier.size(15.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("5930 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Divider(
+                modifier = Modifier.size(1.dp, 31.dp),
+                color = Color.Gray,
+            )
+            Text("5930 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+        }
+    }
 }
 
 @Composable
@@ -62,7 +148,6 @@ fun MyPageUserProfile() {
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
-
     }
 }
 
@@ -78,15 +163,6 @@ fun UserProfileImage() {
             .padding()
     )
 }
-
-@Preview
-@Composable
-private fun PreviewMyPageScreen() {
-//    MyPageScreen(navController = rememberNavController())
-//    UserProfile()
-    MyPageUserProfile()
-}
-
 
 @Composable
 fun Following(
@@ -153,4 +229,33 @@ fun Following(
             }
         }
     }
+}
+
+@Composable
+fun CardContainer(
+    verticalPadding: Dp = 15.dp,
+    ColumnModifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    content: @Composable () -> Unit = {}
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(26.dp), clip = true)
+            .clickable { onClick }
+    ) {
+        Column(modifier = ColumnModifier) {
+            Spacer(modifier = Modifier.size(verticalPadding))
+            content()
+            Spacer(modifier = Modifier.size(verticalPadding))
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewMyPageScreen() {
+    MyPageScreen(navController = rememberNavController())
+//    UserProfile()
+//    MyPageUserProfile()
 }
