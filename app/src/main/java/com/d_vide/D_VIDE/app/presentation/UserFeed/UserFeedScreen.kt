@@ -101,18 +101,6 @@ fun UserFeedScreen(
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.weight(1f)
                 )
-                IconButton(
-                    onClick = {/* doSomething() */ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreHoriz,
-                        contentDescription = "Menu",
-                        modifier = Modifier
-                            .padding(end = 25.dp)
-                            .size(16.dp),
-                        tint = main_gray2
-                    )
-                }
             }
             LazyColumn(
                 modifier = Modifier

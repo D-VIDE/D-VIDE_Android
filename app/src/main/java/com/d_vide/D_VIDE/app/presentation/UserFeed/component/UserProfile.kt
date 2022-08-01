@@ -13,6 +13,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,9 +43,9 @@ fun UserProfile(
         modifier = modifier.size(349.dp, 83.dp)
     ){
         Row{
-            MainProfile()
+            MainProfile(Modifier.weight(0.6f))
             Column(
-                Modifier.weight(1f).padding(start = 8.dp)
+                Modifier.weight(0.4f).padding(start = 8.dp)
             ){
                 Following(Modifier.padding(bottom = 5.dp))
                 FollowingButton(Modifier.fillMaxWidth())
@@ -67,7 +68,7 @@ fun MainProfile(
         Box(
             modifier = Modifier
                 .padding(start = 29.dp)
-                .width(184.dp)
+                .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
                 .background(White)
         ) {
@@ -171,6 +172,7 @@ fun Following(
         }
     }
 }
+
 @Composable
 fun FollowingButton(
     modifier: Modifier = Modifier
@@ -179,8 +181,7 @@ fun FollowingButton(
         onClick = {},
         colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange),
         shape = RoundedCornerShape(11.dp),
-        modifier = modifier,
-        elevation = ButtonDefaults.elevation(22.dp),
+        modifier = modifier.size(129.dp, 22.dp),
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
@@ -189,7 +190,7 @@ fun FollowingButton(
             fontSize = 10.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            overflow = TextOverflow.Visible,
+        //    overflow = TextOverflow.Visible,
             modifier = Modifier.align(CenterVertically)
         )
     }
@@ -199,6 +200,6 @@ fun FollowingButton(
 @Composable
 fun UserProfilePreview() {
     DVIDETheme {
-        UserProfile(Modifier)
+        FollowingButton()
     }
 }
