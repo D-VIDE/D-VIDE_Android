@@ -16,6 +16,8 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.UIConst
 import com.d_vide.D_VIDE.ui.theme.background
@@ -137,7 +141,7 @@ fun MyPageSavings() {
 @Composable
 fun MyPageUserProfile() {
     Box(contentAlignment = Alignment.TopCenter) {
-        UserProfileImage()
+        UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
 
         Card(
             shape = RoundedCornerShape(14.dp),
@@ -170,15 +174,22 @@ fun MyPageUserProfile() {
 }
 
 @Composable
-fun UserProfileImage() {
-    Image(
-        painterResource(id = R.drawable.character_circle),
+fun UserProfileImage(
+    modifier: Modifier = Modifier,
+    imageUrl: String
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .crossfade(true)
+            .build(),
         contentDescription = "character_circle",
-        modifier = Modifier
+        placeholder = painterResource(R.drawable.character_circle),
+        contentScale = ContentScale.Crop,
+        modifier = modifier
             .size(107.dp)
             .shadow(elevation = 5.dp, shape = CircleShape)
-            .zIndex(1F)
-            .padding()
+            .zIndex(1F),
     )
 }
 
@@ -274,6 +285,4 @@ fun CardContainer(
 @Composable
 private fun PreviewMyPageScreen() {
     MyPageScreen(navController = rememberNavController())
-//    UserProfile()
-//    MyPageUserProfile()
 }
