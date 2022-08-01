@@ -119,7 +119,8 @@ fun RecruitingItem(
 fun RecruitingUserName(
     modifier: Modifier = Modifier,
     userName: String = "kksmedd10204",
-    userLocation: String = "세종시 조치원읍"
+    userLocation: String = "세종시 조치원읍",
+    onClick: () -> Unit={}
 ){
     Row(
         modifier = Modifier
@@ -141,7 +142,8 @@ fun RecruitingUserName(
             text = userName,
             fontSize = 12.sp,
             modifier = Modifier
-                .padding(start = 8.dp),
+                .padding(start = 8.dp)
+                 .clickable{ onClick },
             overflow = TextOverflow.Ellipsis
         )
         Text(

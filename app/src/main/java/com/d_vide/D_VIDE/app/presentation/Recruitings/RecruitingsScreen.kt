@@ -43,7 +43,7 @@ import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
 fun RecruitingsScreen(
-    navController: NavController,
+    navController: NavController
 ) {
     Scaffold(
         topBar = { categoryContainer() },
@@ -80,7 +80,9 @@ fun RecruitingsScreen(
                 item {
                     Spacer(modifier = Modifier.width(20.dp))
                 }
-                item { RecruitingItem()}
+                item { RecruitingItem(modifier = Modifier.clickable{
+                    navController.navigate(Screen.UserFeedScreen.route)
+                })}
                 item {
                     RecruitingItem(
                         userName = "asdfasdfsge",
