@@ -8,4 +8,6 @@ sealed class Screen(val route: String) {
     object TaggedReviewsScreen: Screen("tagged_reviews_screen")
     object MyPageScreen: Screen("my_page_screen")
     object ChattingsScreen: Screen("chattings_screen")
+    object FollowingsScreen: Screen("followings_screen")
+    object UserFeedScreen: Screen("user_feed_screen")
 }

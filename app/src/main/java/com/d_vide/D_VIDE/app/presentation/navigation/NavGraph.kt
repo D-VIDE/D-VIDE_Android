@@ -10,10 +10,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
 @Composable
 fun NavGraph(
@@ -45,6 +47,12 @@ fun NavGraph(
         }
         composable(route = Screen.TaggedReviewsScreen.route) {
             TaggedReviewsScreen(navController)
+        }
+        composable(route = Screen.UserFeedScreen.route) {
+            UserFeedScreen(navController)
+        }
+        composable(route = Screen.FollowingsScreen.route) {
+            FollowingsScreen(navController)
         }
 
     }

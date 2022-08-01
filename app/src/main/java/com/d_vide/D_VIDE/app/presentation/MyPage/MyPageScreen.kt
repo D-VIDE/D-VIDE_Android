@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -32,11 +31,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.UIConst
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
-import com.google.accompanist.flowlayout.MainAxisAlignment
-import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun MyPageScreen(
@@ -52,7 +50,7 @@ fun MyPageScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MyPageUserProfile()
+            MyPageUserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
             MyPageSavings()
             MyPageCommonCell("나의 주문내역 보기")
             MyPageCommonCell("내가 쓴 리뷰 보기")
@@ -139,8 +137,8 @@ fun MyPageSavings() {
 }
 
 @Composable
-fun MyPageUserProfile() {
-    Box(contentAlignment = Alignment.TopCenter) {
+fun MyPageUserProfile(onClick: () -> Unit={}) {
+    Box(contentAlignment = Alignment.TopCenter, modifier = Modifier.clickable{ onClick }) {
         UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
 
         Card(
