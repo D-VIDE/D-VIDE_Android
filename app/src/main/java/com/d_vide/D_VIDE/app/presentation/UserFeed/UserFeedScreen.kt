@@ -40,7 +40,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun UserFeedScreen(
-//    navController: NavController
+    navController: NavController
 ){
 
     val state = rememberCollapsingToolbarScaffoldState()
@@ -118,12 +118,4 @@ fun UserFeedScreen(
             }
             }
         }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun UserFeedScreenPreview() {
-    DVIDETheme {
-        UserFeedScreen()
-    }
 }

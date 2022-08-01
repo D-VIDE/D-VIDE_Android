@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.Followings.components.Following
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
@@ -22,7 +23,7 @@ import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 
 @Composable
 fun FollowingsScreen(
-   /* navController: NavController*/
+    navController: NavController
 ){
     Scaffold(
         topBar = { TopRoundBar("팔로잉") }
@@ -80,13 +81,5 @@ fun FollowingsScreen(
             }
         }
         it
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun FollowingPreview() {
-    DVIDETheme {
-        FollowingsScreen()
     }
 }
