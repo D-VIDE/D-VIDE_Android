@@ -92,4 +92,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
     
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.0"
+
+    // toolbar
+    implementation "me.onebone:toolbar-compose:2.3.2"
 }
