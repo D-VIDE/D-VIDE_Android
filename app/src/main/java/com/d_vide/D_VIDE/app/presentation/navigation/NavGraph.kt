@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
@@ -31,7 +32,9 @@ fun NavGraph(
             RecruitingsScreen(navController)
         }
         composable(route = Screen.ReviewsScreen.route) {}
-        composable(route = Screen.ChattingsScreen.route) {}
+        composable(route = Screen.ChattingsScreen.route) {
+            Chattings(navController)
+        }
         composable(route = Screen.MyPageScreen.route) {
             MyPageScreen(navController)
         }

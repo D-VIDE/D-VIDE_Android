@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
@@ -31,11 +32,22 @@ import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
 
-//@Composable
-//fun Chattings(){
-//    LazyColumn(
-//    )
-//}
+@Composable
+fun Chattings(
+    navController: NavController
+){
+    LazyColumn(
+        modifier = Modifier.padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(9.dp)
+    ){
+        item { ChattingItemNew() }
+        item { ChattingItem() }
+        item { ChattingItem(
+            titleColor = Color.Gray,
+            alpha = 0.3f
+        )}
+    }
+}
 
 
 @Composable
