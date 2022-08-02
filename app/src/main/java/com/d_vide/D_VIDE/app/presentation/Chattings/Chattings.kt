@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material3.CardElevation
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,9 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
@@ -36,16 +40,30 @@ import com.d_vide.D_VIDE.ui.theme.mainYellow
 fun Chattings(
     navController: NavController
 ){
-    LazyColumn(
-        modifier = Modifier.padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(9.dp)
+    Scaffold(
+        topBar = { TopRoundBar("D/VIDE 채팅") },
     ){
-        item { ChattingItemNew() }
-        item { ChattingItem() }
-        item { ChattingItem(
-            titleColor = Color.Gray,
-            alpha = 0.3f
-        )}
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(9.dp)
+        ) {
+            item {
+                ChattingItemNew()
+            }
+            item {
+                ChattingItem()
+            }
+            item {
+                ChattingItem()
+            }
+            item {
+                ChattingItem()
+            }
+            item{
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
+        it
     }
 }
 
