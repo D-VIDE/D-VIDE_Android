@@ -73,6 +73,7 @@ fun BackgroundImage(
             .size(200.dp)
             .zIndex(1F)
             .clipToBounds()
+            .offset(x = (90).dp)
         ,
         alpha = 0.2F
     )
@@ -138,8 +139,11 @@ fun MyPageSavings() {
 
 @Composable
 fun MyPageUserProfile(onClick: () -> Unit={}) {
-    Box(contentAlignment = Alignment.TopCenter, modifier = Modifier.clickable{ onClick }) {
-        UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
+    Box(contentAlignment = Alignment.TopCenter) {
+        UserProfileImage(
+            imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
+
+        )
 
         Card(
             shape = RoundedCornerShape(14.dp),
@@ -164,7 +168,7 @@ fun MyPageUserProfile(onClick: () -> Unit={}) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
-                Following()
+                Following(modifier = Modifier.clickable { onClick })
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
