@@ -86,8 +86,6 @@ fun EditableTextField(
             ),
         )
 
-        LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
         if(!unitText.isNullOrBlank()){
             Text(
                 text = unitText,
