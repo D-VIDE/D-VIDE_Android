@@ -7,11 +7,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDownCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,25 +16,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app._constants.UIConst
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
-import com.d_vide.D_VIDE.app.presentation.component.BottomButton
-import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
+import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.addFocusCleaner
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -53,7 +46,7 @@ val datalist = listOf("분식", "한식", "치킨", "일식", "디저트", "피�
 fun PostRecruitingScreen(
     navController: NavController,
 //    viewModel: PostRecruitingViewModel,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
@@ -74,7 +67,7 @@ fun PostRecruitingScreen(
                 .verticalScroll(scrollState)
                 .background(background)
                 .padding(horizontal = 20.dp)
-            ,
+                .addFocusCleaner(LocalFocusManager.current),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.padding(bottom = 28.dp))
@@ -87,7 +80,7 @@ fun PostRecruitingScreen(
 
             // 카테고리
             Box {
-                if(isDropDownMenuExpanded) {
+                if (isDropDownMenuExpanded) {
                     ExpandedCategory(
                         onTagClick = {
                             isDropDownMenuExpanded = !isDropDownMenuExpanded
@@ -99,7 +92,7 @@ fun PostRecruitingScreen(
                 EditableFieldItem(labelText = "카테고리") {
                     DropDownComp(
                         isDropDownMenuExpanded = isDropDownMenuExpanded,
-                        onCheckedChange = {isDropDownMenuExpanded = !isDropDownMenuExpanded },
+                        onCheckedChange = { isDropDownMenuExpanded = !isDropDownMenuExpanded },
                         selectedText = selectedText
                     )
                 }
@@ -122,10 +115,7 @@ fun PostRecruitingScreen(
 
             // 장소
             EditableFieldItem(labelText = "장소", height = 200.dp) {
-                /* 구현 예정 */
-                EditableTextField(enabled = false, readOnly = true, height = 200.dp) {
-                    
-                }
+//                locationSelector()
             }
 
             // 내용
@@ -143,7 +133,7 @@ fun PostRecruitingScreen(
 fun DropDownComp(
     isDropDownMenuExpanded: Boolean,
     onCheckedChange: () -> Unit,
-    selectedText: String
+    selectedText: String,
 ) {
     EditableTextField(
         inputText = selectedText,
@@ -173,8 +163,8 @@ fun DropDownComp(
 fun ExpandedCategory(
     modifier: Modifier = Modifier.fillMaxWidth(),
     currentTag: String,
-    onTagClick: (String) -> Unit
-){
+    onTagClick: (String) -> Unit,
+) {
     Row(Modifier.padding(bottom = 12.dp)) {
         Spacer(modifier = Modifier
             .padding(start = 99.dp)
@@ -197,8 +187,8 @@ fun ExpandedCategory(
                     .padding(horizontal = 10.dp)
             ) {
                 datalist.forEach {
-                    if(currentTag == it) ItemTag(it, true, onTagClick)
-                    else ItemTag(it,false, onTagClick)
+                    if (currentTag == it) ItemTag(it, true, onTagClick)
+                    else ItemTag(it, false, onTagClick)
                 }
             }
         }
@@ -229,10 +219,10 @@ fun timePicker() {
 
 @Composable
 fun photoPicker(
-     @DrawableRes iconId: Int,
+    @DrawableRes iconId: Int,
 //    viewModel: PostRecruitingViewModel
 ) {
-    var imageUri  by remember { mutableStateOf<Uri?>(null) }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> imageUri = uri }
@@ -279,8 +269,8 @@ fun photoPicker(
 private fun ItemTag(
     string: String = "기본",
     isClicked: Boolean = false,
-    onClick:(String)->Unit
-){
+    onClick: (String) -> Unit,
+) {
     Box(
         modifier = Modifier
             .background(
@@ -293,7 +283,7 @@ private fun ItemTag(
         Text(
             text = "$string",
             color = if (isClicked) Color.White
-                    else Color(0xFF8D8D8D),
+            else Color(0xFF8D8D8D),
             fontSize = 12.sp,
             fontWeight = FontWeight.ExtraBold,
             modifier = Modifier.align(Alignment.Center)
@@ -303,9 +293,9 @@ private fun ItemTag(
 
 @Composable
 @Preview
-fun PreviewItemTag(){
+fun PreviewItemTag() {
     Box {
-        if(true) {
+        if (true) {
             ExpandedCategory(
                 onTagClick = {},
                 currentTag = "selected"

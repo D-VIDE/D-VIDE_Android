@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.presentation.PostRecruiting.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -17,12 +18,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.PlatformTextStyle
@@ -98,6 +101,15 @@ fun EditableTextField(
         content()
     }
 
+}
+
+fun Modifier.addFocusCleaner(focusManager: FocusManager, doOnClear: () -> Unit = {}): Modifier {
+    return this.pointerInput(Unit) {
+        detectTapGestures(onTap = {
+            doOnClear()
+            focusManager.clearFocus()
+        })
+    }
 }
 
 @Composable
@@ -241,6 +253,12 @@ fun PreviewSemicircleEditableTextField() {
 
         EditableFieldItem(height= 350.dp, labelText = "카테고리"){
             EditableTextField(singleLine = false) {}
+        }
+
+        EditableFieldItem(height= 400.dp, labelText = "카테고리"){
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text("Hello", modifier = Modifier.align(Alignment.Center))
+            }
         }
     }
 
