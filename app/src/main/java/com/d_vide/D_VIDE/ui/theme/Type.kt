@@ -5,8 +5,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
+
+
 
 private val SpoqaHanSansNeo = FontFamily(
     Font(R.font.spoqahansansneo_regular, FontWeight.Normal),
@@ -22,6 +25,92 @@ private val SdSamlipHopang = FontFamily(
     Font(R.font.sdsamliphopangchettfoutline, FontWeight.ExtraBold)
 )
 
+
+object TextStyles{
+    val Big1 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Big2 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        letterSpacing = 0.4.sp
+    )
+
+    val Point1 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Point2 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Point3 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Point4 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Basics1 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 15.sp,
+        letterSpacing = 0.sp
+    )
+
+    val Small0 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Medium,
+        fontSize = 8.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Small1 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Small2 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Small3 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 10.sp,
+        letterSpacing = 0.6.sp
+    )
+
+    val Small4 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Medium,
+        fontSize = 7.sp,
+        letterSpacing = 0.6.sp
+    )
+}
 
 val Typography = Typography(
     body1 = TextStyle(
