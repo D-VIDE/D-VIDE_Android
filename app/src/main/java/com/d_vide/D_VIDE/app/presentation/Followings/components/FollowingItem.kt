@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -64,6 +65,7 @@ fun FollowerProfileImage(
         modifier = modifier
             .padding(horizontal = 10.dp, vertical = 8.dp)
             .size(50.dp)
+            .clip(CircleShape)
             .border(
                 width = 1.dp,
                 color = mainYellow,
