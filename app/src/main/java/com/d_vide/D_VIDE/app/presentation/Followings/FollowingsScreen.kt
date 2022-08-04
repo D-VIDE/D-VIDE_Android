@@ -20,10 +20,11 @@ import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 
 @Composable
 fun FollowingsScreen(
-    navController: NavController
+    navController: NavController,
+    upPress: () -> Unit = {}
 ){
     Scaffold(
-        topBar = { TopRoundBar("팔로잉") }
+        topBar = { TopRoundBar("팔로잉", onClick = upPress) }
     ) {
         Column {
             Row(
