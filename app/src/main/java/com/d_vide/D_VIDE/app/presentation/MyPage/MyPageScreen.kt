@@ -50,7 +50,9 @@ fun MyPageScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MyPageUserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
+            MyPageUserProfile(
+                modifier = Modifier.clickable{ navController.navigate(Screen.FollowingsScreen.route) }
+            )
             MyPageSavings()
             MyPageCommonCell("나의 주문내역 보기")
             MyPageCommonCell("내가 쓴 리뷰 보기")
@@ -137,8 +139,10 @@ fun MyPageSavings() {
 }
 
 @Composable
-fun MyPageUserProfile(onClick: () -> Unit={}) {
-    Box(contentAlignment = Alignment.TopCenter, modifier = Modifier.clickable{ onClick }) {
+fun MyPageUserProfile(
+    modifier: Modifier = Modifier
+) {
+    Box(contentAlignment = Alignment.TopCenter) {
         UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
 
         Card(
@@ -164,7 +168,7 @@ fun MyPageUserProfile(onClick: () -> Unit={}) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
-                Following()
+                Following(modifier = modifier)
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
@@ -194,6 +198,7 @@ fun UserProfileImage(
 @Composable
 fun Following(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit={},
     Following: Int = 6,
     Follower: Int = 3
 ){
@@ -209,9 +214,8 @@ fun Following(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {/*do something*/ },
+                modifier = modifier
+                    .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -234,9 +238,8 @@ fun Following(
                 color = Color.Gray,
             )
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {/*do something*/ },
+                modifier = modifier
+                    .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
