@@ -60,7 +60,7 @@ fun PostRecruitingScreen(
     var selectedText by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopRoundBar("D/VIDE 모집글 작성") },
+        topBar = { TopRoundBar("D/VIDE 모집글 작성", onClick = upPress) },
         floatingActionButton = {
             FloatingButton(
                 text = "업로드 하기",

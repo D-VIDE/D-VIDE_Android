@@ -12,21 +12,19 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.d_vide.D_VIDE.app.presentation.Followings.components.Following
-import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
-import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 
 @Composable
 fun FollowingsScreen(
-    navController: NavController
+    navController: NavController,
+    upPress: () -> Unit = {}
 ){
     Scaffold(
-        topBar = { TopRoundBar("팔로잉") }
+        topBar = { TopRoundBar("팔로잉", onClick = upPress) }
     ) {
         Column {
             Row(
@@ -63,21 +61,21 @@ fun FollowingsScreen(
                     .padding(horizontal = 22.dp)
                     .align(CenterHorizontally)
             ){
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
-                item { Following() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
+                item { FollowingItem() }
             }
         }
         it

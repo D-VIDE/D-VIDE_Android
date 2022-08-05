@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -30,6 +31,9 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
+import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.main_gray2
 import com.d_vide.D_VIDE.ui.theme.main_gray3
@@ -45,77 +49,50 @@ fun UserFeedScreen(
 
     val state = rememberCollapsingToolbarScaffoldState()
 
-    CollapsingToolbarScaffold(
-        modifier = Modifier.fillMaxSize().background(main_gray2),
-        state = state,
-        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-        toolbar ={
-            Box(
-                modifier = Modifier
-                    .padding(start = 21.dp)
-                    .fillMaxWidth()
-                    .height(52.dp)
-                    .pin()
-            )
-            IconButton(
-                onClick = { /* doSomething() */ }
-            ) {
-               Image(
-                   painterResource(id = R.drawable.navigate_up),
-                   contentDescription = "뒤로가기",
-                   modifier = Modifier.padding(top = 10.dp).size(11.dp, 20.dp)
-               )
-           }
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(main_gray2)
+            .background(profile_gray)
+            .padding(horizontal = 18.dp)
     ) {
-        Column(
+        Spacer(modifier = Modifier.height(18.dp))
+        UserProfile()
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .clip(
-                   if (state.toolbarState.height == state.toolbarState.maxHeight) RoundedCornerShape(36.dp, 36.dp, 0.dp, 0.dp)
-                   else RoundedCornerShape(0.dp)
-                )
-                .background(profile_gray)
-                .padding(horizontal = 18.dp)
+                .padding(top = 18.dp)
+                .padding(bottom = 8.dp)
+                .height(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(modifier = Modifier.height(18.dp))
-            UserProfile()
-            Row(
+            Canvas(
                 modifier = Modifier
-                    .padding(top = 18.dp)
-                    .padding(bottom = 8.dp)
-                    .height(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(start = 19.dp)
+                    .padding(end = 9.dp)
+                    .size(4.dp)
             ) {
-                Canvas(
-                    modifier = Modifier
-                        .padding(start = 19.dp)
-                        .padding(end = 9.dp)
-                        .size(4.dp)
-                ) {
-                    drawCircle(Black)
-                }
-                Text(
-                    text = "룡룡님 피드",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.weight(1f)
-                )
+                drawCircle(Black)
             }
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f),
-              //  contentPadding = PaddingValues(vertical = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-            }
-            }
+            Text(
+                text = "룡룡님 피드",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.weight(1f)
+            )
         }
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f),
+          //  contentPadding = PaddingValues(vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            item { ReviewItem() }
+            item { ReviewItem() }
+            item { ReviewItem() }
+            item { ReviewItem() }
+            item { ReviewItem() }
+            item { ReviewItem() }
+            item { ReviewItem() }
+        }
+    }
 }
