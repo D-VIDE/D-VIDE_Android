@@ -46,24 +46,13 @@ fun RecruitingsScreen(
     navController: NavController
 ) {
     Scaffold(
-        topBar = { categoryContainer() },
+       // topBar = { categoryContainer() },
         floatingActionButton = {
             FloatingButton(
                 text = "지금 D/VIDE 하기",
                 onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
                 shouldShowBottomBar = true
             )
-                /*
-                Image(
-                    painterResource(id = R.drawable.plus_icon),
-                    contentDescription = "plus",
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clickable {
-                            navController.navigate(Screen.PostRecruitingScreen.route)
-                        }
-                )
-                */
         }
     ) {
         Column(
@@ -71,6 +60,7 @@ fun RecruitingsScreen(
                 .fillMaxSize()
                 .background(background)
         ) {
+            categoryContainer()
             LazyColumn(
                 modifier = Modifier.align(CenterHorizontally),
               //  verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -78,7 +68,7 @@ fun RecruitingsScreen(
                 contentPadding = PaddingValues(top = 20.dp, bottom = 170.dp)
             ) {
                 item {
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(modifier = Modifier.width(9.dp))
                 }
                 item { RecruitingItem(modifier = Modifier.clickable{
                     navController.navigate(Screen.UserFeedScreen.route)
@@ -142,7 +132,7 @@ fun categoryContainer() {
                 .clip(RoundedCornerShape(26.dp))
         ) {
             item {
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(11.dp))
             }
             this.items(items = categoryList) {
                 Row {

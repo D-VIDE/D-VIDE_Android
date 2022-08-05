@@ -42,7 +42,7 @@ fun RecruitingCategory(
                 .matchParentSize()
         ) {
 
-            val cornerRadius = CornerRadius(26.dp.toPx(), 26.dp.toPx())
+            val cornerRadius = CornerRadius(20.dp.toPx(), 20.dp.toPx())
             val path = Path().apply {
                 addRoundRect(
                     RoundRect(
