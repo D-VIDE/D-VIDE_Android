@@ -54,26 +54,42 @@ fun ReviewItem(){
         elevation = 3.dp
 
     ) {
-       Column(
-           modifier = Modifier
-               .padding(10.dp)
-       ) {
-           Row(
+       Row() {
+           Surface(
+               color = mainYellow,
                modifier = Modifier
-                   .padding(3.dp)
-                   .fillMaxWidth(),
-               horizontalArrangement = Arrangement.SpaceBetween
+                   .width(19.dp)
+                   .height(146.dp)
+           ){}
+
+           Column(
+               modifier = Modifier
+                   .padding(
+                       vertical = 6.dp,
+                       horizontal = 19.dp
+                   )
            ) {
-            UserInfo()
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = null
-                )
-            }
+               Row(
+                   modifier = Modifier
+                       .padding(3.dp)
+                       .fillMaxWidth(),
+                   horizontalArrangement = Arrangement.SpaceBetween,
+                   verticalAlignment = Alignment.CenterVertically
+               ) {
+                   UserInfo()
+                   IconButton(
+                       onClick = {},
+                       modifier = Modifier.size(17.dp, 15.dp)
+                   ) {
+                       Icon(
+                           imageVector = Icons.Default.Favorite,
+                           contentDescription = null,
+                       )
+                   }
+               }
+               Review(modifier = Modifier
+                   .padding(3.dp))
            }
-           Review(modifier = Modifier
-               .padding(3.dp))
        }
     }
 }
@@ -86,16 +102,15 @@ fun Review(
     reviewImage: String = "reviewImage"
 ){
     Row(
-        modifier = modifier
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         ReviewImage(imageURL = reviewImage)
-        Column{
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ){
             ReviewTitle(reviewTitle = reviewTitle)
-            Spacer(modifier = Modifier.size(3.dp))
-
             ReviewText(reviewText = reviewText)
-            Spacer(modifier = Modifier.size(3.dp))
-
             Rating()
         }
     }
@@ -134,10 +149,10 @@ fun ReviewText(
 ){
     Text(
         text = reviewText,
-        style = MaterialTheme.typography.body2,
+        fontSize = 10.sp,
         color = Color.Gray,
-        modifier = Modifier,
-        maxLines = 1
+        modifier = Modifier.height(37.dp),
+        maxLines = 3
     )
 }
 
@@ -154,7 +169,7 @@ fun ReviewTitle(
 ){
     Text(
         text = "#$reviewTitle",
-        style = MaterialTheme.typography.subtitle1,
+        fontSize = 16.sp,
         color = mainOrange,
         modifier = Modifier,
         maxLines = 1
@@ -177,8 +192,8 @@ fun UserInfo(
         verticalAlignment = Alignment.CenterVertically,
     ){
         ProfileImage(imageURL = userImageURL)
-        UserId(userId = userId, Modifier.padding(horizontal = 10.dp))
-        UserAddress(userAddress = userAddress, Modifier.padding(horizontal = 10.dp))
+        UserId(userId = userId, Modifier.padding(start = 7.dp, end = 7.dp))
+        UserAddress(userAddress = userAddress, Modifier.padding(start = 7.dp))
     }
 }
 
@@ -196,7 +211,7 @@ fun UserAddress(
 ){
     Text(
         text = userAddress,
-        style = MaterialTheme.typography.body2,
+        fontSize = 10.sp,
         color = Color.Gray,
         modifier = Modifier.padding(top = 2.dp),
         maxLines = 1
@@ -216,9 +231,9 @@ fun UserId(
 ){
     Text(
         text = userId,
-        style = MaterialTheme.typography.subtitle1,
         modifier = modifier,
-        maxLines = 1
+        maxLines = 1,
+        fontSize = 12.sp
     )
 }
 
@@ -242,8 +257,7 @@ fun ReviewImage(
         placeholder = painterResource(R.drawable.food),
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .padding(end = 10.dp)
-            .size(100.dp, 100.dp)
+            .size(87.dp, 86.dp)
             .clip(shape = RoundedCornerShape(20.dp))
 
     )
@@ -270,7 +284,7 @@ fun ProfileImage(
         placeholder = painterResource(R.drawable.character_circle),
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(40.dp, 40.dp)
+            .size(28.dp, 28.dp)
             .clip(shape = CircleShape)
             .border(
                 width = 1.dp,
