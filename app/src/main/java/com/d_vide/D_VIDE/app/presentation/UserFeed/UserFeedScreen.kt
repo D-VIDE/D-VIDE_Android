@@ -44,7 +44,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun UserFeedScreen(
-    navController: NavController
+    navController: NavController,
+    upPress: () -> Unit = {}
 ){
 
     val state = rememberCollapsingToolbarScaffoldState()

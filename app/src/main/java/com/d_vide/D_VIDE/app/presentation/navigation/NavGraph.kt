@@ -45,7 +45,7 @@ fun NavGraph(
 
         // routed by event
         composable(route = Screen.PostRecruitingScreen.route) {
-            PostRecruitingScreen(navController, upPress)
+            PostRecruitingScreen(navController, upPress = upPress)
         }
         composable(route = Screen.TaggedReviewsScreen.route) {
             Reviews(navController)

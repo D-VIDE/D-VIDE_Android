@@ -75,6 +75,7 @@ fun BackgroundImage(
             .size(200.dp)
             .zIndex(1F)
             .clipToBounds()
+            .offset(x = (90).dp)
         ,
         alpha = 0.2F
     )
@@ -144,7 +145,6 @@ fun MyPageUserProfile(
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
         UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
-
         Card(
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
