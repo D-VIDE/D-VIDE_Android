@@ -72,8 +72,8 @@ object TextStyles{
     val Basics1 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Bold,
-        fontSize = 15.sp,
-        letterSpacing = 0.sp
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp
     )
 
     val Small0 = TextStyle(
