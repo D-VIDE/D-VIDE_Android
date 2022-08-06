@@ -51,7 +51,7 @@ fun NavGraph(
             Reviews(navController)
         }
         composable(route = Screen.UserFeedScreen.route) {
-            UserFeedScreen(navController, upPress)
+            UserFeedScreen(navController)
         }
         composable(route = Screen.FollowingsScreen.route) {
             FollowingsScreen(navController, upPress)

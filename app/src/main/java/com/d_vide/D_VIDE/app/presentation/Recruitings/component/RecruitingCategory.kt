@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -36,29 +37,12 @@ fun RecruitingCategory(
     Box(
         modifier = modifier
             .height(26.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (isSelected) mainOrange else category_gray)
     ) {
-        Canvas(
-            modifier = Modifier
-                .matchParentSize()
-        ) {
-
-            val cornerRadius = CornerRadius(20.dp.toPx(), 20.dp.toPx())
-            val path = Path().apply {
-                addRoundRect(
-                    RoundRect(
-                        rect = Rect(
-                            offset = Offset(0f, 0f),
-                            size = size,
-                        ),
-                        cornerRadius = cornerRadius
-                    )
-                )
-            }
-            drawPath(path, color = if (isSelected) mainOrange else category_gray)
-
-        }
         Text(
             text = text,
+            style = if (isSelected) TextStyles.Basics3 else TextStyles.Basics2,
             modifier = Modifier
                 .align(Alignment.Center)
                 .matchParentSize()
@@ -66,6 +50,7 @@ fun RecruitingCategory(
             fontSize = 12.sp,
             color = if (isSelected) Color.White else recruit_city
         )
+
     }
 }
 @Preview(showBackground = true)
