@@ -210,7 +210,7 @@ fun RecruitingTitle(
         text = title,
         maxLines = 1,
         style = TextStyles.Point1,
-        modifier = modifier.width(201.dp),
+        modifier = modifier.padding(end = 40.dp),
         overflow = TextOverflow.Ellipsis
     )
 }
