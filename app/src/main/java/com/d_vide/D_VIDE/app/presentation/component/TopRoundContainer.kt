@@ -33,6 +33,7 @@ import com.d_vide.D_VIDE.ui.theme.mainOrange
 fun TopRoundBar(
     text: String = "TopAppBar",
     actions: @Composable RowScope.() -> Unit = {},
+    onClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = { Text(
@@ -42,7 +43,7 @@ fun TopRoundBar(
             color = mainOrange,
         ) },
         navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = onClick) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIos,
                     contentDescription = "뒤로가기"

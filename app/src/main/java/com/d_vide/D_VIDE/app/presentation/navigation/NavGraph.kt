@@ -14,7 +14,9 @@ import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
+import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
+import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.Review
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
 @Composable
@@ -46,13 +48,13 @@ fun NavGraph(
             PostRecruitingScreen(navController, upPress = upPress)
         }
         composable(route = Screen.TaggedReviewsScreen.route) {
-            TaggedReviewsScreen(navController)
+            Reviews(navController)
         }
         composable(route = Screen.UserFeedScreen.route) {
-            UserFeedScreen(navController)
+            UserFeedScreen(navController, upPress)
         }
         composable(route = Screen.FollowingsScreen.route) {
-            FollowingsScreen(navController)
+            FollowingsScreen(navController, upPress)
         }
 
     }
