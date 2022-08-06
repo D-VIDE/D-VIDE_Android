@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -37,6 +38,9 @@ import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.google.accompanist.flowlayout.FlowRow
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.*
 import java.util.*
 
 
@@ -45,9 +49,10 @@ val datalist = listOf("분식", "한식", "치킨", "일식", "디저트", "피�
 @Composable
 fun PostRecruitingScreen(
     navController: NavController,
-//    viewModel: PostRecruitingViewModel,
+//    viewModel: PostRecruitingViewModel = hiltViewModel(),
     upPress: () -> Unit = {},
 ) {
+//    val cameraPositionState = viewModel.cameraPositionState.value
     val scrollState = rememberScrollState()
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
@@ -64,7 +69,10 @@ fun PostRecruitingScreen(
     ) {
         Column(
             modifier = Modifier
-                .verticalScroll(scrollState)
+                .verticalScroll(
+                    scrollState,
+//                    enabled = !cameraPositionState.isMoving
+                )
                 .background(background)
                 .padding(horizontal = 20.dp)
                 .addFocusCleaner(LocalFocusManager.current),
@@ -115,7 +123,7 @@ fun PostRecruitingScreen(
 
             // 장소
             EditableFieldItem(labelText = "장소", height = 200.dp) {
-//                locationSelector()
+                locationSelector()
             }
 
             // 내용
@@ -128,6 +136,32 @@ fun PostRecruitingScreen(
         it
     }
 }
+
+@Composable
+fun locationSelector(
+    cameraPositionState: CameraPositionState = rememberCameraPositionState {
+        position = CameraPosition(LatLng(35.232234, 129.085211), 17f, 1.0f, 0f)
+    }
+) {
+    GoogleMap(
+        modifier = Modifier
+            .fillMaxSize()
+            .shadow(
+                elevation = 5.dp,
+                shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 0.dp),
+                clip = true
+            ),
+        cameraPositionState = cameraPositionState
+    ) {
+        Marker (
+            state = MarkerState(position = cameraPositionState.position.target),
+            title = "PathFinder",
+            snippet = "Marker in PathFinder"
+        )
+    }
+}
+
+
 
 @Composable
 fun DropDownComp(
