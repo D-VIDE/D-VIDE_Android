@@ -49,10 +49,10 @@ val datalist = listOf("분식", "한식", "치킨", "일식", "디저트", "피�
 @Composable
 fun PostRecruitingScreen(
     navController: NavController,
-//    viewModel: PostRecruitingViewModel = hiltViewModel(),
+    viewModel: PostRecruitingViewModel = hiltViewModel(),
     upPress: () -> Unit = {},
 ) {
-//    val cameraPositionState = viewModel.cameraPositionState.value
+    val cameraPositionState = viewModel.cameraPositionState.value
     val scrollState = rememberScrollState()
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
@@ -71,7 +71,7 @@ fun PostRecruitingScreen(
             modifier = Modifier
                 .verticalScroll(
                     scrollState,
-//                    enabled = !cameraPositionState.isMoving
+                    enabled = !cameraPositionState.isMoving
                 )
                 .background(background)
                 .padding(horizontal = 20.dp)
@@ -123,7 +123,7 @@ fun PostRecruitingScreen(
 
             // 장소
             EditableFieldItem(labelText = "장소", height = 200.dp) {
-                locationSelector()
+                locationSelector(cameraPositionState)
             }
 
             // 내용
@@ -349,5 +349,5 @@ fun PreviewItemTag() {
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-    PostRecruitingScreen(rememberNavController())
+//    PostRecruitingScreen(rememberNavController())
 }

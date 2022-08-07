@@ -9,8 +9,8 @@ import com.google.maps.android.compose.CameraPositionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-//@HiltViewModel
-class PostRecruitingViewModel : ViewModel() {
+@HiltViewModel
+class PostRecruitingViewModel @Inject constructor() : ViewModel() {
     var imageUri = mutableStateOf<Uri?>(null)
 
     val pathfinder = CameraPosition(LatLng(35.232234, 129.085211), 17f, 1.0f, 0f)
