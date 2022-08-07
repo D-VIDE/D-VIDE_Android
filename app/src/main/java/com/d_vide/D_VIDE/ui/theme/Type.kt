@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
@@ -44,7 +45,7 @@ object TextStyles{
     val Point1 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 16.sp,
         letterSpacing = 0.6.sp
     )
 
@@ -71,9 +72,25 @@ object TextStyles{
 
     val Basics1 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp
+    )
+    val Basics2 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp,
+        lineHeight = 16.sp,
+        textAlign = TextAlign.Center
+    )
+    val Basics3 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Bold,
-        fontSize = 15.sp,
-        letterSpacing = 0.sp
+        fontSize = 12.sp,
+        letterSpacing = 0.6.sp,
+        lineHeight = 16.sp,
+        textAlign = TextAlign.Center
     )
 
     val Small0 = TextStyle(

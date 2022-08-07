@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,7 +33,8 @@ import java.text.DecimalFormat
 @Composable
 fun RecruitingItem(
     modifier: Modifier = Modifier,
-    userName: String = "kksmedd10204",
+    onClick: () -> Unit={},
+    userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Int = 36,
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
@@ -43,29 +45,32 @@ fun RecruitingItem(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth().height(156.dp)
-            .scale(0.9f)
+            .fillMaxWidth()
+            .height(152.dp)
             .background(background)
+            .scale(0.9f)
     ) {
-        RecruitingUserName(Modifier, userName, userLocation)
+        RecruitingUserName(Modifier, userName, userLocation, onClick)
         MessageBallon(
             modifier = Modifier
                 .align(TopEnd)
-                .padding(end = 11.dp)
-                .size(98.dp, 30.dp),
+                .padding(end = 11.dp),
             timeRemaining
         )
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 30.dp)
-                .clickable {
-                           // TODO
-                },
-            shape = RoundedCornerShape(
-                topStart = 26.dp,
-                topEnd = 26.dp
-            ),
+                .padding(top = 35.dp)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 26.dp,
+                        topEnd = 26.dp
+                    )
+                )
+                .clickable{
+                          // do something
+                }
+            ,
             backgroundColor = White
         ) {
             Row(
@@ -89,16 +94,24 @@ fun RecruitingItem(
                     Row (
                         modifier = Modifier.padding(top = 18.dp)
                     ){
-                        RecruitingDeadLine(Modifier, deadLineHour, deadLineMinute)
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            RecruitingDeadLine(Modifier.align(Center), deadLineHour, deadLineMinute)
+                        }
                         Divider(
-                            color = line_gray,
-                            modifier = Modifier
-                                .padding(start = 22.dp)
-                                .padding(end = 36.dp)
-                                .height(55.dp)
-                                .width(1.dp)
+                        color = line_gray,
+                        modifier = Modifier
+                            .height(55.dp)
+                            .width(1.dp)
+                            .align(CenterVertically)
                         )
-                        RecruitingInsufficientMoney(Modifier, insufficientMoney)
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            RecruitingInsufficientMoney(Modifier.align(Center), insufficientMoney)
+                        }
+                        Spacer(modifier = Modifier.width(27.dp))
                     }
                 }
             }
@@ -107,7 +120,8 @@ fun RecruitingItem(
                     progress = progress,
                     color = mainYellow,
                     backgroundColor = graph_gray,
-                    modifier = Modifier.align(Bottom)
+                    modifier = Modifier
+                        .align(Bottom)
                         .fillMaxWidth()
                         .height(7.dp)
                 )
@@ -138,20 +152,26 @@ fun RecruitingUserName(
                 .size(28.dp),
             alignment = Alignment.Center
         )
-        Text(
-            text = userName,
-            fontSize = 12.sp,
-            modifier = Modifier
-                .padding(start = 8.dp)
-                 .clickable{ onClick },
-            overflow = TextOverflow.Ellipsis
-        )
+        TextButton(
+            onClick = onClick,
+            modifier = Modifier.height(20.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors= ButtonDefaults.buttonColors(backgroundColor = background)
+        ){
+            Text(
+                text = userName,
+                style = TextStyles.Basics1,
+                color = Black,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 8.dp).align(CenterVertically)
+            )
+        }
+
         Text(
             text = userLocation,
-            fontSize = 10.sp,
+            style = TextStyles.Small1,
             color = recruit_city,
-            modifier = Modifier
-                .padding(start = 10.dp)
+            modifier = Modifier.padding(start = 10.dp)
         )
     }
 }
@@ -162,6 +182,8 @@ fun MessageBallon(
 ){
     Box(
         modifier = modifier
+            .padding(top = 5.dp)
+            .size(98.dp, 30.dp)
     ){
         Image(
             painterResource(id = R.drawable.message_ballon),
@@ -170,11 +192,10 @@ fun MessageBallon(
         )
         Text(
             text = timeRemaining.toString() + "분 후 주문 예정",
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
             color = White,
+            style = TextStyles.Small3,
             modifier = Modifier
-                .size(98.dp, 23.dp)
+                .size(98.dp, 21.dp)
                 .align(Center),
             textAlign = TextAlign.Center
         )
@@ -188,8 +209,8 @@ fun RecruitingTitle(
     Text(
         text = title,
         maxLines = 1,
-        fontSize = 16.sp,
-        modifier = modifier.width(200.dp),
+        style = TextStyles.Point1,
+        modifier = modifier.padding(end = 40.dp),
         overflow = TextOverflow.Ellipsis
     )
 }
@@ -200,14 +221,13 @@ fun RecruitingDeadLine(
     deadLineHour: Int = 4,
     deadLineMinute: Int = 0
 ) {
-    Box(
+    Row(
         modifier = modifier
     ){
         Column{
             Text(
                 text = "마감시간",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.W500,
+                style = TextStyles.Small1,
                 textAlign = TextAlign.Center,
                 color = text_gray,
                 modifier = Modifier
@@ -217,8 +237,7 @@ fun RecruitingDeadLine(
             Row{
                 Text(
                     text = "오후",
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = TextStyles.Point3,
                     color = mainYellow,
                     modifier = Modifier.padding(top = 10.dp)
                 )
@@ -239,6 +258,7 @@ fun RecruitingDeadLine(
                 )
             }
         }
+        Spacer(modifier = Modifier.width(16.dp))
     }
 
 }
@@ -248,21 +268,19 @@ fun RecruitingInsufficientMoney(
     insufficientMoney: Int = 0
 ) {
     val pattern = DecimalFormat("#,###")
-    Row{
-        Column(
-            modifier = modifier.align(CenterVertically)
-        ){
+    Row(
+        modifier = modifier
+    ){
+        Column{
             Text(
                 text = "부족한 금액",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.W500,
+                style = TextStyles.Small1,
                 textAlign = TextAlign.Center,
                 color = text_gray,
                 modifier = Modifier
                     .align(CenterHorizontally)
             )
             Text(
-
                 text = pattern.format(insufficientMoney),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
@@ -272,8 +290,7 @@ fun RecruitingInsufficientMoney(
         }
         Text(
             text = "원",
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
+            style = TextStyles.Point3,
             color = mainYellow,
             modifier = Modifier
                 .padding(start = 5.dp)

@@ -46,24 +46,12 @@ fun RecruitingsScreen(
     navController: NavController
 ) {
     Scaffold(
-        topBar = { categoryContainer() },
         floatingActionButton = {
             FloatingButton(
                 text = "지금 D/VIDE 하기",
                 onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
                 shouldShowBottomBar = true
             )
-                /*
-                Image(
-                    painterResource(id = R.drawable.plus_icon),
-                    contentDescription = "plus",
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clickable {
-                            navController.navigate(Screen.PostRecruitingScreen.route)
-                        }
-                )
-                */
         }
     ) {
         Column(
@@ -71,20 +59,26 @@ fun RecruitingsScreen(
                 .fillMaxSize()
                 .background(background)
         ) {
+            categoryContainer()
             LazyColumn(
                 modifier = Modifier.align(CenterHorizontally),
-              //  verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(top = 20.dp, bottom = 170.dp)
+                contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
             ) {
                 item {
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(modifier = Modifier.width(9.dp))
                 }
-                item { RecruitingItem(modifier = Modifier.clickable{
+                item { RecruitingItem(
+                    onClick = {
                     navController.navigate(Screen.UserFeedScreen.route)
-                })}
+                    }
+                    )
+                }
                 item {
                     RecruitingItem(
+                        onClick = {
+                            navController.navigate(Screen.UserFeedScreen.route)
+                        },
                         userName = "asdfasdfsge",
                         userLocation = "부산시 수영구",
                         title = "짬뽕 땡기시는 분~! 빨리 모여라!!",
@@ -97,6 +91,9 @@ fun RecruitingsScreen(
                 }
                 item {
                     RecruitingItem(
+                        onClick = {
+                            navController.navigate(Screen.UserFeedScreen.route)
+                        },
                         userName = "dividividip",
                         userLocation = "부산시 금정구",
                         title = "비건 다이어트 같이 하실 분~",
@@ -119,11 +116,24 @@ fun RecruitingsScreen(
                         progress = 0.7f
                     )
                 }
+                item {
+                    RecruitingItem(
+                        userName = "hihihi",
+                        userLocation = "서울시 강남구",
+                        title = "야식으로는 애플파이지!~",
+                        deadLineHour = 12,
+                        deadLineMinute = 12,
+                        timeRemaining = 120,
+                        insufficientMoney = 300,
+                        progress = 0.7f
+                    )
+                }
+                item{
+                    BlankIndicator(
+                        modifier = Modifier.align(CenterHorizontally).padding(vertical = 78.dp)
+                    )
+                }
             }
-            BlankIndicator(
-                modifier = Modifier.fillMaxSize()
-            )
-            Spacer(modifier = Modifier.padding(50.dp))
         }
         it
     }
@@ -139,10 +149,9 @@ fun categoryContainer() {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .clip(RoundedCornerShape(26.dp))
         ) {
             item {
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(11.dp))
             }
             this.items(items = categoryList) {
                 Row {
@@ -150,6 +159,7 @@ fun categoryContainer() {
                         text = it,
                         isSelected = selectedItem == it,
                         modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
                             .selectable(
                                 selected = selectedItem == it,
                                 onClick = { selectedItem = it }
