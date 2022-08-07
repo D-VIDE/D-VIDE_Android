@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
@@ -68,7 +69,7 @@ fun UserFeedScreen(
         ) {
             Canvas(
                 modifier = Modifier
-                    .padding(start = 19.dp)
+                    .padding(start = 13.dp)
                     .padding(end = 9.dp)
                     .size(4.dp)
             ) {
@@ -96,4 +97,9 @@ fun UserFeedScreen(
             item { ReviewItem() }
         }
     }
+}
+@Preview
+@Composable
+fun Preview() {
+   UserFeedScreen(rememberNavController())
 }
