@@ -111,6 +111,7 @@ fun MainProfile(
             contentScale = ContentScale.Crop,
             modifier = modifier
                 .size(82.dp)
+                .clip(CircleShape)
                 .border(
                     width = 3.dp,
                     color = mainYellow,
