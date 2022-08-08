@@ -21,26 +21,26 @@ class RecruitingsViewModel @Inject constructor(
     val state: State<RecruitingsState> = _state
 
     init {
-        getRecruitings()
-
+        getRecruitings( 127.030767490, 37.49015482509)
     }
 
-    private fun getRecruitings() {
-        getRecruitingsUseCase().onEach { result ->
+    private fun getRecruitings(latitude: Double, longitude: Double) {
+        getRecruitingsUseCase(latitude, longitude).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = RecruitingsState(coins = result.data ?: emptyList())
-                    Log.d("test", result.data.toString() ?: "empty")
+                    _state.value = result.data?.let { RecruitingsState(recruitings = it.recruitings) }!!
+                    Log.d("test", "success : ${result.data.recruitings.toString()}")
                 }
                 is Resource.Error -> {
-                    _state.value = RecruitingsState(
-                        error = result.message ?: "An unexpected error occured"
-                    )
+                    _state.value = RecruitingsState(error = result.message ?: "An unexpected error occured")
+                    Log.d("test", "error")
                 }
                 is Resource.Loading -> {
                     _state.value = RecruitingsState(isLoading = true)
+                    Log.d("test", "loading")
                 }
             }
+
         }.launchIn(viewModelScope)
     }
 }
