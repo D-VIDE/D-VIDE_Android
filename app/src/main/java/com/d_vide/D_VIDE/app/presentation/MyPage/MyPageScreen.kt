@@ -51,7 +51,7 @@ fun MyPageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MyPageUserProfile(
-                modifier = Modifier.clickable{ navController.navigate(Screen.FollowingsScreen.route) }
+                onClick = { navController.navigate(Screen.FollowingsScreen.route) }
             )
             MyPageSavings()
             MyPageCommonCell("나의 주문내역 보기")
@@ -141,7 +141,8 @@ fun MyPageSavings() {
 
 @Composable
 fun MyPageUserProfile(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
         UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
@@ -168,7 +169,7 @@ fun MyPageUserProfile(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
-                Following(modifier = modifier)
+                Following(onClick = onClick)
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
@@ -214,8 +215,9 @@ fun Following(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = modifier
-                    .weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -238,7 +240,8 @@ fun Following(
                 color = Color.Gray,
             )
             Column(
-                modifier = modifier
+                modifier = Modifier
+                    .clickable(onClick = onClick)
                     .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
@@ -247,7 +250,7 @@ fun Following(
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 20.sp,
-                    color = Color(0xFF4D4D4D)
+                    color = Color(0xFF4D4D4D),
                 )
                 Text(
                     text = "팔로워",
