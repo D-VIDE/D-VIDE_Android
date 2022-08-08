@@ -41,13 +41,16 @@ import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecruitingsScreen(
     navController: NavController
 ) {
-    BottomSheetUserFeedSreen { state, scope ->
+    BottomSheetUserFeedSreen (
+        navController = navController
+    ){ state, scope ->
         Scaffold(
             floatingActionButton = {
                 FloatingButton(

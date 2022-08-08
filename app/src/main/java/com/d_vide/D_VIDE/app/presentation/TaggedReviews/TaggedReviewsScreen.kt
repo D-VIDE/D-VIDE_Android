@@ -28,7 +28,9 @@ import kotlinx.coroutines.launch
 fun TaggedReviewsScreen(
     navController: NavController
 ) {
-    BottomSheetUserFeedSreen { state, scope ->
+    BottomSheetUserFeedSreen(
+        navController = navController
+    ) { state, scope ->
         Scaffold(
             floatingActionButton = {
                 FloatingButton(

@@ -22,7 +22,9 @@ import kotlinx.coroutines.launch
 fun Reviews(
     navController: NavController
 ){
-    BottomSheetUserFeedSreen { state, scope ->
+    BottomSheetUserFeedSreen(
+        navController = navController
+    ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar("D/VIDE맛집") },
         ){

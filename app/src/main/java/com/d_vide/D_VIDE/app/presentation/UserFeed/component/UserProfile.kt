@@ -40,6 +40,7 @@ import com.d_vide.D_VIDE.ui.theme.*
 @Composable
 fun UserProfile(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
     userName: String = "룡룡",
     userNickName: String = "디바이드 공식 돼지",
     Following: Int = 6,
@@ -53,7 +54,7 @@ fun UserProfile(
             Column(
                 Modifier.padding(start = 7.dp).weight(0.4f)
             ){
-                Following(Modifier.padding(bottom = 9.dp))
+                Following(Modifier.padding(bottom = 9.dp), onClick = onClick)
                 FollowingButton(Modifier.fillMaxWidth())
             }
         }
@@ -125,6 +126,7 @@ fun MainProfile(
 @Composable
 fun Following(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     Following: Int = 6,
     Follower: Int = 3
 ){
@@ -140,7 +142,7 @@ fun Following(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = Modifier.weight(1f).clickable{/*do something*/},
+                modifier = Modifier.weight(1f).clickable(onClick = onClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -163,7 +165,7 @@ fun Following(
                 color = main_gray1,
             )
             Column(
-                modifier = Modifier.weight(1f).clickable{/*do something*/},
+                modifier = Modifier.weight(1f).clickable(onClick = onClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(

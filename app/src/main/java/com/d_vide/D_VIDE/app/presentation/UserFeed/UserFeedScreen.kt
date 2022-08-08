@@ -54,7 +54,7 @@ fun UserFeedScreen(
             .padding(horizontal = 18.dp)
     ) {
         Spacer(modifier = Modifier.height(18.dp))
-        UserProfile()
+        UserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
         Row(
             modifier = Modifier
                 .padding(top = 18.dp)
@@ -96,10 +96,12 @@ fun UserFeedScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BottomSheetUserFeedSreen(
-    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit
+    navController: NavController,
+    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
     val state = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
     )
     val scope = rememberCoroutineScope()
 
@@ -109,7 +111,7 @@ fun BottomSheetUserFeedSreen(
         sheetState = state,
         sheetContent = {
             UserFeedScreen(
-                navController = rememberNavController(),
+                navController = navController,
                 modifier = Modifier.fillMaxHeight(0.945f)
             )
         }
