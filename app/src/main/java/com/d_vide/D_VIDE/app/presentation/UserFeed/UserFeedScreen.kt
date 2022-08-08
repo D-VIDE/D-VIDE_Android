@@ -7,21 +7,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,10 +34,8 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
-import com.d_vide.D_VIDE.ui.theme.DVIDETheme
-import com.d_vide.D_VIDE.ui.theme.main_gray2
-import com.d_vide.D_VIDE.ui.theme.main_gray3
-import com.d_vide.D_VIDE.ui.theme.profile_gray
+import com.d_vide.D_VIDE.ui.theme.*
+import kotlinx.coroutines.CoroutineScope
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -46,13 +43,11 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun UserFeedScreen(
     navController: NavController,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    modifier: Modifier = Modifier
 ){
-
-    val state = rememberCollapsingToolbarScaffoldState()
-
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(main_gray2)
             .background(profile_gray)
@@ -77,8 +72,7 @@ fun UserFeedScreen(
             }
             Text(
                 text = "룡룡님 피드",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
+                style = TextStyles.Basics4,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -98,6 +92,32 @@ fun UserFeedScreen(
         }
     }
 }
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetUserFeedSreen(
+    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit
+){
+    val state = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden
+    )
+    val scope = rememberCoroutineScope()
+
+    ModalBottomSheetLayout(
+        sheetElevation = 5.dp,
+        sheetShape = RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp),
+        sheetState = state,
+        sheetContent = {
+            UserFeedScreen(
+                navController = rememberNavController(),
+                modifier = Modifier.fillMaxHeight(0.945f)
+            )
+        }
+    ) {
+        activityContentScope(state, scope)
+    }
+}
+
 @Preview
 @Composable
 fun Preview() {
