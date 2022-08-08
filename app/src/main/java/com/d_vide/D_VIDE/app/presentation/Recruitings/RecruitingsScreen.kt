@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
 import android.widget.ImageButton
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,9 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
@@ -34,108 +33,130 @@ import com.d_vide.D_VIDE.app._constants.UIConst
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecruitingsScreen(
     navController: NavController
 ) {
-    Scaffold(
-        floatingActionButton = {
-            FloatingButton(
-                text = "지금 D/VIDE 하기",
-                onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
-                shouldShowBottomBar = true
-            )
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(background)
+    BottomSheetUserFeedSreen { state, scope ->
+        Scaffold(
+            floatingActionButton = {
+                FloatingButton(
+                    text = "지금 D/VIDE 하기",
+                    onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
+                    shouldShowBottomBar = true
+                )
+            }
         ) {
-            categoryContainer()
-            LazyColumn(
-                modifier = Modifier.align(CenterHorizontally),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(background)
             ) {
-                item {
-                    Spacer(modifier = Modifier.width(9.dp))
-                }
-                item { RecruitingItem(
-                    onClick = {
-                    navController.navigate(Screen.UserFeedScreen.route)
+                categoryContainer()
+                LazyColumn(
+                    modifier = Modifier.align(CenterHorizontally),
+                    horizontalAlignment = CenterHorizontally,
+                    contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+                ) {
+                    item {
+                        Spacer(modifier = Modifier.width(9.dp))
                     }
-                    )
-                }
-                item {
-                    RecruitingItem(
-                        onClick = {
-                            navController.navigate(Screen.UserFeedScreen.route)
-                        },
-                        userName = "asdfasdfsge",
-                        userLocation = "부산시 수영구",
-                        title = "짬뽕 땡기시는 분~! 빨리 모여라!!",
-                        deadLineHour = 6,
-                        deadLineMinute = 23,
-                        timeRemaining = 9999,
-                        insufficientMoney = 15000,
-                        progress = 0.3f
-                    )
-                }
-                item {
-                    RecruitingItem(
-                        onClick = {
-                            navController.navigate(Screen.UserFeedScreen.route)
-                        },
-                        userName = "dividividip",
-                        userLocation = "부산시 금정구",
-                        title = "비건 다이어트 같이 하실 분~",
-                        deadLineHour = 8,
-                        deadLineMinute = 32,
-                        timeRemaining = 66,
-                        insufficientMoney = 5000,
-                        progress = 1.0f
-                    )
-                }
-                item {
-                    RecruitingItem(
-                        userName = "hihihi",
-                        userLocation = "서울시 강남구",
-                        title = "야식으로는 애플파이지!~",
-                        deadLineHour = 12,
-                        deadLineMinute = 12,
-                        timeRemaining = 120,
-                        insufficientMoney = 300,
-                        progress = 0.7f
-                    )
-                }
-                item {
-                    RecruitingItem(
-                        userName = "hihihi",
-                        userLocation = "서울시 강남구",
-                        title = "야식으로는 애플파이지!~",
-                        deadLineHour = 12,
-                        deadLineMinute = 12,
-                        timeRemaining = 120,
-                        insufficientMoney = 300,
-                        progress = 0.7f
-                    )
-                }
-                item{
-                    BlankIndicator(
-                        modifier = Modifier.align(CenterHorizontally).padding(vertical = 78.dp)
-                    )
+                    item {
+                        RecruitingItem(
+                            onClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            }
+                        )
+                    }
+                    item {
+                        RecruitingItem(
+                            onClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            },
+                            userName = "asdfasdfsge",
+                            userLocation = "부산시 수영구",
+                            title = "짬뽕 땡기시는 분~! 빨리 모여라!!",
+                            deadLineHour = 6,
+                            deadLineMinute = 23,
+                            timeRemaining = 9999,
+                            insufficientMoney = 15000,
+                            progress = 0.3f
+                        )
+                    }
+                    item {
+                        RecruitingItem(
+                            onClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            },
+                            userName = "dividividip",
+                            userLocation = "부산시 금정구",
+                            title = "비건 다이어트 같이 하실 분~",
+                            deadLineHour = 8,
+                            deadLineMinute = 32,
+                            timeRemaining = 66,
+                            insufficientMoney = 5000,
+                            progress = 1.0f
+                        )
+                    }
+                    item {
+                        RecruitingItem(
+                            onClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            },
+                            userName = "hihihi",
+                            userLocation = "서울시 강남구",
+                            title = "야식으로는 애플파이지!~",
+                            deadLineHour = 12,
+                            deadLineMinute = 12,
+                            timeRemaining = 120,
+                            insufficientMoney = 300,
+                            progress = 0.7f
+                        )
+                    }
+                    item {
+                        RecruitingItem(
+                            onClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            },
+                            userName = "hihihi",
+                            userLocation = "서울시 강남구",
+                            title = "야식으로는 애플파이지!~",
+                            deadLineHour = 12,
+                            deadLineMinute = 12,
+                            timeRemaining = 120,
+                            insufficientMoney = 300,
+                            progress = 0.7f
+                        )
+                    }
+                    item {
+                        BlankIndicator(
+                            modifier = Modifier.align(CenterHorizontally).padding(vertical = 78.dp)
+                        )
+                    }
                 }
             }
+            it
         }
-        it
     }
 
 }

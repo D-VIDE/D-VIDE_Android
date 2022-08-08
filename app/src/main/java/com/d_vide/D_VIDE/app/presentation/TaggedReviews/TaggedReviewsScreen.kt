@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.TaggedReviews
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -15,42 +16,89 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaggedReviewsScreen(
     navController: NavController
 ) {
-    Scaffold(
-        floatingActionButton = {
-            FloatingButton(
-                text = "지금 D/VIDE 하기",
-                onClick = { /*TODO*/ },
-                shouldShowBottomBar = true
-            )
-        },
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.background(background)
-        ) {
-            TagTitle()
-            LazyColumn(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .weight(1f),
-                contentPadding = PaddingValues(vertical = 10.dp, horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+    BottomSheetUserFeedSreen { state, scope ->
+        Scaffold(
+            floatingActionButton = {
+                FloatingButton(
+                    text = "지금 D/VIDE 하기",
+                    onClick = { /*TODO*/ },
+                    shouldShowBottomBar = true
+                )
+            },
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.background(background)
             ) {
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
-                item { ReviewItem() }
+                TagTitle()
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .weight(1f),
+                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                    item { ReviewItem(
+                        onClick = {
+                            scope.launch {
+                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                            }
+                        }
+                    ) }
+                }
             }
         }
     }
