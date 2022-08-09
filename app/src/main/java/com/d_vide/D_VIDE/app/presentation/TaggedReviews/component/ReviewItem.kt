@@ -277,7 +277,7 @@ fun ReviewImage(
 @Composable
 fun ProfileImage(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     imageURL: String
 ){
     AsyncImage(
