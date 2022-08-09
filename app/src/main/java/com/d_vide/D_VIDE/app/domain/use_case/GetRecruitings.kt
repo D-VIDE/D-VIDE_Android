@@ -1,7 +1,6 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
 import android.util.Log
-import com.d_vide.D_VIDE.app.data.remote.dto.Recruiting
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource

@@ -10,7 +10,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -62,7 +61,7 @@ fun RecruitingsScreen(
                     item {
                         Spacer(modifier = Modifier.width(9.dp))
                     }
-                    viewModel.state.value.recruitings.forEach {
+                    viewModel.state.value.recruitingDTOS.forEach {
                         item {
                             RecruitingItem(
                                 onClick = {

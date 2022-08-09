@@ -1,6 +1,6 @@
 package com.d_vide.D_VIDE.app.data.remote.dto
 
-data class Recruiting(
+data class RecruitingDTO(
     val category: String,
     val latitude: Double,
     val longitude: Double,

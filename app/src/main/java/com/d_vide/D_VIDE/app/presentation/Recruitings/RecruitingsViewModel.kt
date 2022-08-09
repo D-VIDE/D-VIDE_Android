@@ -28,8 +28,8 @@ class RecruitingsViewModel @Inject constructor(
         getRecruitingsUseCase(latitude, longitude).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = result.data?.let { RecruitingsState(recruitings = it.recruitings) }!!
-                    Log.d("test", "success : ${result.data.recruitings.toString()}")
+                    _state.value = result.data?.let { RecruitingsState(recruitingDTOS = it.recruitingDTOS) }!!
+                    Log.d("test", "success : ${result.data.recruitingDTOS.toString()}")
                 }
                 is Resource.Error -> {
                     _state.value = RecruitingsState(error = result.message ?: "An unexpected error occured")

@@ -1,10 +1,9 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
-import com.d_vide.D_VIDE.app.data.remote.dto.Recruiting
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
+import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingDTO
 
 data class RecruitingsState(
     val isLoading: Boolean = false,
-    val recruitings: List<Recruiting> = emptyList(),
+    val recruitingDTOS: List<RecruitingDTO> = emptyList(),
     val error: String = ""
 )

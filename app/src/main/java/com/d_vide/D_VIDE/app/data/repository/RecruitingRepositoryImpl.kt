@@ -1,8 +1,6 @@
 package com.d_vide.D_VIDE.app.data.repository
 
-import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
-import com.d_vide.D_VIDE.app.data.remote.dto.Recruiting
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import retrofit2.Response
