@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings.component
 
+import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -27,16 +28,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ProfileImage
 import com.d_vide.D_VIDE.ui.theme.*
 import java.text.DecimalFormat
 
 @Composable
 fun RecruitingItem(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit={},
+    onClick: () -> Unit = {},
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Int = 36,
+    imageURL: String = "",
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
     deadLineHour: Int = 4,
     deadLineMinute: Int = 0,
@@ -50,7 +53,7 @@ fun RecruitingItem(
             .background(background)
             .scale(0.9f)
     ) {
-        RecruitingUserName(Modifier, userName, userLocation, onClick)
+        RecruitingUserName(Modifier, userName, userLocation, imageURL, onClick)
         MessageBallon(
             modifier = Modifier
                 .align(TopEnd)
@@ -67,8 +70,8 @@ fun RecruitingItem(
                         topEnd = 26.dp
                     )
                 )
-                .clickable{
-                          // do something
+                .clickable {
+                    // do something
                 }
             ,
             backgroundColor = White
@@ -134,6 +137,7 @@ fun RecruitingUserName(
     modifier: Modifier = Modifier,
     userName: String = "kksmedd10204",
     userLocation: String = "세종시 조치원읍",
+    imageURL: String = "",
     onClick: () -> Unit={}
 ){
     Row(
@@ -143,15 +147,16 @@ fun RecruitingUserName(
             .background(background),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painterResource(id = R.drawable.character_circle),
-            contentDescription = "character",
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(White)
-                .size(28.dp),
-            alignment = Alignment.Center
-        )
+//        Image(
+//            painterResource(id = R.drawable.character_circle),
+//            contentDescription = "character",
+//            modifier = Modifier
+//                .clip(CircleShape)
+//                .background(White)
+//                .size(28.dp),
+//            alignment = Alignment.Center
+//        )
+        ProfileImage(imageURL = imageURL)
         TextButton(
             onClick = onClick,
             modifier = Modifier.height(20.dp),
@@ -163,7 +168,9 @@ fun RecruitingUserName(
                 style = TextStyles.Basics1,
                 color = Black,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 8.dp).align(CenterVertically)
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .align(CenterVertically)
             )
         }
 
