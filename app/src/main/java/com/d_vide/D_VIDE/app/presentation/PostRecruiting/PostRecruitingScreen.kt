@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -52,7 +53,6 @@ fun PostRecruitingScreen(
     viewModel: PostRecruitingViewModel = hiltViewModel(),
     upPress: () -> Unit = {},
 ) {
-    val cameraPositionState = viewModel.cameraPositionState.value
     val scrollState = rememberScrollState()
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
@@ -71,7 +71,7 @@ fun PostRecruitingScreen(
             modifier = Modifier
                 .verticalScroll(
                     scrollState,
-                    enabled = !cameraPositionState.isMoving
+                    enabled = !viewModel.cameraPositionState.value.isMoving
                 )
                 .background(background)
                 .padding(horizontal = 20.dp)
@@ -117,13 +117,15 @@ fun PostRecruitingScreen(
 
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
-                photoPicker(iconId = R.drawable.select_photo)
-                photoPicker(iconId = R.drawable.add_photo)
+                LazyRow() {
+                    item{ photoPicker(iconId = R.drawable.add_photo) }
+                    item{ photoPicker(iconId = R.drawable.add_photo) }
+                }
             }
 
             // 장소
             EditableFieldItem(labelText = "장소", height = 200.dp) {
-                locationSelector(cameraPositionState)
+                locationSelector(viewModel.cameraPositionState.value)
             }
 
             // 내용
@@ -349,5 +351,5 @@ fun PreviewItemTag() {
 @Preview
 @Composable
 fun PreviewPostRecruitingScreen() {
-//    PostRecruitingScreen(rememberNavController())
+    PostRecruitingScreen(rememberNavController())
 }

@@ -3,13 +3,8 @@ package com.d_vide.D_VIDE.app.presentation.PostRecruiting.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
@@ -22,22 +17,13 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
@@ -80,10 +66,6 @@ fun EditableTextField(
             singleLine = singleLine,
             enabled = enabled,
             shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 0.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = mainOrange,
-                cursorColor = mainOrange
-            ),
         )
 
         if(!unitText.isNullOrBlank()){
@@ -108,81 +90,6 @@ fun Modifier.addFocusCleaner(focusManager: FocusManager, doOnClear: () -> Unit =
             focusManager.clearFocus()
         })
     }
-}
-
-@Composable
-fun DivideOutlinedTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = Int.MAX_VALUE,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = MaterialTheme.shapes.small,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
-) {
-    // If color is not provided via the text style, use content color as a default
-    val textColor = textStyle.color.takeOrElse {
-        colors.textColor(enabled).value
-    }
-    val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
-
-    @OptIn(ExperimentalMaterialApi::class)
-    BasicTextField(
-        value = value,
-        modifier = modifier
-            .background(colors.backgroundColor(enabled).value, shape)
-            .defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth,
-                minHeight = TextFieldDefaults.MinHeight
-            ),
-        onValueChange = onValueChange,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = mergedTextStyle,
-        cursorBrush = SolidColor(colors.cursorColor(isError).value),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        interactionSource = interactionSource,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.OutlinedTextFieldDecorationBox(
-                value = value,
-                visualTransformation = visualTransformation,
-                innerTextField = innerTextField,
-                placeholder = placeholder,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon,
-                singleLine = singleLine,
-                enabled = enabled,
-                isError = isError,
-                interactionSource = interactionSource,
-                colors = colors,
-                border = {
-                    TextFieldDefaults.BorderBox(
-                        enabled,
-                        isError,
-                        interactionSource,
-                        colors,
-                        shape
-                    )
-                },
-                contentPadding = PaddingValues(vertical = 0.dp, horizontal = 10.dp)
-            )
-        }
-    )
 }
 
 @OptIn(ExperimentalTextApi::class)
