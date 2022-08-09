@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ProfileImage
 import com.d_vide.D_VIDE.ui.theme.*
@@ -81,15 +84,7 @@ fun RecruitingItem(
                     .padding(start = 19.dp)
                     .padding(top = 17.dp)
             ) {
-                Image(
-                    painterResource(id = R.drawable.food),
-                    contentScale = ContentScale.FillBounds,
-                    contentDescription = "food",
-                    modifier = Modifier
-                        .size(64.dp, 86.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                    alignment = Center
-                )
+                RecruitingImage(imageURL = imageURL)
                 Column(
                     modifier = Modifier.padding(start = 18.dp)
                 ) {
@@ -132,6 +127,28 @@ fun RecruitingItem(
         }
     }
 }
+
+@Composable
+fun RecruitingImage(
+    modifier: Modifier = Modifier,
+    imageURL: String = ""
+){
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageURL)
+            .crossfade(true)
+            .build(),
+        contentDescription = null,
+        placeholder = painterResource(R.drawable.food),
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(64.dp, 86.dp)
+            .clip(RoundedCornerShape(12.dp)),
+        alignment = Center
+
+    )
+}
+
 @Composable
 fun RecruitingUserName(
     modifier: Modifier = Modifier,
@@ -147,13 +164,11 @@ fun RecruitingUserName(
             .background(background),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ProfileImage(imageURL = imageURL)
-        TextButton(
-            onClick = onClick,
-            modifier = Modifier.height(20.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors= ButtonDefaults.buttonColors(backgroundColor = background)
-        ){
+        Row(
+            modifier = Modifier.clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProfileImage(imageURL = imageURL)
             Text(
                 text = userName,
                 style = TextStyles.Basics1,
@@ -161,9 +176,9 @@ fun RecruitingUserName(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .align(CenterVertically)
             )
         }
+
 
         Text(
             text = userLocation,
