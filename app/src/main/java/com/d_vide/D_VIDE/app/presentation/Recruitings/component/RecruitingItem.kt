@@ -147,15 +147,6 @@ fun RecruitingUserName(
             .background(background),
         verticalAlignment = Alignment.CenterVertically
     ) {
-//        Image(
-//            painterResource(id = R.drawable.character_circle),
-//            contentDescription = "character",
-//            modifier = Modifier
-//                .clip(CircleShape)
-//                .background(White)
-//                .size(28.dp),
-//            alignment = Alignment.Center
-//        )
         ProfileImage(imageURL = imageURL)
         TextButton(
             onClick = onClick,

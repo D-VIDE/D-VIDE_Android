@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.presentation.TaggedReviews.component
 
 import android.media.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,9 +31,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.ui.theme.Typography
-import com.d_vide.D_VIDE.ui.theme.mainOrange
-import com.d_vide.D_VIDE.ui.theme.mainYellow
+import com.d_vide.D_VIDE.ui.theme.*
 
 
 /**
@@ -43,7 +43,9 @@ import com.d_vide.D_VIDE.ui.theme.mainYellow
 
 
 @Composable
-fun ReviewItem(){
+fun ReviewItem(
+    onClick: () -> Unit={}
+){
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -76,7 +78,7 @@ fun ReviewItem(){
                    horizontalArrangement = Arrangement.SpaceBetween,
                    verticalAlignment = Alignment.CenterVertically
                ) {
-                   UserInfo()
+                   UserInfo(onClick = onClick)
                    IconButton(
                        onClick = {},
                        modifier = Modifier.size(17.dp, 15.dp)
@@ -87,8 +89,7 @@ fun ReviewItem(){
                        )
                    }
                }
-               Review(modifier = Modifier
-                   .padding(3.dp))
+               Review(modifier = Modifier.padding(3.dp))
            }
        }
     }
@@ -184,6 +185,7 @@ fun ReviewTitle(
 @Composable
 fun UserInfo(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     userImageURL: String = "",
     userId: String = "userId",
     userAddress: String = "userAddress"
@@ -191,8 +193,8 @@ fun UserInfo(
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ){
-        ProfileImage(imageURL = userImageURL)
-        UserId(userId = userId, Modifier.padding(start = 7.dp, end = 7.dp))
+        ProfileImage(imageURL = userImageURL, onClick = onClick)
+        UserId(userId = userId, Modifier.padding(start = 7.dp, end = 7.dp), onClick = onClick)
         UserAddress(userAddress = userAddress, Modifier.padding(start = 7.dp))
     }
 }
@@ -227,13 +229,14 @@ fun UserAddress(
 @Composable
 fun UserId(
     userId: String,
-    modifier: Modifier
+    modifier: Modifier,
+    onClick: () -> Unit
 ){
     Text(
         text = userId,
-        modifier = modifier,
+        modifier = modifier.clickable(onClick = onClick),
         maxLines = 1,
-        fontSize = 12.sp
+        fontSize = 12.sp,
     )
 }
 
@@ -248,6 +251,7 @@ fun ReviewImage(
     modifier: Modifier = Modifier,
     imageURL: String = ""
 ){
+
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data("https://yt3.ggpht.com/ytc/AKedOLR5NNn9lbbFQqPkHCTMgvgvCjZi94G2JRU7DjsM=s900-c-k-c0x00ffffff-no-rj")
@@ -273,6 +277,7 @@ fun ReviewImage(
 @Composable
 fun ProfileImage(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
     imageURL: String
 ){
     AsyncImage(
@@ -291,6 +296,7 @@ fun ProfileImage(
                 color = Color.Gray,
                 shape = CircleShape
             )
+            .clickable(onClick = onClick)
     )
 }
 

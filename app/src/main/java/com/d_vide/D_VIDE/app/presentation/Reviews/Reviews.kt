@@ -1,51 +1,96 @@
 package com.d_vide.D_VIDE.app.presentation.Reviews
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItem
-import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItemNew
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.Review
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
-import com.d_vide.D_VIDE.ui.theme.mainOrange
+import kotlinx.coroutines.launch
 
 
-
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Reviews(
     navController: NavController
 ){
-    Scaffold(
-        topBar = { TopRoundBar("D/VIDE맛집") },
-    ){
-        LazyColumn(
-            modifier = Modifier.padding(end = 20.dp),
-            contentPadding = PaddingValues(top = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            item {
-                RecommendRow()
+    BottomSheetUserFeedSreen(
+        navController = navController
+    ) { state, scope ->
+        Scaffold(
+            topBar = { TopRoundBar("D/VIDE맛집") },
+        ){
+            LazyColumn(
+                modifier = Modifier.padding(end = 20.dp),
+                contentPadding = PaddingValues(top = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                item {
+                    RecommendRow()
+                }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
+                item { ReviewItem(
+                    onClick = {
+                        scope.launch {
+                            state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                        }
+                    }
+                ) }
             }
-
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-
-
+            it
         }
-        it
+        BackHandler (
+            enabled = (state.currentValue == ModalBottomSheetValue.HalfExpanded ||
+                    state.currentValue == ModalBottomSheetValue.Expanded),
+            onBack = {
+                scope.launch{
+                    state.animateTo(ModalBottomSheetValue.Hidden, tween(300))
+                }
+            }
+        )
     }
+
 }
 

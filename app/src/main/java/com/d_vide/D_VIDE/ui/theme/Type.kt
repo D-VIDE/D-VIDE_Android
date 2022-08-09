@@ -52,22 +52,21 @@ object TextStyles{
     val Point2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        letterSpacing = 0.6.sp
+        fontSize = 13.sp
     )
 
     val Point3 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         letterSpacing = 0.6.sp
     )
 
     val Point4 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        letterSpacing = 0.6.sp
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        letterSpacing = 0.4.sp
     )
 
     val Basics1 = TextStyle(
@@ -81,16 +80,25 @@ object TextStyles{
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         letterSpacing = 0.6.sp,
-        lineHeight = 16.sp,
-        textAlign = TextAlign.Center
+        lineHeight = 16.sp
     )
     val Basics3 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
         letterSpacing = 0.6.sp,
-        lineHeight = 16.sp,
-        textAlign = TextAlign.Center
+        lineHeight = 16.sp
+    )
+    val Basics4 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 0.6.sp
+    )
+    val Basics5 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 15.sp
     )
 
     val Small0 = TextStyle(
@@ -125,7 +133,8 @@ object TextStyles{
         fontFamily = SpoqaHanSansNeo,
         fontWeight = FontWeight.Medium,
         fontSize = 7.sp,
-        letterSpacing = 0.6.sp
+        letterSpacing = 0.6.sp,
+        lineHeight = 16.sp
     )
 }
 
