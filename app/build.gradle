@@ -10,6 +10,10 @@ android {
     compileSdk 32
 
     defaultConfig {
+
+        def properties = new Properties()
+        file("../local.properties").withInputStream { properties.load(it) }
+
         applicationId "com.d_vide.D_VIDE"
         minSdk 21
         targetSdk 32
@@ -20,6 +24,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        manifestPlaceholders = [ MAPS_API_KEY:"${properties.getProperty('MAPS_API_KEY')}"]
     }
 
     buildTypes {
