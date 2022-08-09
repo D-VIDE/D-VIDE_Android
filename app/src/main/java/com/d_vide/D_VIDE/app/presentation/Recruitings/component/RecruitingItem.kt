@@ -147,13 +147,11 @@ fun RecruitingUserName(
             .background(background),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ProfileImage(imageURL = imageURL)
-        TextButton(
-            onClick = onClick,
-            modifier = Modifier.height(20.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors= ButtonDefaults.buttonColors(backgroundColor = background)
-        ){
+        Row(
+            modifier = Modifier.clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProfileImage(imageURL = imageURL)
             Text(
                 text = userName,
                 style = TextStyles.Basics1,
@@ -161,9 +159,9 @@ fun RecruitingUserName(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .align(CenterVertically)
             )
         }
+
 
         Text(
             text = userLocation,

@@ -193,8 +193,13 @@ fun UserInfo(
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ){
-        ProfileImage(imageURL = userImageURL, onClick = onClick)
-        UserId(userId = userId, Modifier.padding(start = 7.dp, end = 7.dp), onClick = onClick)
+        Row(
+            modifier = Modifier.clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ProfileImage(imageURL = userImageURL)
+            UserId(userId = userId, Modifier.padding(start = 7.dp))
+        }
         UserAddress(userAddress = userAddress, Modifier.padding(start = 7.dp))
     }
 }
@@ -215,7 +220,7 @@ fun UserAddress(
         text = userAddress,
         fontSize = 10.sp,
         color = Color.Gray,
-        modifier = Modifier.padding(top = 2.dp),
+        modifier = modifier.padding(top = 2.dp),
         maxLines = 1
     )
 }
@@ -229,12 +234,11 @@ fun UserAddress(
 @Composable
 fun UserId(
     userId: String,
-    modifier: Modifier,
-    onClick: () -> Unit
+    modifier: Modifier
 ){
     Text(
+        modifier = modifier,
         text = userId,
-        modifier = modifier.clickable(onClick = onClick),
         maxLines = 1,
         fontSize = 12.sp,
     )
@@ -296,7 +300,6 @@ fun ProfileImage(
                 color = Color.Gray,
                 shape = CircleShape
             )
-            .clickable(onClick = onClick)
     )
 }
 
