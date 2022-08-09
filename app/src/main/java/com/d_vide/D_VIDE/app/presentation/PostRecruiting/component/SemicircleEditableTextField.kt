@@ -25,7 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.TextStyles.Basics5
 import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.ui.theme.main_gray3
 
 
 @Composable
@@ -59,7 +62,7 @@ fun EditableTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height)
-                .background(color = Color(0xFFFFFFFF))
+                .background(color = Color.White)
                 .padding(0.dp)
                 .focusRequester(focusRequester)
             ,
@@ -71,8 +74,9 @@ fun EditableTextField(
         if(!unitText.isNullOrBlank()){
             Text(
                 text = unitText,
-                color = Color(0xFF919191),
-                fontWeight = FontWeight.ExtraBold,
+                style = TextStyles.Point2,
+                color = Color(0xFF777777),
+//                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = 15.dp)
@@ -83,16 +87,6 @@ fun EditableTextField(
 
 }
 
-fun Modifier.addFocusCleaner(focusManager: FocusManager, doOnClear: () -> Unit = {}): Modifier {
-    return this.pointerInput(Unit) {
-        detectTapGestures(onTap = {
-            doOnClear()
-            focusManager.clearFocus()
-        })
-    }
-}
-
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun EditableFieldItem(
     labelText: String,
@@ -105,7 +99,6 @@ fun EditableFieldItem(
             .height(height)
             .fillMaxWidth()
         ,
-//        verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier
@@ -120,11 +113,12 @@ fun EditableFieldItem(
                     .size(12.dp)
                     .padding(end = 5.dp)
                     .fillMaxSize(),
-                tint = Color(0xFF777777)
+                tint = main_gray3
             )
             Text(
                 text = labelText,
-                color = Color(0xFF777777),
+                color = main_gray3,
+                style = Basics5,
                 fontWeight = FontWeight.ExtraBold,
             )
         }

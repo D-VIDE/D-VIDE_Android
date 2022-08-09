@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
@@ -94,6 +95,7 @@ fun DivideOutlinedTextField(
                         interactionSource = interactionSource,
                         focused = interactionSource.collectIsFocusedAsState().value,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
+                            unfocusedBorderColor = Color(0x00FFFFFF),
                             focusedBorderColor = mainOrange,
                             cursorColor = mainOrange
                         ),
@@ -116,13 +118,12 @@ fun DivideBorderBox(
     colors: TextFieldColors,
     shape: Shape = TextFieldDefaults.OutlinedTextFieldShape,
     focusedBorderThickness: Dp = TextFieldDefaults.FocusedBorderThickness,
-    unfocusedBorderThickness: Dp = 0.dp
 ) {
     val indicatorColor = colors.indicatorColor(enabled, isError, interactionSource)
-    val targetThickness = if (focused) focusedBorderThickness else unfocusedBorderThickness
+    val targetThickness = if (focused) focusedBorderThickness else 0.dp
     val animatedThickness = if (enabled) {
         animateDpAsState(targetThickness, tween(durationMillis = 150))
-    } else rememberUpdatedState(unfocusedBorderThickness)
+    } else rememberUpdatedState(0.dp)
 
     Box(
         Modifier.border(

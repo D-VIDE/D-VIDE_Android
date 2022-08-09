@@ -32,10 +32,10 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
-import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.addFocusCleaner
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.google.accompanist.flowlayout.FlowRow
