@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.domain.use_case.GetRecruitings
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,11 +22,16 @@ class RecruitingsViewModel @Inject constructor(
     val state: State<RecruitingsState> = _state
 
     init {
-        getRecruitings( 127.030767490, 37.49015482509)
+        getRecruitings(  37.49015482509, 127.030767490, Category.ALL, 20)
     }
 
-    private fun getRecruitings(latitude: Double, longitude: Double) {
-        getRecruitingsUseCase(latitude, longitude).onEach { result ->
+    private fun getRecruitings(
+        latitude: Double,
+        longitude: Double,
+        category: Category,
+        offset: Int
+    ) {
+        getRecruitingsUseCase(latitude, longitude, category, offset).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.value = result.data?.let { RecruitingsState(recruitingDTOS = it.recruitingDTOS) }!!

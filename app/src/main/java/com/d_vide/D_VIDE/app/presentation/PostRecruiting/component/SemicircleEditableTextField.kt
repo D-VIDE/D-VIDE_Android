@@ -40,6 +40,7 @@ fun EditableTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     height: Dp = 60.dp,
+    onValueChange: (String) -> Unit = {},
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit
 ) {
@@ -48,7 +49,7 @@ fun EditableTextField(
     Box(
         modifier = modifier
             .shadow(
-                elevation = 5.dp,
+                elevation = 4.dp,
                 shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 0.dp),
                 clip = true
             )
