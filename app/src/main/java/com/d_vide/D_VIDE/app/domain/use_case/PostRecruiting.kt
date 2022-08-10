@@ -21,7 +21,7 @@ class PostRecruiting @Inject constructor(
             emit(Resource.Loading())
             val r = repository.postRecruiting(userId, recruitingBody)
             when(r.code()) {
-                201 -> {
+                200 -> {
                     emit(Resource.Success(r.body()!!))
                 }
                 else -> { Log.d("test", r.errorBody().toString()) }

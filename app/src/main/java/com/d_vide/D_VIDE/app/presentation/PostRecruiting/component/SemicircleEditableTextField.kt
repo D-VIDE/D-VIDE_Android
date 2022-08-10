@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
@@ -21,6 +22,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -33,8 +35,9 @@ import com.d_vide.D_VIDE.ui.theme.main_gray3
 
 @Composable
 fun EditableTextField(
+    inputText: String,
     modifier: Modifier = Modifier,
-    inputText: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     unitText: String? = null,
     readOnly: Boolean = false,
     enabled: Boolean = true,
@@ -42,9 +45,8 @@ fun EditableTextField(
     height: Dp = 60.dp,
     onValueChange: (String) -> Unit = {},
     contentAlignment: Alignment = Alignment.Center,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit = {}
 ) {
-    var text by rememberSaveable { mutableStateOf("") }
     var focusRequester = remember { FocusRequester() }
     Box(
         modifier = modifier
@@ -58,8 +60,8 @@ fun EditableTextField(
     ) {
         DivideOutlinedTextField(
             readOnly = readOnly,
-            value = if(inputText.isNullOrBlank()) text else inputText,
-            onValueChange = { text = it },
+            value = inputText,
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height)
@@ -70,6 +72,7 @@ fun EditableTextField(
             singleLine = singleLine,
             enabled = enabled,
             shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 0.dp),
+            keyboardOptions = keyboardOptions
         )
 
         if(!unitText.isNullOrBlank()){
@@ -127,39 +130,39 @@ fun EditableFieldItem(
     }
 }
 
-@Preview
-@Composable
-fun PreviewSemicircleEditableTextField() {
-    Column() {
-        EditableFieldItem(
-            labelText = "ABD몸객긴",
-        ){
-            EditableTextField(contentAlignment = Alignment.CenterEnd) {
-                Image(
-                    painterResource(id = R.drawable.dropdown_button),
-                    contentDescription = "content description",
-                    modifier = Modifier.size(36.dp),
-                )
-            }
-        }
-
-        EditableFieldItem(
-            labelText = "인원",
-        ){
-            EditableTextField(unitText = "원") {
-            }
-        }
-
-
-        EditableFieldItem(height= 350.dp, labelText = "카테고리"){
-            EditableTextField(singleLine = false) {}
-        }
-
-        EditableFieldItem(height= 400.dp, labelText = "카테고리"){
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text("Hello", modifier = Modifier.align(Alignment.Center))
-            }
-        }
-    }
-
-}
+//@Preview
+//@Composable
+//fun PreviewSemicircleEditableTextField() {
+//    Column() {
+//        EditableFieldItem(
+//            labelText = "ABD몸객긴",
+//        ){
+//            EditableTextField(contentAlignment = Alignment.CenterEnd) {
+//                Image(
+//                    painterResource(id = R.drawable.dropdown_button),
+//                    contentDescription = "content description",
+//                    modifier = Modifier.size(36.dp),
+//                )
+//            }
+//        }
+//
+//        EditableFieldItem(
+//            labelText = "인원",
+//        ){
+//            EditableTextField(unitText = "원") {
+//            }
+//        }
+//
+//
+//        EditableFieldItem(height= 350.dp, labelText = "카테고리"){
+//            EditableTextField(singleLine = false) {}
+//        }
+//
+//        EditableFieldItem(height= 400.dp, labelText = "카테고리"){
+//            Box(modifier = Modifier.fillMaxSize()) {
+//                Text("Hello", modifier = Modifier.align(Alignment.Center))
+//            }
+//        }
+//    }
+//
+//}
