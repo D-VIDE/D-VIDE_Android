@@ -12,9 +12,7 @@ import com.google.maps.android.compose.*
 
 @Composable
 fun LocationSelector(
-    cameraPositionState: CameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(LatLng(35.232234, 129.085211), 17f, 1.0f, 0f)
-    }
+    cameraPositionState: CameraPositionState
 ) {
     GoogleMap(
         modifier = Modifier
