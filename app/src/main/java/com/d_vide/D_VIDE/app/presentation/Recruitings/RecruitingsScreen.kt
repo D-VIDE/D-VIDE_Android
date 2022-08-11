@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -77,6 +79,7 @@ fun RecruitingsScreen(
                                 title = it.title,
                                 imageURL = it.profileImgUrl,
                                 insufficientMoney = it.targetPrice,
+                                timeRemaining = ((System.currentTimeMillis()/1000 - it.targetTime) / 60).toInt()
                             )
                         }
                     }

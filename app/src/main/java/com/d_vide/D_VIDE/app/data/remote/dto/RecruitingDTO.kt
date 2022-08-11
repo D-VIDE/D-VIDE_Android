@@ -8,7 +8,7 @@ data class RecruitingDTO(
     val nickname: String,
     val longitude: Double,
     val latitude: Double,
-    val targetTime: Timestamp,
+    val targetTime: Long,
     val title: String,
     val targetPrice: Int,
     val category: String

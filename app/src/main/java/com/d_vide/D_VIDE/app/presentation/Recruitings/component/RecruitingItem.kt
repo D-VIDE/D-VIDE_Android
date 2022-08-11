@@ -38,7 +38,7 @@ fun RecruitingItem(
     onClick: () -> Unit = {},
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
-    timeRemaining: Int = 36,
+    timeRemaining: Int = 0,
     imageURL: String = "",
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
     deadLineHour: Int = 4,
@@ -54,12 +54,14 @@ fun RecruitingItem(
             .scale(0.9f)
     ) {
         RecruitingUserName(Modifier, userName, userLocation, imageURL, onClick)
-        MessageBallon(
-            modifier = Modifier
-                .align(TopEnd)
-                .padding(end = 11.dp),
-            timeRemaining
-        )
+        if(timeRemaining > 0) {
+            MessageBallon(
+                modifier = Modifier
+                    .align(TopEnd)
+                    .padding(end = 11.dp),
+                timeRemaining
+            )
+        }
         Card(
             modifier = Modifier
                 .fillMaxSize()

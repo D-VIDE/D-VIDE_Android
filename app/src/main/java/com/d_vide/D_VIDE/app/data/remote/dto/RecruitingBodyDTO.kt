@@ -11,6 +11,6 @@ data class RecruitingBodyDTO(
     val longitude: Double? = 127.030767490,
     val storeName: String? = null,
     val targetPrice: Int? = null,
-    val targetTime: String? = "2022-08-30 15:12:35",
+    val targetTime: Long? = 1660197575,
     val title: String? = null
 )
