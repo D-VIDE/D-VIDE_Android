@@ -72,8 +72,8 @@ private fun NavGraphBuilder.MainNavGraph(
     composable(route = Screen.ReviewsScreen.route) { from ->
         Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)})
     }
-    composable(route = Screen.ChattingsScreen.route) {
-        Chattings(navController)
+    composable(route = Screen.ChattingsScreen.route) { from ->
+        Chattings(navController, onChattingSelected = {id -> onChattingClick(id, from)})
     }
     composable(route = Screen.MyPageScreen.route) {
         MyPageScreen(navController)

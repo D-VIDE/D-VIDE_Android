@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.presentation.Chattings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -38,7 +39,8 @@ import com.d_vide.D_VIDE.ui.theme.mainYellow
 
 @Composable
 fun Chattings(
-    navController: NavController
+    navController: NavController,
+    onChattingSelected: (Int) -> Unit
 ){
     Scaffold(
         topBar = { TopRoundBar("D/VIDE 채팅") },
@@ -48,16 +50,10 @@ fun Chattings(
             verticalArrangement = Arrangement.spacedBy(9.dp)
         ) {
             item {
-                ChattingItemNew()
+                ChattingItemNew(onChattingSelected = {onChattingSelected(567)})
             }
             item {
-                ChattingItem()
-            }
-            item {
-                ChattingItem()
-            }
-            item {
-                ChattingItem()
+                ChattingItem(onChattingSelected = {onChattingSelected(567)})
             }
             item{
                 Spacer(modifier = Modifier.height(10.dp))
@@ -76,11 +72,15 @@ fun ChattingItemNew(
     isBorder: Boolean = false,
     titleColor: Color = Color.Black,
     text: String = "넹 좋아요",
+    onChattingSelected: () -> Unit
 ){
 
-    Box {
+    Box(
+        modifier = Modifier.clickable(onClick = onChattingSelected)
+    ) {
         ChattingItem(
-            Modifier.border(2.dp, mainYellow, RoundedCornerShape(25.dp))
+            Modifier.border(2.dp, mainYellow, RoundedCornerShape(25.dp)),
+            onChattingSelected = onChattingSelected
         )
         ChatNumber(
             modifier = Modifier.align(Alignment.BottomEnd)
@@ -98,14 +98,14 @@ fun ChattingItem(
     titleColor: Color = Color.Black,
     text: String = "넹 좋아요",
     time: String = "오후 2:32",
-    alpha: Float = 1f
+    alpha: Float = 1f,
+    onChattingSelected: () -> Unit
 ){
     Card(
         shape = RoundedCornerShape(26.dp),
         modifier = modifier
             .fillMaxWidth()
-
-
+            .clickable(onClick = onChattingSelected)
     ) {
         Row(
             modifier = Modifier
@@ -195,28 +195,28 @@ fun ChatImage(
 }
 
 
-@Preview
-@Composable
-fun ChatPreviewItemNew(){
-    ChattingItemNew()
-}
-
-@Preview
-@Composable
-fun ChatPreviewItem(){
-    ChattingItem()
-}
-
-@Preview
-@Composable
-fun ChatPreviewItemDepre(){
-    ChattingItem(
-        modifier = Modifier,
-    title = "삼첩분식 드실 분~ ㅁㄴㅇㄹㅁㄴ",
-    imageUrl = "https://yt3.ggpht.com/ytc/AKedOLR5NNn9lbbFQqPkHCTMgvgvCjZi94G2JRU7DjsM=s900-c-k-c0x00ffffff-no-rj" ,
-    titleColor = Color.Gray,
-    text = "넹 좋아요",
-    time = "오후 2:32",
-        alpha = 0.3f
-    )
-}
+//@Preview
+//@Composable
+//fun ChatPreviewItemNew(){
+//    ChattingItemNew()
+//}
+//
+//@Preview
+//@Composable
+//fun ChatPreviewItem(){
+//    ChattingItem()
+//}
+//
+//@Preview
+//@Composable
+//fun ChatPreviewItemDepre(){
+//    ChattingItem(
+//        modifier = Modifier,
+//    title = "삼첩분식 드실 분~ ㅁㄴㅇㄹㅁㄴ",
+//    imageUrl = "https://yt3.ggpht.com/ytc/AKedOLR5NNn9lbbFQqPkHCTMgvgvCjZi94G2JRU7DjsM=s900-c-k-c0x00ffffff-no-rj" ,
+//    titleColor = Color.Gray,
+//    text = "넹 좋아요",
+//    time = "오후 2:32",
+//        alpha = 0.3f
+//    )
+//}
