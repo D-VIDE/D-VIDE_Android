@@ -41,7 +41,10 @@ fun NavGraphBuilder.divideGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val reviewId = arguments.getInt(DetailDestinationKey.REVIEW)
-        ReviewDetail(reviewId = reviewId, upPress)
+        ReviewDetail(
+            reviewId = reviewId,
+            upPress,
+            onTagClick = { id -> onTagClick(id, backStackEntry)})
     }
 
     composable(

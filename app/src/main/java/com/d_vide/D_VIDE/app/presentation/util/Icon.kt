@@ -5,6 +5,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,27 @@ fun NavigateButton(
         Icon(
             imageVector = Icons.Filled.ArrowBackIos,
             contentDescription = "뒤로가기",
+            tint = tint
+        )
+    }
+}
+
+
+
+@Composable
+fun MoreButton(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    tint: Color = gray8
+){
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+            .size(20.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.MoreVert,
+            contentDescription = "더보기",
             tint = tint
         )
     }
