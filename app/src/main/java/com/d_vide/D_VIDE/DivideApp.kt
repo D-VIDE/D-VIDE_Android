@@ -1,9 +1,11 @@
 package com.d_vide.D_VIDE
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.DivideScaffold
-import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.navigation.divideGraph
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 
 @Composable
@@ -18,15 +20,23 @@ fun DivideApp() {
                     BottomNavigationBar(
                         tabs = appState.bottomBarTabs,
                         currentRoute = appState.currentRoute!!,
-                        navController = appState.navController
+                        navigationToRoute = appState::navigateToBottomBarRoute
                     )
                 }
             },
-        ) {
-            NavGraph(
+        ) { innerPaddingModifier ->
+            NavHost(
                 navController = appState.navController,
-                upPress = appState::upPress,
-            )
+                startDestination = Screen.Splash.route,
+            ) {
+                divideGraph(
+                    navController = appState.navController,
+                    upPress = appState::upPress,
+                    onReviewClick = appState::navigateToReview,
+                    onChattingClick = appState::navigateToChatting
+                )
+            }
+
         }
 
     }

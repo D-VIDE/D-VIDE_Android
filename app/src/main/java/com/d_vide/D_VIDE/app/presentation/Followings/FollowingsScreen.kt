@@ -27,10 +27,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun FollowingsScreen(
     navController: NavController,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    onReviewSelected: (Int) -> Unit
 ){
     BottomSheetUserFeedSreen(
-        navController = navController
+        navController = navController,
+        onReviewSelected = onReviewSelected
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar("팔로잉", onClick = upPress) }

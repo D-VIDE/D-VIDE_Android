@@ -44,7 +44,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun UserFeedScreen(
     navController: NavController,
     upPress: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onReviewSelected: (Int) -> Unit
 ){
     Column(
         modifier = modifier
@@ -82,13 +83,9 @@ fun UserFeedScreen(
           //  contentPadding = PaddingValues(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
-            item { ReviewItem() }
+            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
+            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
+            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
         }
     }
 }
@@ -97,7 +94,8 @@ fun UserFeedScreen(
 @Composable
 fun BottomSheetUserFeedSreen(
     navController: NavController,
-    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
+    onReviewSelected: (Int) -> Unit,
+    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit
 ){
     val state = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -112,7 +110,8 @@ fun BottomSheetUserFeedSreen(
         sheetContent = {
             UserFeedScreen(
                 navController = navController,
-                modifier = Modifier.fillMaxHeight(0.945f)
+                modifier = Modifier.fillMaxHeight(0.945f),
+                onReviewSelected = onReviewSelected
             )
         }
     ) {
@@ -123,5 +122,5 @@ fun BottomSheetUserFeedSreen(
 @Preview
 @Composable
 fun Preview() {
-   UserFeedScreen(rememberNavController())
+   //UserFeedScreen(rememberNavController())
 }

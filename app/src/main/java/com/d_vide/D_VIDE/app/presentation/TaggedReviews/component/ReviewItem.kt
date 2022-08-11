@@ -44,11 +44,14 @@ import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
 fun ReviewItem(
-    onClick: () -> Unit={}
+    onClick: () -> Unit={},
+    onReviewClick: () -> Unit
 ){
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = onReviewClick)
+        ,
         shape = RoundedCornerShape(
             topEnd = 30.dp,
             bottomEnd = 30.dp
@@ -306,5 +309,5 @@ fun ProfileImage(
 @Preview
 @Composable
 fun PreviewUserInfo(){
-    ReviewItem()
+    //ReviewItem()
 }

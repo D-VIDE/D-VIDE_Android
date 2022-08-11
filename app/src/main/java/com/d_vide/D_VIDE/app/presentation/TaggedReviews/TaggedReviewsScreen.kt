@@ -26,10 +26,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaggedReviewsScreen(
-    navController: NavController
+    navController: NavController,
+    onReviewSelected: (Int) -> Unit
 ) {
     BottomSheetUserFeedSreen(
-        navController = navController
+        navController = navController,
+        onReviewSelected = onReviewSelected
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -56,50 +58,12 @@ fun TaggedReviewsScreen(
                             scope.launch {
                                 state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                             }
-                        }
+                        },
+                        onReviewClick = {onReviewSelected(1234)}
+
                     ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
+
+
                 }
             }
         }
