@@ -37,10 +37,12 @@ import java.sql.Timestamp
 @Composable
 fun RecruitingsScreen(
     navController: NavController,
-    viewModel: RecruitingsViewModel = hiltViewModel()
+    viewModel: RecruitingsViewModel = hiltViewModel(),
+    onReviewSelected: (Int) -> Unit
 ) {
     BottomSheetUserFeedSreen(
-        navController = navController
+        navController = navController,
+        onReviewSelected = onReviewSelected
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -137,6 +139,6 @@ fun categoryContainer() {
 @Composable
 fun DefaultPreview() {
     DVIDETheme {
-        RecruitingsScreen(rememberNavController())
+        //RecruitingsScreen(rememberNavController())
     }
 }
