@@ -28,11 +28,7 @@ enum class BottomSections(
     val route: String
 ) {
     DIVIDE("디바이드", R.drawable.icon_divide, R.drawable.icon_selected_divide, Screen.RecruitingsScreen.route),
-//    REVIEW("REVIEW", Icons.Default.Search, Screen.ReviewsScreen.route),
-
-    // TESTING ROUTE
-    REVIEW("리뷰", R.drawable.icon_review, R.drawable.icon_selected_review, Screen.TaggedReviewsScreen.route),
-
+    REVIEW("리뷰", R.drawable.icon_review, R.drawable.icon_selected_review, Screen.ReviewsScreen.route),
     CHATTING("채팅", R.drawable.icon_chatting, R.drawable.icon_selected_chatting, Screen.ChattingsScreen.route),
     PROFILE("MY", R.drawable.icon_profile, R.drawable.icon_selected_profile, Screen.MyPageScreen.route)
 }

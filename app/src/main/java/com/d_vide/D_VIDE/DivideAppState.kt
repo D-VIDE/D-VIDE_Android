@@ -5,10 +5,13 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.component.BottomSections
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,6 +49,21 @@ class DivideAppState(
         }
     }
 
+
+    fun navigateToReview(reviewId: Int, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${Screen.ReviewDetailScreen.route}/$reviewId")
+        }
+    }
+
+    fun navigateToChatting(chattingId: Int, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${Screen.ChattingDetailScreen.route}/$chattingId")
+        }
+    }
+
     // Screen 에 등록된 모든 route
     // val screens = Screen::class.sealedSubclasses.mapNotNull{ it.objectInstance }.map{ it.route }
 
@@ -59,3 +77,6 @@ class DivideAppState(
 
     fun upPress() { navController.navigateUp() }
 }
+
+private fun NavBackStackEntry.lifecycleIsResumed() =
+    this.lifecycle.currentState == Lifecycle.State.RESUMED
