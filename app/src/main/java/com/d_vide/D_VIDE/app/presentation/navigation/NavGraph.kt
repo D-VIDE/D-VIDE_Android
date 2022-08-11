@@ -1,12 +1,7 @@
 package com.d_vide.D_VIDE.app.presentation.navigation
 
-import android.window.SplashScreen
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.navigation.*
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
@@ -17,7 +12,6 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.Review
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
 
@@ -25,7 +19,8 @@ fun NavGraphBuilder.divideGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit
+    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onTagClick: (String, NavBackStackEntry) -> Unit
 ){
     navigation(
         route = Screen.Splash.route,
@@ -34,6 +29,7 @@ fun NavGraphBuilder.divideGraph(
         MainNavGraph(
             onReviewClick = onReviewClick,
             onChattingClick = onChattingClick,
+            onTagClick = onTagClick,
             upPress = upPress,
             navController = navController
         )
@@ -56,6 +52,18 @@ fun NavGraphBuilder.divideGraph(
         val chattingId = arguments.getInt(DetailDestinationKey.CHATTING)
         ChattingDetail(chattingId = chattingId, upPress)
     }
+
+    composable(
+        "${Screen.TaggedReviewsScreen.route}/{${DetailDestinationKey.TAGGEDREVIEW}}",
+        arguments = listOf(navArgument(DetailDestinationKey.TAGGEDREVIEW) { type = NavType.StringType })
+    ) { backStackEntry ->
+        val arguments = requireNotNull(backStackEntry.arguments)
+        val taggedReviewId = arguments.getString(DetailDestinationKey.TAGGEDREVIEW)
+        TaggedReviewsScreen(
+            Tag = taggedReviewId!!,
+            navController = navController,
+            onReviewSelected = { id -> onReviewClick(id, backStackEntry)})
+    }
 }
 
 
@@ -63,14 +71,15 @@ private fun NavGraphBuilder.MainNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit
+    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onTagClick: (String, NavBackStackEntry) -> Unit
 ){
     // nav bar routes
     composable(route = Screen.RecruitingsScreen.route) { from ->
         RecruitingsScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)})
     }
     composable(route = Screen.ReviewsScreen.route) { from ->
-        Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)})
+        Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = {id -> onTagClick(id, from)})
     }
     composable(route = Screen.ChattingsScreen.route) { from ->
         Chattings(navController, onChattingSelected = {id -> onChattingClick(id, from)})
@@ -82,9 +91,6 @@ private fun NavGraphBuilder.MainNavGraph(
 
     composable(route = Screen.PostRecruitingScreen.route) {
         PostRecruitingScreen(navController, upPress = upPress)
-    }
-    composable(route = Screen.TaggedReviewsScreen.route) { from ->
-        Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)})
     }
     composable(route = Screen.UserFeedScreen.route) { from ->
         UserFeedScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)})

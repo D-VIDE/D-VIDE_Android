@@ -64,6 +64,13 @@ class DivideAppState(
         }
     }
 
+    fun navigateToTaggedReview(taggedReviewId: String, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${Screen.TaggedReviewsScreen.route}/$taggedReviewId")
+        }
+    }
+
     // Screen 에 등록된 모든 route
     // val screens = Screen::class.sealedSubclasses.mapNotNull{ it.objectInstance }.map{ it.route }
 

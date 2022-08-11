@@ -21,7 +21,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun Reviews(
     navController: NavController,
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit,
 ){
     BottomSheetUserFeedSreen(
         navController = navController,
@@ -36,7 +37,7 @@ fun Reviews(
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 item {
-                    RecommendRow()
+                    RecommendRow(onTagClick)
                 }
                 item { ReviewItem(
                     onClick = {
