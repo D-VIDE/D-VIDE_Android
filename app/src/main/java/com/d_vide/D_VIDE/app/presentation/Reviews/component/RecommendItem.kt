@@ -22,21 +22,27 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.presentation.component.CardRoundSmall
+import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.gray9
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
 fun RecommendRow(
     onTagClick: (String) -> Unit
 ){
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Text("• 디/바이더 추천 맛집!", color = gray9, style = TextStyles.Point2, modifier = Modifier.padding(start = 20.dp))
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 19.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            item { RecommendItem(onTagClick = {onTagClick("test")}) }
+            item { RecommendItem(onTagClick = {onTagClick("test")}) }
 
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 19.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-
-    ){
-        item { RecommendItem(onTagClick = {onTagClick("test")}) }
-        item { RecommendItem(onTagClick = {onTagClick("test")}) }
-
+        }
     }
 }
 
@@ -44,11 +50,9 @@ fun RecommendRow(
 
 @Composable
 fun RecommendItem(onTagClick: () -> Unit){
-    Card(
-        modifier = Modifier
-            .size(106.dp, 137.dp)
-            .clickable(onClick = onTagClick),
-        shape = RoundedCornerShape(13.dp)
+
+    CardRoundSmall(
+        onClick = onTagClick
     ) {
         Column(
             modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 6.dp),
@@ -70,6 +74,7 @@ fun RecommendItem(onTagClick: () -> Unit){
             )
         }
     }
+
 }
 
 
