@@ -1,13 +1,15 @@
 package com.d_vide.D_VIDE.app.data.remote.dto
 
+import java.sql.Timestamp
+
 data class RecruitingDTO(
-    val category: String,
-    val latitude: Double,
-    val longitude: Double,
-    val nickname: String,
     val postId: Int,
     val profileImgUrl: String,
+    val nickname: String,
+    val longitude: Double,
+    val latitude: Double,
+    val targetTime: Timestamp,
+    val title: String,
     val targetPrice: Int,
-    val targetTime: List<Int>,
-    val title: String
+    val category: String
 )
