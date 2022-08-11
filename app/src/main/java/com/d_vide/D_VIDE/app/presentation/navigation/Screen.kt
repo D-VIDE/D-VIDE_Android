@@ -17,4 +17,5 @@ sealed class Screen(val route: String) {
 object DetailDestinationKey{
     const val REVIEW = "reviewId"
     const val CHATTING = "chattingId"
+    const val TAGGEDREVIEW = "taggedReviewId"
 }

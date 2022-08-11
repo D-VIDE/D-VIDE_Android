@@ -33,7 +33,8 @@ fun DivideApp() {
                     navController = appState.navController,
                     upPress = appState::upPress,
                     onReviewClick = appState::navigateToReview,
-                    onChattingClick = appState::navigateToChatting
+                    onChattingClick = appState::navigateToChatting,
+                    onTagClick = appState::navigateToTaggedReview
                 )
             }
 

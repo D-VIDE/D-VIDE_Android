@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaggedReviewsScreen(
+    Tag: String,
     navController: NavController,
     onReviewSelected: (Int) -> Unit
 ) {
@@ -45,7 +46,7 @@ fun TaggedReviewsScreen(
             Column(
                 modifier = Modifier.background(background)
             ) {
-                TagTitle()
+                TagTitle(title = Tag)
                 LazyColumn(
                     modifier = Modifier
                         .padding(innerPadding)
