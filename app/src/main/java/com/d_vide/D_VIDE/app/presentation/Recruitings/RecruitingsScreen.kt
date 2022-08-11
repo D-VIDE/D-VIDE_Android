@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -26,9 +26,12 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -62,7 +65,7 @@ fun RecruitingsScreen(
                     item {
                         Spacer(modifier = Modifier.width(9.dp))
                     }
-                    viewModel.state.value.recruitings.forEach {
+                    viewModel.state.value.recruitingDTOS.forEach {
                         item {
                             RecruitingItem(
                                 onClick = {
@@ -78,6 +81,9 @@ fun RecruitingsScreen(
                                 title = it.title,
                                 imageURL = it.profileImgUrl,
                                 insufficientMoney = it.targetPrice,
+                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                deadLineHour = it.targetTime.convertTimestampToHour(),
+                                deadLineMinute = it.targetTime.convertTimestampToMinute()
                             )
                         }
                     }

@@ -21,13 +21,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRecruitingsApi(client: OkHttpClient): RecruitingsApi {
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(RemoteConst.RemoteConstant.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-            .create(RecruitingsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecruitingsApi(retrofit: Retrofit): RecruitingsApi {
+        return retrofit.create(RecruitingsApi::class.java)
     }
 
     @Provides
