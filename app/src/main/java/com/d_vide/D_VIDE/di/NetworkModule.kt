@@ -3,6 +3,7 @@ package com.d_vide.D_VIDE.di
 import com.d_vide.D_VIDE.app._constants.RemoteConst
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.repository.RecruitingRepositoryImpl
+import com.d_vide.D_VIDE.app.domain.model.UserInfo
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import dagger.Module
 import dagger.Provides
@@ -57,7 +58,7 @@ object NetworkModule {
         val newRequest = chain
             .request()
             .newBuilder()
-            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbEBnbWFpbC5jb20iLCJhdXRoIjoiVVNFUiIsImV4cCI6MjY1OTU5MzMyM30.H_KhH3tK7PRmw0wHU045G22UdRVy1BXbmeRLFGFD4oyYpAucWPPmFiHB6s4HV2sVFisNd46LnZioE_BR4K11vw")
+            .addHeader("Authorization", "Bearer ${UserInfo.GUEST.token}")
             .build()
         return@Interceptor chain.proceed(newRequest)
     }
