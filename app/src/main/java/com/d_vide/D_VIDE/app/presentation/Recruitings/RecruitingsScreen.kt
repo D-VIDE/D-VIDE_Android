@@ -26,6 +26,8 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import kotlinx.coroutines.launch
@@ -79,7 +81,9 @@ fun RecruitingsScreen(
                                 title = it.title,
                                 imageURL = it.profileImgUrl,
                                 insufficientMoney = it.targetPrice,
-                                timeRemaining = ((System.currentTimeMillis()/1000 - it.targetTime) / 60).toInt()
+                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                deadLineHour = it.targetTime.convertTimestampToHour(),
+                                deadLineMinute = it.targetTime.convertTimestampToMinute()
                             )
                         }
                     }

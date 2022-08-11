@@ -218,9 +218,13 @@ fun RecruitingTitle(
 @Composable
 fun RecruitingDeadLine(
     modifier: Modifier = Modifier,
-    deadLineHour: Int = 4,
+    deadLineHour: Int = 0,
     deadLineMinute: Int = 0
 ) {
+    val hours = if(deadLineHour > 12) deadLineHour-12 else deadLineMinute
+    val hoursStr = if(hours < 10) "0$hours" else "$hours"
+    val minutesStr = if(deadLineMinute < 10) "0$deadLineMinute" else "$deadLineMinute"
+
     Row(
         modifier = modifier
     ){
@@ -236,21 +240,13 @@ fun RecruitingDeadLine(
             )
             Row{
                 Text(
-                    text = "오후",
+                    text = if(deadLineHour > 12) "오후" else "오전",
                     style = TextStyles.Point3,
                     color = mainYellow,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text =
-                        if (deadLineHour < 9 && deadLineMinute < 9)
-                            "0" + deadLineHour.toString() + ":0" + deadLineMinute.toString()
-                        else if (deadLineHour < 9 && deadLineMinute > 9)
-                            "0" + deadLineHour.toString() + ":" + deadLineMinute.toString()
-                        else if (deadLineHour > 9 && deadLineMinute < 9)
-                            deadLineHour.toString() + ":0" + deadLineMinute.toString()
-                        else
-                            deadLineHour.toString() + ":" + deadLineMinute.toString(),
+                    text = "$hoursStr:$minutesStr",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = mainOrange,

@@ -22,7 +22,7 @@ class RecruitingsViewModel @Inject constructor(
     val state: State<RecruitingsState> = _state
 
     init {
-        getRecruitings(  37.49015482509, 127.030767490, Category.ALL, 20)
+        getRecruitings(  37.49015482509, 127.030767490, Category.ALL, 0)
     }
 
     private fun getRecruitings(
