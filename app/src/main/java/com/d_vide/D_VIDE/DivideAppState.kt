@@ -34,6 +34,18 @@ class DivideAppState(
     val currentRoute: String?
         get() = navController.currentDestination?.route
 
+    fun navigateToBottomBarRoute(route: String) {
+        if (route != currentRoute) {
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(BottomSections.DIVIDE.route) {
+                    saveState = true
+                }
+            }
+        }
+    }
+
     // Screen 에 등록된 모든 route
     // val screens = Screen::class.sealedSubclasses.mapNotNull{ it.objectInstance }.map{ it.route }
 

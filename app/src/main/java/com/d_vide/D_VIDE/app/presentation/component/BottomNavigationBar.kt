@@ -41,7 +41,7 @@ enum class BottomSections(
 fun BottomNavigationBar(
     tabs: Array<BottomSections>,
     currentRoute: String,
-    navController: NavController,
+    navigationToRoute: (String) -> Unit
 ) {
     BottomNavigation(
         modifier = Modifier
@@ -76,7 +76,7 @@ fun BottomNavigationBar(
                         Spacer(modifier = Modifier.size(7.dp))
                     }
                 },
-                onClick = { navController.navigate(it.route) }
+                onClick = { navigationToRoute(it.route) }
             )
         }
 
@@ -87,5 +87,5 @@ fun BottomNavigationBar(
 @Preview
 @Composable
 fun BottomBarPreview() {
-    BottomNavigationBar(BottomSections.values(),Screen.RecruitingsScreen.route, rememberNavController())
+    //BottomNavigationBar(BottomSections.values(),Screen.RecruitingsScreen.route, rememberNavController())
 }

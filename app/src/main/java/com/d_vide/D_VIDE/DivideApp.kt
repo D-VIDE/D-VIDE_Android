@@ -18,7 +18,7 @@ fun DivideApp() {
                     BottomNavigationBar(
                         tabs = appState.bottomBarTabs,
                         currentRoute = appState.currentRoute!!,
-                        navController = appState.navController
+                        navigationToRoute = appState::navigateToBottomBarRoute
                     )
                 }
             },
