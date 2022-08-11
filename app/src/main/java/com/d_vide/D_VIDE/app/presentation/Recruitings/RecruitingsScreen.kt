@@ -83,7 +83,7 @@ fun RecruitingsScreen(
                                 title = it.title,
                                 imageURL = it.profileImgUrl,
                                 insufficientMoney = it.targetPrice,
-                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60),
                                 deadLineHour = it.targetTime.convertTimestampToHour(),
                                 deadLineMinute = it.targetTime.convertTimestampToMinute()
                             )

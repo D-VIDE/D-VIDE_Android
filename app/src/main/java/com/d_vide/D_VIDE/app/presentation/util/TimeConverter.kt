@@ -107,3 +107,22 @@ fun getRandomKey(): Long = Random(System.currentTimeMillis()).nextLong(100000, 9
 
 // 타임스탬프
 fun getTimestamp(): Long = System.currentTimeMillis()
+
+// 분 -> 시
+fun convertMinuteToHour(
+    minute: Long
+): String {
+    var time = ""
+
+    if (minute < 60){
+        time = minute.toString() + "분"
+    }
+    else if (minute < 60*24) {
+        time = (minute/60).toInt().toString() + "시간"
+    }
+    else {
+        time = (minute/(60*24)).toInt().toString() + "일"
+    }
+
+    return time
+}

@@ -32,6 +32,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ProfileImage
+import com.d_vide.D_VIDE.app.presentation.util.convertMinuteToHour
 import com.d_vide.D_VIDE.ui.theme.*
 import java.text.DecimalFormat
 
@@ -41,7 +42,7 @@ fun RecruitingItem(
     onClick: () -> Unit = {},
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
-    timeRemaining: Int = 0,
+    timeRemaining: Long = 0,
     imageURL: String = "",
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
     deadLineHour: Int = 4,
@@ -193,7 +194,7 @@ fun RecruitingUserName(
 @Composable
 fun MessageBallon(
     modifier: Modifier = Modifier,
-    timeRemaining: Int = 36
+    timeRemaining: Long = 36
 ){
     Box(
         modifier = modifier
@@ -206,7 +207,7 @@ fun MessageBallon(
             modifier = Modifier.fillMaxSize()
         )
         Text(
-            text = timeRemaining.toString() + "분 후 주문 예정",
+            text = convertMinuteToHour(timeRemaining) + " 후 주문 예정",
             color = White,
             style = TextStyles.Small3,
             modifier = Modifier
