@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
 import kotlinx.coroutines.launch
 
 
@@ -29,7 +30,7 @@ fun Reviews(
         onReviewSelected = onReviewSelected
     ) { state, scope ->
         Scaffold(
-            topBar = { TopRoundBar("D/VIDE맛집") },
+            topBar = { TopRoundBarWithImage() },
         ){
             LazyColumn(
                 modifier = Modifier.padding(end = 20.dp),
