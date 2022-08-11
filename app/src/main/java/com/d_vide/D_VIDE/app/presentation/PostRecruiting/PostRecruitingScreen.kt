@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
@@ -26,8 +27,6 @@ import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
 import kotlinx.coroutines.flow.collectLatest
-
-val datalist = listOf("분식", "한식", "치킨", "일식", "디저트", "피자", "패스트푸드", "족발", "카레", "....")
 
 @Composable
 fun PostRecruitingScreen(
@@ -103,12 +102,15 @@ fun PostRecruitingScreen(
             // 카테고리
             Box {
                 if (isDropDownMenuExpanded) {
+                    var selectedCategory: Category = Category.ALL
                     ExpandedCategory(
                         onTagClick = {
+                            selectedCategory = it
                             isDropDownMenuExpanded = !isDropDownMenuExpanded
-                            selectedText = it
+                            selectedText = selectedCategory.name
+                            viewModel.onEvent(PostRecruitingsEvent.EnteredCategory(selectedCategory))
                         },
-                        currentTag = selectedText
+                        currentTag = selectedCategory
                     )
                 }
                 EditableFieldItem(labelText = "카테고리") {

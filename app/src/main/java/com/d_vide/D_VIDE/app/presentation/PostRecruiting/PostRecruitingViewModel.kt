@@ -52,7 +52,7 @@ class PostRecruitingViewModel @Inject constructor(
             }
             is PostRecruitingsEvent.EnteredCategory -> {
                 _recruitingBody.value = recruitingBodyDTO.value.copy(
-                    category = event.value.value
+                    category = event.value.tag
                 )
             }
             is PostRecruitingsEvent.EnteredDeliveryPrice -> {

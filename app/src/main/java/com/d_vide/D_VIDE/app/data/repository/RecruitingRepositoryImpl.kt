@@ -19,7 +19,7 @@ class RecruitingRepositoryImpl @Inject constructor(
         category: Category,
         offset: Int
     ): Response<RecruitingsDTO> {
-        return api.getRecruitings(latitude, longitude, category.value, offset)
+        return api.getRecruitings(latitude, longitude, category.tag, offset)
     }
 
     override suspend fun postRecruiting(userId: Int, recruitingBody: RecruitingBodyDTO): Response<RecruitingIdDTO> {

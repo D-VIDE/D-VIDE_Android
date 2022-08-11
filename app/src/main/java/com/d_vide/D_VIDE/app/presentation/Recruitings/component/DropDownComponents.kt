@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
-import com.d_vide.D_VIDE.app.presentation.PostRecruiting.datalist
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.google.accompanist.flowlayout.FlowRow
 
@@ -57,8 +57,8 @@ fun DropDownComp(
 @Composable
 fun ExpandedCategory(
     modifier: Modifier = Modifier.fillMaxWidth(),
-    currentTag: String,
-    onTagClick: (String) -> Unit,
+    currentTag: Category,
+    onTagClick: (Category) -> Unit,
 ) {
     Row(Modifier.padding(bottom = 12.dp)) {
         Spacer(
@@ -83,7 +83,7 @@ fun ExpandedCategory(
                     .padding(bottom = 10.dp, top = 50.dp)
                     .padding(horizontal = 10.dp)
             ) {
-                datalist.forEach {
+                Category::class.sealedSubclasses.mapNotNull { it.objectInstance }.forEach {
                     if (currentTag == it) ItemTag(it, true, onTagClick)
                     else ItemTag(it, false, onTagClick)
                 }
@@ -95,9 +95,9 @@ fun ExpandedCategory(
 
 @Composable
 private fun ItemTag(
-    string: String = "기본",
+    category: Category = Category.ALL,
     isClicked: Boolean = false,
-    onClick: (String) -> Unit,
+    onClick: (Category) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -106,10 +106,10 @@ private fun ItemTag(
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(horizontal = 14.dp, vertical = 6.dp)
-            .clickable { onClick(string) },
+            .clickable { onClick(category) },
     ) {
         Text(
-            text = "$string",
+            text = "${category.name}",
             color = if (isClicked) Color.White
             else Color(0xFF8D8D8D),
             fontSize = 12.sp,
