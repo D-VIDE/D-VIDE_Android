@@ -2,7 +2,6 @@ package com.d_vide.D_VIDE.app.presentation.ReviewDetail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -12,12 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItem
-import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItemNew
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
@@ -31,7 +26,8 @@ import com.google.accompanist.pager.rememberPagerState
 @Composable
 fun ReviewDetail(
     reviewId: Int,
-    upPress:() -> Unit
+    upPress:() -> Unit,
+    onTagClick:(String) -> Unit
 ){
     Scaffold(
         topBar = { TopRoundBar("리뷰", onClick = upPress) },
@@ -54,7 +50,8 @@ fun ReviewDetail(
                             "\n" +
                             "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 ....\n" +
                             "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n",
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp)
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp),
+                    onTagClick = onTagClick
                 )
             }
     }
@@ -69,7 +66,8 @@ fun ReviewCard(
     like: Int,
     tag: String,
     body: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTagClick:(String) -> Unit
 ){
     CardEndRound(
         modifier = modifier,
@@ -114,7 +112,7 @@ fun ReviewCard(
                 Text(text = "$like", style = TextStyles.Basics2, color = gray2)
             }
 
-            Text(text = "# ${tag}", style = TextStyles.Point4, color = red0)
+            Text(text = "# ${tag}", style = TextStyles.Point4, color = red0, modifier = Modifier.clickable(onClick = {onTagClick(tag)}))
             Text(text = body, style = TextStyles.Basics1, color = gray5)
         }
     }
@@ -156,5 +154,5 @@ fun ImagePager(
 @Composable
 @Preview
 fun PreviewDetail(){
-    ReviewDetail(reviewId = 1234, {})
+    //ReviewDetail(reviewId = 1234, {})
 }
