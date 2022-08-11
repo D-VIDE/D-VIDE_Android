@@ -76,12 +76,6 @@ class PostRecruitingViewModel @Inject constructor(
 //                    title = event.value
 //                )
 //            }
-//            is PostRecruitingsEvent.EnteredLocation -> {
-//                _recruitingBody.value = recruitingBodyDTO.value.copy(
-//                    latitude = event.latitude,
-//                    longitude = event.longitude
-//                )
-//            }
             is PostRecruitingsEvent.EnteredContent -> {
                 _recruitingBody.value = recruitingBodyDTO.value.copy(
                     content = event.value
@@ -107,6 +101,8 @@ class PostRecruitingViewModel @Inject constructor(
                             )
                             return@launch
                         }
+                        val location = _cameraPositionState.value.position.target
+                        Log.d("test", "selected location : ${location.longitude}, ${location.latitude}")
                         postRecruitingUseCase(
                             1,
                             RecruitingBodyDTO(
@@ -115,7 +111,9 @@ class PostRecruitingViewModel @Inject constructor(
                                 storeName = recruitingBodyDTO.value.storeName,
                                 deliveryPrice = recruitingBodyDTO.value.deliveryPrice,
                                 content = recruitingBodyDTO.value.content,
-                                targetTime = recruitingBodyDTO.value.targetTime
+                                targetTime = recruitingBodyDTO.value.targetTime,
+                                longitude = location.longitude,
+                                latitude = location.latitude
                             )
                         ).collect() { it ->
                             when (it) {
