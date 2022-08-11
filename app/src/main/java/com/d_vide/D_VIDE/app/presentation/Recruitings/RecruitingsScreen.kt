@@ -26,10 +26,12 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.LocationConverter
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
 
@@ -77,7 +79,7 @@ fun RecruitingsScreen(
                                     }
                                 },
                                 userName = it.nickname,
-                                userLocation = "${it.latitude}, ${it.longitude}",
+                                userLocation = LocationConverter(LatLng(it.latitude, it.longitude)),
                                 title = it.title,
                                 imageURL = it.profileImgUrl,
                                 insufficientMoney = it.targetPrice,
