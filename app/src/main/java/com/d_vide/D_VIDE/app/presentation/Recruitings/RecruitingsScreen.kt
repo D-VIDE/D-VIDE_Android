@@ -24,6 +24,7 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCatego
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.LocationConverter
@@ -46,8 +47,7 @@ fun RecruitingsScreen(
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
-                FloatingButton(
-                    text = "지금 D/VIDE 하기",
+                RecruitingWriteButton(
                     onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
                     shouldShowBottomBar = true
                 )
