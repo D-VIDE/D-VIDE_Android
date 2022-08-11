@@ -149,7 +149,7 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.deliveryPrice?.toString() ?: "",
-                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredDeliveryPrice(if (it.isNullOrBlank()) 0 else it.toInt())) }
+                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredDeliveryPrice(if (it.isNullOrBlank()) null else it.toInt())) }
                 )
             }
 
@@ -159,7 +159,7 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.targetPrice?.toString() ?: "",
-                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) 0 else it.toInt())) }
+                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) null else it.toInt())) }
                 )
             }
 
