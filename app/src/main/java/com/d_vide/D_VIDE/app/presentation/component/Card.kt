@@ -61,8 +61,7 @@ fun CardEndRound(
                 onClick = onClick,
                 enabled = enabled
             )
-            .fillMaxWidth()
-            .height(146.dp),
+            .fillMaxWidth(),
         color = color,
         shape = shape,
         elevation = 5.dp,
