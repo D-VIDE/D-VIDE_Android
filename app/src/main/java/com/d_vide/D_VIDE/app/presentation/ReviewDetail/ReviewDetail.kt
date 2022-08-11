@@ -3,7 +3,9 @@ package com.d_vide.D_VIDE.app.presentation.ReviewDetail
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,16 +15,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItem
 import com.d_vide.D_VIDE.app.presentation.Chattings.ChattingItemNew
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.MoreButton
-import com.d_vide.D_VIDE.ui.theme.TextStyles
-import com.d_vide.D_VIDE.ui.theme.gray2
-import com.d_vide.D_VIDE.ui.theme.gray5
-import com.d_vide.D_VIDE.ui.theme.red0
+import com.d_vide.D_VIDE.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 
 @Composable
 fun ReviewDetail(
@@ -32,22 +36,27 @@ fun ReviewDetail(
     Scaffold(
         topBar = { TopRoundBar("리뷰", onClick = upPress) },
     ){ innerPadding ->
-            ReviewCard(
-                imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg",
-                userId = "userId",
-                address = "address",
-                //ImageList = ,
-                like = 1234,
-                tag = "tag",
-                body = "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~\n" +
-                        "\n" +
-                        "제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 가나다라 마바사!!\n" +
-                        "\n" +
-                        "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n" +
-                        "\n" +
-                        "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 ....",
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp)
-            )
+            Column(
+                Modifier.verticalScroll(rememberScrollState())
+            ) {
+                ReviewCard(
+                    imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg",
+                    userId = "userId",
+                    address = "address",
+                    //ImageList = ,
+                    like = 1234,
+                    tag = "tag",
+                    body = "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~\n" +
+                            "\n" +
+                            "제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 가나다라 마바사!!\n" +
+                            "\n" +
+                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n" +
+                            "\n" +
+                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 ....\n" +
+                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n",
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp)
+                )
+            }
     }
 }
 
@@ -63,7 +72,8 @@ fun ReviewCard(
     modifier: Modifier = Modifier
 ){
     CardEndRound(
-        modifier = modifier
+        modifier = modifier,
+        enabled = false
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(11.dp),
@@ -85,7 +95,7 @@ fun ReviewCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Text(text = userId, style = TextStyles.Basics1)
                         Text(text = "⭐⭐⭐⭐⭐️", style = TextStyles.Basics1)
@@ -96,7 +106,7 @@ fun ReviewCard(
                 MoreButton()
             }
             
-            //ViewPager넣기
+            ImagePager(items = listOf("1", "2", "3"))
             
             
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -107,6 +117,38 @@ fun ReviewCard(
             Text(text = "# ${tag}", style = TextStyles.Point4, color = red0)
             Text(text = body, style = TextStyles.Basics1, color = gray5)
         }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun ImagePager(
+    items: List<String>
+){
+    val pagerState = rememberPagerState()
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(7.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        HorizontalPager(
+            count = items.size,
+            state = pagerState,
+        ) { i ->
+            DivideImage(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg")
+        }
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            spacing = 4.dp,
+            indicatorHeight =5.dp,
+            indicatorWidth = 5.dp,
+            indicatorShape = CircleShape,
+            activeColor = main0,
+        )
     }
 }
 
