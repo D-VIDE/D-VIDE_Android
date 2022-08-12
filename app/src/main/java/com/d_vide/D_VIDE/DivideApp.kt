@@ -27,7 +27,7 @@ fun DivideApp() {
         ) { innerPaddingModifier ->
             NavHost(
                 navController = appState.navController,
-                startDestination = Screen.Splash.route,
+                startDestination = Screen.SplashScreen.route,
             ) {
                 divideGraph(
                     navController = appState.navController,
