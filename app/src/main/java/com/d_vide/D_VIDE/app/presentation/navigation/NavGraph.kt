@@ -7,6 +7,7 @@ import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
+import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
@@ -40,6 +41,12 @@ fun NavGraphBuilder.divideGraph(
         route = Screen.SplashScreen.route
     ) {
         SplashScreen(navController)
+    }
+
+    composable(
+        route = Screen.LoginScreen.route
+    ) {
+        LoginScreen(navController)
     }
 
     composable(
