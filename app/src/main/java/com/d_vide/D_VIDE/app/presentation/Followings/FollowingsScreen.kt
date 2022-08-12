@@ -28,11 +28,13 @@ import kotlinx.coroutines.launch
 fun FollowingsScreen(
     navController: NavController,
     upPress: () -> Unit = {},
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit
 ){
     BottomSheetUserFeedSreen(
         navController = navController,
-        onReviewSelected = onReviewSelected
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar("팔로잉", onClick = upPress) }

@@ -45,7 +45,8 @@ fun UserFeedScreen(
     navController: NavController,
     upPress: () -> Unit = {},
     modifier: Modifier = Modifier,
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit
 ){
     Column(
         modifier = modifier
@@ -83,9 +84,8 @@ fun UserFeedScreen(
           //  contentPadding = PaddingValues(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
-            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
-            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}) }
+            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}, onTagClick = {onTagClick("test")}) }
+
         }
     }
 }
@@ -95,7 +95,8 @@ fun UserFeedScreen(
 fun BottomSheetUserFeedSreen(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
-    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit
+    onTagClick: (String) -> Unit,
+    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
     val state = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -111,7 +112,8 @@ fun BottomSheetUserFeedSreen(
             UserFeedScreen(
                 navController = navController,
                 modifier = Modifier.fillMaxHeight(0.945f),
-                onReviewSelected = onReviewSelected
+                onReviewSelected = onReviewSelected,
+                onTagClick = onTagClick
             )
         }
     ) {

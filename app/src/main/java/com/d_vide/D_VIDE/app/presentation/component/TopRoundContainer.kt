@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.presentation.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -22,10 +23,12 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
@@ -108,6 +111,24 @@ fun TopRoundContainer(
         }
         content()
     }
+}
+
+@Composable
+fun TopRoundBarWithImage(
+    actions: @Composable RowScope.() -> Unit = {}
+) {
+    CenterAlignedTopAppBar(
+        title = {
+            Image(
+            painterResource(id = R.drawable.review_title),
+            contentDescription = "review_title",
+            modifier = Modifier.width(128.dp).height(29.dp)
+        ) },
+        actions = actions,
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp), clip = true),
+    )
 }
 
 @Preview

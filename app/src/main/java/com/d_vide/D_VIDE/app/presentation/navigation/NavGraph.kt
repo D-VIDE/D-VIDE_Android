@@ -65,7 +65,8 @@ fun NavGraphBuilder.divideGraph(
         TaggedReviewsScreen(
             Tag = taggedReviewId!!,
             navController = navController,
-            onReviewSelected = { id -> onReviewClick(id, backStackEntry)})
+            onReviewSelected = { id -> onReviewClick(id, backStackEntry)},
+            onTagClick = { id -> onTagClick(id, backStackEntry)})
     }
 }
 
@@ -79,7 +80,7 @@ private fun NavGraphBuilder.MainNavGraph(
 ){
     // nav bar routes
     composable(route = Screen.RecruitingsScreen.route) { from ->
-        RecruitingsScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)})
+        RecruitingsScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
     }
     composable(route = Screen.ReviewsScreen.route) { from ->
         Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = {id -> onTagClick(id, from)})
@@ -96,10 +97,10 @@ private fun NavGraphBuilder.MainNavGraph(
         PostRecruitingScreen(navController, upPress = upPress)
     }
     composable(route = Screen.UserFeedScreen.route) { from ->
-        UserFeedScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)})
+        UserFeedScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)},onTagClick = { id -> onTagClick(id, from)})
     }
     composable(route = Screen.FollowingsScreen.route) { from ->
-        FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)})
+        FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
     }
 
 }
