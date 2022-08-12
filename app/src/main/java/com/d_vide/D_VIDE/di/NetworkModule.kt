@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.di
 
+import com.d_vide.D_VIDE.app._constants.Const.RemoteConst.BASE_URL
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.repository.RecruitingRepositoryImpl
 import com.d_vide.D_VIDE.app.domain.model.UserInfo
@@ -22,7 +23,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(RemoteConst.RemoteConstant.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
