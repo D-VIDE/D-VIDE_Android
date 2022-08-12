@@ -30,7 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app._constants.UIConst
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
@@ -71,7 +71,7 @@ fun BackgroundImage(
         painterResource(id = R.drawable.character_d),
         contentDescription = "character_circle",
         modifier = modifier
-            .padding(bottom = UIConst.UIConstant.HEIGHT_BOTTOM_BAR)
+            .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
             .size(200.dp)
             .zIndex(1F)
             .clipToBounds()

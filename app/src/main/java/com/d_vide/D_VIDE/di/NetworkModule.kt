@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.di
 
-import com.d_vide.D_VIDE.app._constants.RemoteConst
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.repository.RecruitingRepositoryImpl
 import com.d_vide.D_VIDE.app.domain.model.UserInfo
@@ -13,7 +12,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
