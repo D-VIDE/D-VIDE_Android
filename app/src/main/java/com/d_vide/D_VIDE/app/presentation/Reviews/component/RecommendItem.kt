@@ -23,8 +23,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.CardRoundSmall
+import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.ui.theme.TextStyles
 import com.d_vide.D_VIDE.ui.theme.gray9
+import com.d_vide.D_VIDE.ui.theme.main1
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
@@ -37,10 +39,16 @@ fun RecommendRow(
         Text("• 디/바이더 추천 맛집!", color = gray9, style = TextStyles.Point2, modifier = Modifier.padding(start = 20.dp))
         LazyRow(
             contentPadding = PaddingValues(horizontal = 19.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ){
-            item { RecommendItem(onTagClick = {onTagClick("test")}) }
-            item { RecommendItem(onTagClick = {onTagClick("test")}) }
+            items(7) {  count ->
+                RecommendItem(
+                    onTagClick = {onTagClick("test")},
+                    imageURL = "https://img.siksinhot.com/article/1622690644980620.jpg",
+                    Rank = count,
+                    Title = "가게 이름"
+                )
+            }
 
         }
     }
@@ -49,7 +57,12 @@ fun RecommendRow(
 
 
 @Composable
-fun RecommendItem(onTagClick: () -> Unit){
+fun RecommendItem(
+    onTagClick: () -> Unit,
+    imageURL: String,
+    Rank: Int,
+    Title: String
+){
 
     CardRoundSmall(
         onClick = onTagClick
@@ -58,38 +71,17 @@ fun RecommendItem(onTagClick: () -> Unit){
             modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            RecommendItemImage()
+            DivideImage(
+                modifier = Modifier
+                    .size(100.dp, 98.dp)
+                    .clip(shape = RoundedCornerShape(15.dp)),
+                imageURL = imageURL)
             Spacer(modifier = Modifier.size(4.dp))
-            Text(
-                text = "1위",
-                fontSize = 10.sp,
-                textAlign = TextAlign.Center,
-                color = mainOrange,
-            )
-            Text(
-                text = "한남점 토스트",
-                fontSize = 8.sp,
-                textAlign = TextAlign.Center,
-                color = Color(0xFF787878) ,
-            )
+            Text(text = "${Rank}위", color = main1,  style = TextStyles.Small3)
+            Text(text = Title, color = gray9, style = TextStyles.Small0)
         }
     }
 
 }
 
 
-@Composable
-fun RecommendItemImage(){
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data("https://yt3.ggpht.com/ytc/AKedOLR5NNn9lbbFQqPkHCTMgvgvCjZi94G2JRU7DjsM=s900-c-k-c0x00ffffff-no-rj")
-            .crossfade(true)
-            .build(),
-        contentDescription = null,
-        placeholder = painterResource(R.drawable.food),
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(100.dp, 98.dp)
-            .clip(shape = RoundedCornerShape(15.dp)),
-    )
-}
