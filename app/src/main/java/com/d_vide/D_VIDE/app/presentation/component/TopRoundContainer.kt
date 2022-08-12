@@ -171,7 +171,7 @@ fun TopRectangleBar(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        NavigateButton(tint = gray7)
+        NavigateButton(tint = gray7, onClick = upPress)
 
 
         DivideImage(
