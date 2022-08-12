@@ -85,7 +85,7 @@ fun CardRound(
                 enabled = enabled
             )
             .fillMaxWidth()
-            .height(52.dp),
+            .height(94.dp),
         color = color,
         shape = shape,
         elevation = 5.dp,
