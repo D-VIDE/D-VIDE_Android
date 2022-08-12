@@ -127,17 +127,19 @@ fun TopRoundContainer(
 
 @Composable
 fun TopRoundBarWithImage(
+    modifier: Modifier = Modifier,
+    image: Int = R.drawable.review_title,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = {
             Image(
-            painterResource(id = R.drawable.review_title),
+            painterResource(id = image),
             contentDescription = "review_title",
             modifier = Modifier.width(128.dp).height(29.dp)
         ) },
         actions = actions,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .shadow(elevation = 5.dp, shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp), clip = true),
     )

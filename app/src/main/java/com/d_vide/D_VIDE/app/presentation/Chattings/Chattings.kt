@@ -32,6 +32,7 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
@@ -43,7 +44,7 @@ fun Chattings(
     onChattingSelected: (Int) -> Unit
 ){
     Scaffold(
-        topBar = { TopRoundBar("D/VIDE 채팅") },
+        topBar = { TopRoundBarWithImage(image = R.drawable.chatting_title, modifier = Modifier.padding(top = 5.dp)) },
     ){
         LazyColumn(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
