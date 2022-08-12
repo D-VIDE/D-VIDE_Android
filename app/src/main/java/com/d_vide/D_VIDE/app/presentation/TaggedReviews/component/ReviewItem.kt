@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +33,7 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
+import com.d_vide.D_VIDE.app.presentation.util.LikeButton
 import com.d_vide.D_VIDE.ui.theme.*
 
 
@@ -49,14 +50,21 @@ fun ReviewItem(
     onUserClick: () -> Unit={},
     onReviewClick: () -> Unit
 ){
-    CardEndRound(onClick = onReviewClick) {
+    var isClicked by remember{ mutableStateOf(false)}
+
+    CardEndRound(
+        onClick = onReviewClick,
+        modifier = Modifier.padding(end = 20.dp, start = if(isClicked) 0.dp else 20.dp)
+    ) {
         Row() {
-            Surface(
-                color = main0,
-                modifier = Modifier
-                    .width(20.dp)
-                    .height(146.dp)
-            ){}
+            if(isClicked){
+                Surface(
+                    color = main0,
+                    modifier = Modifier
+                        .width(20.dp)
+                        .height(146.dp)
+                ){}
+            }
 
             Column(
                 modifier = Modifier
@@ -68,16 +76,12 @@ fun ReviewItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    UserInfo(onClick = onUserClick)
-                    IconButton(
-                        onClick = {},
-                        modifier = Modifier.size(17.dp, 15.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = null,
-                        )
-                    }
+                    UserInfo(onClick = onUserClick, modifier = Modifier.weight(1f))
+                    LikeButton(
+                        onClick = {isClicked = !isClicked},
+                        modifier = Modifier.size(17.dp, 15.dp),
+                        isClicked = isClicked
+                    )
                 }
                 Review()
             }

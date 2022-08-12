@@ -39,7 +39,6 @@ fun Reviews(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(end = 20.dp, top = 20.dp),
                     contentPadding = PaddingValues(top = 15.dp),
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                 ) {
