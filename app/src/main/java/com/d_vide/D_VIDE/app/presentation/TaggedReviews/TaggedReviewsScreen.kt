@@ -21,6 +21,7 @@ import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -37,29 +38,32 @@ fun TaggedReviewsScreen(
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick
     ) { state, scope ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(background)
-        ) {
-            TagTitle(title = Tag)
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(15.dp)
+        Box(){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(background)
             ) {
-                item {
-                    ReviewItem(
-                        onUserClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        },
-                        onReviewClick = {onReviewSelected(1234)},
-                        onTagClick = {onTagClick("금돼지식당 복천점")}
-                    ) }
+                TagTitle(title = Tag)
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = 28.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    item {
+                        ReviewItem(
+                            onUserClick = {
+                                scope.launch {
+                                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                }
+                            },
+                            onReviewClick = {onReviewSelected(1234)},
+                            onTagClick = {onTagClick("금돼지식당 복천점")}
+                        ) }
 
 
+                }
             }
+            GradientCompponent(Modifier.align(Alignment.BottomCenter))
         }
     }
 }

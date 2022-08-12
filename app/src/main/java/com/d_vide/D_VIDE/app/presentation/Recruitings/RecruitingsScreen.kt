@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +27,7 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
@@ -56,51 +58,54 @@ fun RecruitingsScreen(
                 )
             }
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(background)
-            ) {
-                categoryContainer()
-                LazyColumn(
-                    modifier = Modifier.align(CenterHorizontally),
-                    horizontalAlignment = CenterHorizontally,
-                    contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+            Box() {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(background)
                 ) {
-                    item {
-                        Spacer(modifier = Modifier.width(9.dp))
-                    }
-                    viewModel.state.value.recruitingDTOS.forEach {
+                    categoryContainer()
+                    LazyColumn(
+                        modifier = Modifier.align(CenterHorizontally),
+                        horizontalAlignment = CenterHorizontally,
+                        contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+                    ) {
                         item {
-                            RecruitingItem(
-                                onUserClick = {
-                                    scope.launch {
-                                        state.animateTo(
-                                            ModalBottomSheetValue.Expanded,
-                                            tween(500)
-                                        )
-                                    }
-                                },
-                                onClick = { onRecruitingClick(it.postId) },
-                                userName = it.nickname,
-                                userLocation = "${it.latitude}, ${it.longitude}",
-                                title = it.title,
-                                imageURL = it.profileImgUrl,
-                                insufficientMoney = it.targetPrice,
-                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
-                                deadLineHour = it.targetTime.convertTimestampToHour(),
-                                deadLineMinute = it.targetTime.convertTimestampToMinute()
+                            Spacer(modifier = Modifier.width(9.dp))
+                        }
+                        viewModel.state.value.recruitingDTOS.forEach {
+                            item {
+                                RecruitingItem(
+                                    onUserClick = {
+                                        scope.launch {
+                                            state.animateTo(
+                                                ModalBottomSheetValue.Expanded,
+                                                tween(500)
+                                            )
+                                        }
+                                    },
+                                    onClick = { onRecruitingClick(it.postId) },
+                                    userName = it.nickname,
+                                    userLocation = "${it.latitude}, ${it.longitude}",
+                                    title = it.title,
+                                    imageURL = it.profileImgUrl,
+                                    insufficientMoney = it.targetPrice,
+                                    timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                    deadLineHour = it.targetTime.convertTimestampToHour(),
+                                    deadLineMinute = it.targetTime.convertTimestampToMinute()
+                                )
+                            }
+                        }
+                        item {
+                            BlankIndicator(
+                                modifier = Modifier
+                                    .align(CenterHorizontally)
+                                    .padding(vertical = 78.dp)
                             )
                         }
                     }
-                    item {
-                        BlankIndicator(
-                            modifier = Modifier
-                                .align(CenterHorizontally)
-                                .padding(vertical = 78.dp)
-                        )
-                    }
                 }
+                GradientCompponent(Modifier.align(Alignment.BottomCenter))
             }
         }
     }

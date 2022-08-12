@@ -33,6 +33,7 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.*
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
@@ -47,24 +48,27 @@ fun Chattings(
             color = gray6,
             modifier = Modifier.fillMaxHeight()
         ) {
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 15.dp, horizontal = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(9.dp),
-            ) {
-                items(3) {
-                    ChattingItemNew(onChattingSelected = {onChattingSelected(567)})
-                }
+            Box() {
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = 15.dp, horizontal = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(9.dp),
+                ) {
+                    items(3) {
+                        ChattingItemNew(onChattingSelected = {onChattingSelected(567)})
+                    }
 
-                items(3) {
-                    ChattingItem(onChattingSelected = {onChattingSelected(567)})
-                }
-                items(3) {
-                    ChattingItemClose(onChattingSelected = {onChattingSelected(567)})
-                }
+                    items(3) {
+                        ChattingItem(onChattingSelected = {onChattingSelected(567)})
+                    }
+                    items(3) {
+                        ChattingItemClose(onChattingSelected = {onChattingSelected(567)})
+                    }
 
-                item{
-                    Spacer(modifier = Modifier.height(60.dp))
+                    item{
+                        Spacer(modifier = Modifier.height(60.dp))
+                    }
                 }
+                GradientCompponent(Modifier.align(Alignment.BottomCenter))
             }
         }
         it
