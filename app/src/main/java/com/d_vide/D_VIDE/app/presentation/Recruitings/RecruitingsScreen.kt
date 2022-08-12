@@ -39,7 +39,8 @@ fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel(),
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    onRecruitingClick: (Int) -> Unit
 ) {
     BottomSheetUserFeedSreen(
         navController = navController,
@@ -72,7 +73,7 @@ fun RecruitingsScreen(
                     viewModel.state.value.recruitingDTOS.forEach {
                         item {
                             RecruitingItem(
-                                onClick = {
+                                onUserClick = {
                                     scope.launch {
                                         state.animateTo(
                                             ModalBottomSheetValue.Expanded,
@@ -80,6 +81,7 @@ fun RecruitingsScreen(
                                         )
                                     }
                                 },
+                                onClick = { onRecruitingClick(it.postId) },
                                 userName = it.nickname,
                                 userLocation = "${it.latitude}, ${it.longitude}",
                                 title = it.title,
