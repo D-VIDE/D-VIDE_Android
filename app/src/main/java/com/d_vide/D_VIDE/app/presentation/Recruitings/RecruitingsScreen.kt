@@ -38,11 +38,13 @@ import java.sql.Timestamp
 fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel(),
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit
 ) {
     BottomSheetUserFeedSreen(
         navController = navController,
-        onReviewSelected = onReviewSelected
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {

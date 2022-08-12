@@ -29,7 +29,8 @@ fun Reviews(
 ){
     BottomSheetUserFeedSreen(
         navController = navController,
-        onReviewSelected = onReviewSelected
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBarWithImage() },
@@ -52,7 +53,8 @@ fun Reviews(
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },
-                                onReviewClick = {onReviewSelected(1234)}
+                                onReviewClick = {onReviewSelected(1234)},
+                                onTagClick = {onTagClick("test")}
                             )
                         }
                         item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }

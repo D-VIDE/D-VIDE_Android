@@ -28,11 +28,13 @@ import kotlinx.coroutines.launch
 fun TaggedReviewsScreen(
     Tag: String,
     navController: NavController,
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit,
 ) {
     BottomSheetUserFeedSreen(
         navController = navController,
-        onReviewSelected = onReviewSelected
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -60,7 +62,8 @@ fun TaggedReviewsScreen(
                                 state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                             }
                         },
-                        onReviewClick = {onReviewSelected(1234)}
+                        onReviewClick = {onReviewSelected(1234)},
+                        onTagClick = {onTagClick("test")}
 
                     ) }
 
