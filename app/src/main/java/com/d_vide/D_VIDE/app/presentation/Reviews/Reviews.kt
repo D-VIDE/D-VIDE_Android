@@ -35,42 +35,28 @@ fun Reviews(
             topBar = { TopRoundBarWithImage() },
         ){
             Surface(
-                color = gray6
+                color = gray6,
+                modifier = Modifier.fillMaxHeight()
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(end = 20.dp),
+                    modifier = Modifier.padding(end = 20.dp, top = 20.dp),
                     contentPadding = PaddingValues(top = 15.dp),
                     verticalArrangement = Arrangement.spacedBy(15.dp),
-
-                    ) {
-                    item {
-                        RecommendRow(onTagClick)
-                    }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        },
-                        onReviewClick = {onReviewSelected(1234)}
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        },
-                        onReviewClick = {onReviewSelected(1234)}
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        },
-                        onReviewClick = {onReviewSelected(1234)}
-                    ) }
-
+                ) {
+                        item {
+                            RecommendRow(onTagClick)
+                        }
+                        items(10) {
+                            ReviewItem(
+                                onUserClick = {
+                                    scope.launch {
+                                        state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                                    }
+                                },
+                                onReviewClick = {onReviewSelected(1234)}
+                            )
+                        }
+                        item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
                 }
             }
             it

@@ -55,7 +55,7 @@ fun TaggedReviewsScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     item { ReviewItem(
-                        onClick = {
+                        onUserClick = {
                             scope.launch {
                                 state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                             }

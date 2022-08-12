@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
@@ -31,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ProfileImage
+import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.ui.theme.*
 import java.text.DecimalFormat
 
@@ -170,7 +171,17 @@ fun RecruitingUserName(
             modifier = Modifier.clickable(onClick = onClick),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileImage(imageURL = imageURL)
+            DivideImage(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(shape = CircleShape)
+                    .border(
+                        width = 1.dp,
+                        color = Color.Gray,
+                        shape = CircleShape
+                    ),
+                imageURL = imageURL
+            )
             Text(
                 text = userName,
                 style = TextStyles.Basics1,
