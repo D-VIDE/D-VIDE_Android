@@ -24,12 +24,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.ui.theme.SdSamlipHopang
+import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.main2
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
@@ -39,12 +43,17 @@ fun TopRoundBar(
     onClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = mainOrange,
-        ) },
+        title = {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontFamily = SdSamlipHopang,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 25.sp
+                ),
+                color = main2
+            )
+        },
         navigationIcon = {
             IconButton(onClick = onClick) {
                 Icon(
@@ -70,9 +79,12 @@ fun TopRoundTextContainer(
         ) {
             Text(
                 text = text,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = mainOrange,
+                style = TextStyle(
+                    fontFamily = SdSamlipHopang,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 25.sp
+                ),
+                color = main2
             )
         }
     }
