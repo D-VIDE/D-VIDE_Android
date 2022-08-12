@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,8 +21,7 @@ import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
-import com.d_vide.D_VIDE.ui.theme.background
-import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,39 +37,28 @@ fun TaggedReviewsScreen(
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick
     ) { state, scope ->
-        Scaffold(
-            floatingActionButton = {
-                FloatingButton(
-                    text = "지금 D/VIDE 하기",
-                    onClick = { /*TODO*/ },
-                    shouldShowBottomBar = true
-                )
-            },
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier.background(background)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(background)
+        ) {
+            TagTitle(title = Tag)
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                TagTitle(title = Tag)
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .weight(1f),
-                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    item { ReviewItem(
+                item {
+                    ReviewItem(
                         onUserClick = {
                             scope.launch {
                                 state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                             }
                         },
                         onReviewClick = {onReviewSelected(1234)},
-                        onTagClick = {onTagClick("test")}
-
+                        onTagClick = {onTagClick("금돼지식당 복천점")}
                     ) }
 
 
-                }
             }
         }
     }
@@ -76,36 +66,26 @@ fun TaggedReviewsScreen(
 
 @Composable
 fun TagTitle(title: String = "금돼지 식당") {
-    Box(
+    Surface(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
             .fillMaxWidth()
-            .border(3.dp, mainOrange, RectangleShape),
-        contentAlignment = Alignment.Center
+            .border(2.dp, main0, RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)),
+        color = gray7,
+        shape = RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
     ) {
         Text(
-            text = "#$title",
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.padding(vertical = 15.dp
-            )
+            text = "#금돼지식당 복천점",
+            style = TextStyles.Big1,
+            color = gray3,
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
 }
 
-@Composable
-fun TagBottomButton(
-    onClick: () -> Unit = {},
-) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange)
-    ) {
-        Text("지금 D/VIDE 하기", color = Color.White)
-    }
-}
 
 @Preview
 @Composable
