@@ -26,10 +26,15 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaggedReviewsScreen(
-    navController: NavController
+    Tag: String,
+    navController: NavController,
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit,
 ) {
     BottomSheetUserFeedSreen(
-        navController = navController
+        navController = navController,
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -43,7 +48,7 @@ fun TaggedReviewsScreen(
             Column(
                 modifier = Modifier.background(background)
             ) {
-                TagTitle()
+                TagTitle(title = Tag)
                 LazyColumn(
                     modifier = Modifier
                         .padding(innerPadding)
@@ -52,54 +57,17 @@ fun TaggedReviewsScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     item { ReviewItem(
-                        onClick = {
+                        onUserClick = {
                             scope.launch {
                                 state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                             }
-                        }
+                        },
+                        onReviewClick = {onReviewSelected(1234)},
+                        onTagClick = {onTagClick("test")}
+
                     ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
-                    item { ReviewItem(
-                        onClick = {
-                            scope.launch {
-                                state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
-                            }
-                        }
-                    ) }
+
+
                 }
             }
         }

@@ -52,7 +52,7 @@ fun Int.convertNextMinute(): Int = if (this == 59) 0 else this + 1
 fun getCurrentYear(): Int = Calendar.getInstance().get(Calendar.YEAR)
 
 // 현재 Month
-fun getCurrentMonth(): Int = Calendar.getInstance().get(Calendar.MONTH) + 1
+fun getCurrentMonth(): Int = Calendar.getInstance().get(Calendar.MONTH)
 
 // 현재 Day
 fun getCurrentDay(): Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)

@@ -65,20 +65,15 @@ class PostRecruitingViewModel @Inject constructor(
                     targetPrice = event.value
                 )
             }
-//            is PostRecruitingsEvent.EnteredTargetTime -> {
-//                _recruitingBody.value = recruitingBodyDTO.value.copy(
-//                    title = event.value
-//                )
-//            }
+            is PostRecruitingsEvent.EnteredTargetTime -> {
+                _recruitingBody.value = recruitingBodyDTO.value.copy(
+                    targetTime = event.value
+                )
+                Log.d("test" , "input timestamp : ${event.value}")
+            }
 //            is PostRecruitingsEvent.EnteredImage -> {
 //                _recruitingBody.value = recruitingBodyDTO.value.copy(
 //                    title = event.value
-//                )
-//            }
-//            is PostRecruitingsEvent.EnteredLocation -> {
-//                _recruitingBody.value = recruitingBodyDTO.value.copy(
-//                    latitude = event.latitude,
-//                    longitude = event.longitude
 //                )
 //            }
             is PostRecruitingsEvent.EnteredContent -> {
@@ -98,6 +93,7 @@ class PostRecruitingViewModel @Inject constructor(
                             || recruitingBodyDTO.value.targetPrice == null
                             || recruitingBodyDTO.value.targetPrice!! < 0
                         ) {
+                            Log.d("test" , ",ERROR 입력 되지 않은 칸이 존재")
                             _eventFlow.emit(
                                 UiEvent.ShowSnackbar(
                                     message = "모든 칸의 내용을 채워주세요"
@@ -105,6 +101,8 @@ class PostRecruitingViewModel @Inject constructor(
                             )
                             return@launch
                         }
+                        val location = _cameraPositionState.value.position.target
+                        Log.d("test", "selected location : ${location.longitude}, ${location.latitude}")
                         postRecruitingUseCase(
                             1,
                             RecruitingBodyDTO(
@@ -113,6 +111,9 @@ class PostRecruitingViewModel @Inject constructor(
                                 storeName = recruitingBodyDTO.value.storeName,
                                 deliveryPrice = recruitingBodyDTO.value.deliveryPrice,
                                 content = recruitingBodyDTO.value.content,
+                                targetTime = recruitingBodyDTO.value.targetTime,
+                                longitude = location.longitude,
+                                latitude = location.latitude
                             )
                         ).collect() { it ->
                             when (it) {
@@ -128,6 +129,14 @@ class PostRecruitingViewModel @Inject constructor(
                                 }
                             }
                         }
+//                        Log.d("test", "${RecruitingBodyDTO(
+//                            title = recruitingBodyDTO.value.title,
+//                            category = recruitingBodyDTO.value.category,
+//                            storeName = recruitingBodyDTO.value.storeName,
+//                            deliveryPrice = recruitingBodyDTO.value.deliveryPrice,
+//                            content = recruitingBodyDTO.value.content,
+//                            targetTime = recruitingBodyDTO.value.
+//                        )}")
                         _eventFlow.emit(UiEvent.SaveRecruiting)
                     } catch (e: Exception) {
                         Log.d("test", "save recruiting error!!")
