@@ -32,9 +32,7 @@ import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
-import com.d_vide.D_VIDE.ui.theme.background
-import com.d_vide.D_VIDE.ui.theme.mainOrange
-import com.d_vide.D_VIDE.ui.theme.mainYellow
+import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
 fun Chattings(
@@ -140,7 +138,7 @@ fun ChattingItem(
                     maxLines = 1,
                     fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,
-                    color = Color(0xFF858585)
+                    color = gray2
                 )
                 Spacer(modifier = Modifier.width(5.dp))
             }
@@ -149,7 +147,7 @@ fun ChattingItem(
                 maxLines = 1,
                 fontSize = 12.sp,
                 overflow = TextOverflow.Ellipsis,
-                color = Color(0xFF858585)
+                color = gray1
             )
         }
     }

@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
+import com.d_vide.D_VIDE.ui.theme.gray1
+import com.d_vide.D_VIDE.ui.theme.main1
 
 @Composable
 fun BlankIndicator(
@@ -36,7 +38,7 @@ fun BlankIndicator(
                 text = "아직 새로운 모집글이\n업로드 되지 않았어요",
                 modifier = Modifier.padding(top = 11.67.dp),
                 textAlign = TextAlign.Center,
-                color = Color(0xFFB0B0B0),
+                color = gray1,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 lineHeight = 20.sp

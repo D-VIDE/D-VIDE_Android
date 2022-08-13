@@ -26,8 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.d_vide.D_VIDE.app.presentation.navigation.Screen
-import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.ui.theme.main2
 
 @Composable
 fun TopRoundBar(
@@ -40,7 +39,7 @@ fun TopRoundBar(
             text = text,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = mainOrange,
+            color = main2,
         ) },
         navigationIcon = {
             IconButton(onClick = onClick) {
@@ -69,7 +68,7 @@ fun TopRoundTextContainer(
                 text = text,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = mainOrange,
+                color = main2,
             )
         }
     }

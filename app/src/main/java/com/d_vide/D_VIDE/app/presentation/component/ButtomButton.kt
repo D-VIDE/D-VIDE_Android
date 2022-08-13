@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.ui.theme.main2
 
 @Composable
 fun BottomButton(
@@ -30,7 +30,7 @@ fun BottomButton(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange),
+            colors = ButtonDefaults.buttonColors(backgroundColor = main2),
             shape = RoundedCornerShape(24.dp, 24.dp),
         ) {
             Text(

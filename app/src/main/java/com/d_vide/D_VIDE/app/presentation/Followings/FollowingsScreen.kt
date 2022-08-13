@@ -21,6 +21,7 @@ import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.gray1_1
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -62,7 +63,7 @@ fun FollowingsScreen(
                         .fillMaxWidth()
                         .padding(start = 23.dp)
                         .padding(end = 17.dp),
-                    color = Color(0xFFECECEC)
+                    color = gray1_1
                 )
                 LazyColumn(
                     modifier = Modifier.align(CenterHorizontally),
@@ -92,7 +93,7 @@ fun FollowingsScreen(
                                     .fillMaxWidth()
                                     .padding(start = 23.dp)
                                     .padding(end = 17.dp),
-                                color = Color(0xFFECECEC)
+                                color = gray1_1
                             )
                         }
                     }
