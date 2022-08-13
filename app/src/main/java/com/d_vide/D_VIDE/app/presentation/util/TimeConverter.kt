@@ -121,7 +121,7 @@ fun convertMinuteToHour(
         time = (minute/60).toInt().toString() + "시간"
     }
     else {
-        time = (minute/(60*24)).toInt().toString() + "일"
+        time = "D-" + (minute/(60*24)).toInt().toString()
     }
 
     return time
