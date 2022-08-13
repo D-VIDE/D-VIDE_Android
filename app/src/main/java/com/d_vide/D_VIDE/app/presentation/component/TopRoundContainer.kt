@@ -2,7 +2,9 @@ package com.d_vide.D_VIDE.app.presentation.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -24,13 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
-import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.app.presentation.util.NavigateButton
+import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
 fun TopRoundBar(
@@ -39,12 +43,17 @@ fun TopRoundBar(
     onClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = mainOrange,
-        ) },
+        title = {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontFamily = SdSamlipHopang,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 25.sp
+                ),
+                color = main2
+            )
+        },
         navigationIcon = {
             IconButton(onClick = onClick) {
                 Icon(
@@ -56,7 +65,11 @@ fun TopRoundBar(
         actions = actions,
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp), clip = true),
+            .shadow(
+                elevation = 5.dp,
+                shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp),
+                clip = true
+            ),
     )
 }
 
@@ -70,9 +83,12 @@ fun TopRoundTextContainer(
         ) {
             Text(
                 text = text,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = mainOrange,
+                style = TextStyle(
+                    fontFamily = SdSamlipHopang,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 25.sp
+                ),
+                color = main2
             )
         }
     }
@@ -115,20 +131,60 @@ fun TopRoundContainer(
 
 @Composable
 fun TopRoundBarWithImage(
+    modifier: Modifier = Modifier,
+    image: Int = R.drawable.review_title,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = {
             Image(
-            painterResource(id = R.drawable.review_title),
+            painterResource(id = image),
             contentDescription = "review_title",
-            modifier = Modifier.width(128.dp).height(29.dp)
+            modifier = Modifier
+                .width(128.dp)
+                .height(29.dp)
         ) },
         actions = actions,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp), clip = true),
+            .shadow(
+                elevation = 5.dp,
+                shape = RoundedCornerShape(0.dp, 0.dp, 26.dp, 26.dp),
+                clip = true
+            ),
     )
+}
+
+@Composable
+fun TopRectangleBar(
+    imageURL: String = "",
+    title: String = "",
+    upPress: () -> Unit
+){
+    Row(
+        modifier = Modifier
+            .statusBarsPadding()
+            .height(55.dp)
+            .fillMaxWidth()
+            .background(main1)
+            .padding(start = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        NavigateButton(tint = gray7, onClick = upPress)
+
+
+        DivideImage(
+            modifier = Modifier
+                .size(37.dp)
+                .clip(CircleShape),
+            imageURL = imageURL,
+            placeholder = R.drawable.icon_profile
+        )
+
+
+        Text(title, style = TextStyles.Basics5, color = gray7)
+    }
 }
 
 @Preview

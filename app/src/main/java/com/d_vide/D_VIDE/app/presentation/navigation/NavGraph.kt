@@ -8,6 +8,7 @@ import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
+import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetail
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
@@ -20,7 +21,8 @@ fun NavGraphBuilder.divideGraph(
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
     onChattingClick: (Int, NavBackStackEntry) -> Unit,
-    onTagClick: (String, NavBackStackEntry) -> Unit
+    onTagClick: (String, NavBackStackEntry) -> Unit,
+    onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
     navigation(
         route = Screen.Splash.route,
@@ -30,6 +32,7 @@ fun NavGraphBuilder.divideGraph(
             onReviewClick = onReviewClick,
             onChattingClick = onChattingClick,
             onTagClick = onTagClick,
+            onRecruitingClick = onRecruitingClick,
             upPress = upPress,
             navController = navController
         )
@@ -57,6 +60,16 @@ fun NavGraphBuilder.divideGraph(
     }
 
     composable(
+        "${Screen.RecruitingDetailScreen.route}/{${DetailDestinationKey.RECRUITING}}",
+        arguments = listOf(navArgument(DetailDestinationKey.RECRUITING) { type = NavType.IntType })
+    ) { backStackEntry ->
+        val arguments = requireNotNull(backStackEntry.arguments)
+        val recruitingId = arguments.getInt(DetailDestinationKey.RECRUITING)
+        RecruitingDetail(postId = recruitingId, upPress = upPress)
+    }
+
+
+    composable(
         "${Screen.TaggedReviewsScreen.route}/{${DetailDestinationKey.TAGGEDREVIEW}}",
         arguments = listOf(navArgument(DetailDestinationKey.TAGGEDREVIEW) { type = NavType.StringType })
     ) { backStackEntry ->
@@ -76,11 +89,17 @@ private fun NavGraphBuilder.MainNavGraph(
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
     onChattingClick: (Int, NavBackStackEntry) -> Unit,
-    onTagClick: (String, NavBackStackEntry) -> Unit
+    onTagClick: (String, NavBackStackEntry) -> Unit,
+    onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
     // nav bar routes
     composable(route = Screen.RecruitingsScreen.route) { from ->
-        RecruitingsScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+        RecruitingsScreen(
+            navController,
+            onReviewSelected = {id -> onReviewClick(id, from)},
+            onTagClick = { id -> onTagClick(id, from)},
+            onRecruitingClick = { id -> onRecruitingClick(id, from)}
+        )
     }
     composable(route = Screen.ReviewsScreen.route) { from ->
         Reviews(navController, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = {id -> onTagClick(id, from)})

@@ -21,7 +21,7 @@ private val SpoqaHanSansNeo = FontFamily(
 )
 
 
-private val SdSamlipHopang = FontFamily(
+val SdSamlipHopang = FontFamily(
     Font(R.font.sdsamliphopangchettfbasic, FontWeight.Normal),
     Font(R.font.sdsamliphopangchettfoutline, FontWeight.ExtraBold)
 )

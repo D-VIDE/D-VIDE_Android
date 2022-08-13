@@ -9,13 +9,14 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
-import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,7 @@ fun Reviews(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
 ){
+
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -39,10 +41,11 @@ fun Reviews(
                 color = gray6,
                 modifier = Modifier.fillMaxHeight()
             ) {
-                LazyColumn(
-                    contentPadding = PaddingValues(top = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp),
-                ) {
+                Box() {
+                    LazyColumn(
+                        contentPadding = PaddingValues(top = 15.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                    ) {
                         item {
                             RecommendRow(onTagClick)
                         }
@@ -58,6 +61,8 @@ fun Reviews(
                             )
                         }
                         item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
+                    }
+                    GradientCompponent(Modifier.align(Alignment.BottomCenter))
                 }
             }
             it
