@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
@@ -42,6 +43,9 @@ fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel()
 ) {
+    var selectedCategory: Category = Category.ALL
+    var containerCategory = ""
+
     BottomSheetUserFeedSreen(
         navController = navController
     ) { state, scope ->
@@ -58,7 +62,7 @@ fun RecruitingsScreen(
                     .fillMaxSize()
                     .background(background)
             ) {
-                categoryContainer()
+                containerCategory = categoryContainer()
                 LazyColumn(
                     modifier = Modifier.align(CenterHorizontally),
                     horizontalAlignment = CenterHorizontally,
@@ -69,24 +73,31 @@ fun RecruitingsScreen(
                     }
                     viewModel.state.value.recruitingDTOS.forEach {
                         item {
-                            RecruitingItem(
-                                onClick = {
-                                    scope.launch {
-                                        state.animateTo(
-                                            ModalBottomSheetValue.Expanded,
-                                            tween(500)
+                            if (it.category == containerCategory || containerCategory == "") {
+                                RecruitingItem(
+                                    onClick = {
+                                        scope.launch {
+                                            state.animateTo(
+                                                ModalBottomSheetValue.Expanded,
+                                                tween(500)
+                                            )
+                                        }
+                                    },
+                                    userName = it.nickname,
+                                    userLocation = LocationConverter(
+                                        LatLng(
+                                            it.latitude,
+                                            it.longitude
                                         )
-                                    }
-                                },
-                                userName = it.nickname,
-                                userLocation = LocationConverter(LatLng(it.latitude, it.longitude)),
-                                title = it.title,
-                                imageURL = it.profileImgUrl,
-                                insufficientMoney = it.targetPrice,
-                                timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60),
-                                deadLineHour = it.targetTime.convertTimestampToHour(),
-                                deadLineMinute = it.targetTime.convertTimestampToMinute()
-                            )
+                                    ),
+                                    title = it.title,
+                                    imageURL = it.profileImgUrl,
+                                    insufficientMoney = it.targetPrice,
+                                    timeRemaining = ((it.targetTime - System.currentTimeMillis() / 1000) / 60),
+                                    deadLineHour = it.targetTime.convertTimestampToHour(),
+                                    deadLineMinute = it.targetTime.convertTimestampToMinute()
+                                )
+                            }
                         }
                     }
                     item {
@@ -103,9 +114,8 @@ fun RecruitingsScreen(
 }
 
 @Composable
-fun categoryContainer() {
+fun categoryContainer() : String{
     var selectedItem by remember { mutableStateOf("") }
-    val categoryList = listOf("분식", "한식", "일식", "중식", "양식", "디저트", "피자", "패스트푸드")
 
     TopRoundContainer {
         LazyRow(
@@ -115,24 +125,26 @@ fun categoryContainer() {
             item {
                 Spacer(modifier = Modifier.width(11.dp))
             }
-            this.items(items = categoryList) {
-                Row {
-                    RecruitingCategory(
-                        text = it,
-                        isSelected = selectedItem == it,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .selectable(
-                                selected = selectedItem == it,
-                                onClick = { selectedItem = it }
-                            )
-                    )
-                    Spacer(modifier = Modifier.width(7.dp))
+            item {
+                Category::class.sealedSubclasses.mapNotNull { it.objectInstance }.forEach {
+                    Row {
+                        RecruitingCategory(
+                            text = it.name,
+                            isSelected = selectedItem == it.tag,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(20.dp))
+                                .selectable(
+                                    selected = selectedItem == it.tag,
+                                    onClick = { selectedItem = it.tag },
+                                )
+                        )
+                        Spacer(modifier = Modifier.width(7.dp))
+                    }
                 }
             }
         }
     }
-
+    return selectedItem
 }
 
 @Preview(showBackground = true)
