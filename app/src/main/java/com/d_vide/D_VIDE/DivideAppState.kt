@@ -71,6 +71,13 @@ class DivideAppState(
         }
     }
 
+    fun navigateToRecruitingDetail(recruitingId: Int, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${Screen.RecruitingDetailScreen.route}/$recruitingId")
+        }
+    }
+
     // Screen 에 등록된 모든 route
     // val screens = Screen::class.sealedSubclasses.mapNotNull{ it.objectInstance }.map{ it.route }
 

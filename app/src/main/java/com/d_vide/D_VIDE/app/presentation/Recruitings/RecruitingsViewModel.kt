@@ -25,11 +25,11 @@ class RecruitingsViewModel @Inject constructor(
         getRecruitings(  37.49015482509, 127.030767490, Category.ALL, 0)
     }
 
-    private fun getRecruitings(
-        latitude: Double,
-        longitude: Double,
-        category: Category,
-        offset: Int
+    fun getRecruitings(
+        latitude: Double = 37.49015482509,
+        longitude: Double = 127.030767490,
+        category: Category = Category.ALL,
+        offset: Int = 0
     ) {
         getRecruitingsUseCase(latitude, longitude, category, offset).onEach { result ->
             when (result) {

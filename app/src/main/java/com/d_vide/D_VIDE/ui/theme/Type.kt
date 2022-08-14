@@ -21,7 +21,7 @@ private val SpoqaHanSansNeo = FontFamily(
 )
 
 
-private val SdSamlipHopang = FontFamily(
+val SdSamlipHopang = FontFamily(
     Font(R.font.sdsamliphopangchettfbasic, FontWeight.Normal),
     Font(R.font.sdsamliphopangchettfoutline, FontWeight.ExtraBold)
 )
@@ -50,8 +50,8 @@ object TextStyles{
     )
 
     val Point2 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
         fontSize = 13.sp
     )
 

@@ -14,9 +14,11 @@ sealed class Screen(val route: String) {
     object UserFeedScreen: Screen("user_feed_screen")
     object ReviewDetailScreen: Screen("review_detail_screen")
     object ChattingDetailScreen: Screen("chatting_detail_screen")
+    object RecruitingDetailScreen: Screen("recruitings_detail_screen")
 }
 
 object DetailDestinationKey{
+    const val RECRUITING = "recruitingId"
     const val REVIEW = "reviewId"
     const val CHATTING = "chattingId"
     const val TAGGEDREVIEW = "taggedReviewId"

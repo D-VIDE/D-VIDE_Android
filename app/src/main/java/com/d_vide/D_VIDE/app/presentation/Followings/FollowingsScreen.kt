@@ -20,7 +20,9 @@ import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.gray1_1
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -28,92 +30,97 @@ import kotlinx.coroutines.launch
 fun FollowingsScreen(
     navController: NavController,
     upPress: () -> Unit = {},
-    onReviewSelected: (Int) -> Unit
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit
 ){
     BottomSheetUserFeedSreen(
         navController = navController,
-        onReviewSelected = onReviewSelected
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar("팔로잉", onClick = upPress) }
         ) {
-            Column {
-                Row(
-                    modifier = Modifier
-                        .padding(top = 30.dp)
-                        .padding(bottom = 10.dp)
-                        .height(20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Canvas(
+            Box() {
+                Column {
+                    Row(
                         modifier = Modifier
-                            .padding(start = 20.dp)
-                            .padding(end = 10.dp)
-                            .size(4.dp)
+                            .padding(top = 30.dp)
+                            .padding(bottom = 10.dp)
+                            .height(20.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        drawCircle(Color.Black)
+                        Canvas(
+                            modifier = Modifier
+                                .padding(start = 20.dp)
+                                .padding(end = 10.dp)
+                                .size(4.dp)
+                        ) {
+                            drawCircle(Color.Black)
+                        }
+                        Text(
+                            text = "맞팔로잉 하는 계정",
+                            style = TextStyles.Basics4
+                        )
                     }
-                    Text(
-                        text = "맞팔로잉 하는 계정",
-                        style = TextStyles.Basics4
-                    )
-                }
-                Divider(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .padding(start = 23.dp)
-                        .padding(end = 17.dp),
-                    color = Color(0xFFECECEC)
-                )
-                LazyColumn(
-                    modifier = Modifier.align(CenterHorizontally),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(top = 16.dp)
-                ) {
-                    for (i in 1..3) {
-                        item {
-                            FollowingItem(
-                                modifier = Modifier.padding(start = 33.dp, end = 40.dp),
-                                onClick = {
-                                    scope.launch {
-                                        state.animateTo(
-                                            ModalBottomSheetValue.Expanded,
-                                            tween(500)
-                                        )
+                    Divider(
+                      modifier = Modifier
+                          .height(1.dp)
+                          .fillMaxWidth()
+                          .padding(start = 23.dp)
+                          .padding(end = 17.dp),
+                      color = gray1_1
+                  )
+                  LazyColumn(
+                      modifier = Modifier.align(CenterHorizontally),
+                      verticalArrangement = Arrangement.spacedBy(16.dp),
+                      contentPadding = PaddingValues(top = 16.dp)
+                  ) {
+                      for (i in 1..3) {
+                          item {
+                              FollowingItem(
+                                  modifier = Modifier.padding(start = 33.dp, end = 40.dp),
+                                  onClick = {
+                                      scope.launch {
+                                          state.animateTo(
+                                              ModalBottomSheetValue.Expanded,
+                                              tween(500)
+                                          )
+                                      }
+                                  }
+                              )
+                          }
+                      }
+                      item {
+                          Box {
+                              Divider(
+                                  modifier = Modifier
+                                      .height(1.dp)
+                                      .fillMaxWidth()
+                                      .padding(start = 23.dp)
+                                      .padding(end = 17.dp),
+                                  color = Color(0xFFECECEC)
+                              )
+                           }
+                        }
+                        for (i in 1..7) {
+                            item {
+                                FollowingItem(
+                                    modifier = Modifier.padding(start = 33.dp, end = 40.dp),
+                                    onClick = {
+                                        scope.launch {
+                                            state.animateTo(
+                                                ModalBottomSheetValue.Expanded,
+                                                tween(500)
+                                            )
+                                        }
                                     }
-                                }
-                            )
-                        }
-                    }
-                    item {
-                        Box {
-                            Divider(
-                                modifier = Modifier
-                                    .height(1.dp)
-                                    .fillMaxWidth()
-                                    .padding(start = 23.dp)
-                                    .padding(end = 17.dp),
-                                color = Color(0xFFECECEC)
-                            )
-                        }
-                    }
-                    for (i in 1..7) {
-                        item {
-                            FollowingItem(
-                                modifier = Modifier.padding(start = 33.dp, end = 40.dp),
-                                onClick = {
-                                    scope.launch {
-                                        state.animateTo(
-                                            ModalBottomSheetValue.Expanded,
-                                            tween(500)
-                                        )
-                                    }
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
+                GradientCompponent(Modifier.align(Alignment.BottomCenter))
             }
             it
         }

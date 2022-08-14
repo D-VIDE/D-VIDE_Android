@@ -34,7 +34,8 @@ fun DivideApp() {
                     upPress = appState::upPress,
                     onReviewClick = appState::navigateToReview,
                     onChattingClick = appState::navigateToChatting,
-                    onTagClick = appState::navigateToTaggedReview
+                    onTagClick = appState::navigateToTaggedReview,
+                    onRecruitingClick = appState::navigateToRecruitingDetail
                 )
             }
 
