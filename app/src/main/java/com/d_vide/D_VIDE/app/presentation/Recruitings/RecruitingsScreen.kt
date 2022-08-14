@@ -1,12 +1,10 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,20 +18,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.app._enums.Category
+import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
-import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
+import com.d_vide.D_VIDE.app.presentation.util.LocationConverter
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -44,6 +44,7 @@ fun RecruitingsScreen(
     onTagClick: (String) -> Unit,
     onRecruitingClick: (Int) -> Unit
 ) {
+
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -51,20 +52,23 @@ fun RecruitingsScreen(
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
-                FloatingButton(
-                    text = "지금 D/VIDE 하기",
+                RecruitingWriteButton(
                     onClick = { navController.navigate(Screen.PostRecruitingScreen.route) },
                     shouldShowBottomBar = true
                 )
             }
         ) {
-            Box() {
+            Box {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(background)
                 ) {
-                    categoryContainer()
+                    CategoryContainer(
+                        onCategoryChange = {
+                            viewModel.getRecruitings(category = it)
+                        }
+                    )
                     LazyColumn(
                         modifier = Modifier.align(CenterHorizontally),
                         horizontalAlignment = CenterHorizontally,
@@ -86,11 +90,16 @@ fun RecruitingsScreen(
                                     },
                                     onClick = { onRecruitingClick(it.postId) },
                                     userName = it.nickname,
-                                    userLocation = "${it.latitude}, ${it.longitude}",
+                                    userLocation = LocationConverter(
+                                        LatLng(
+                                            it.latitude,
+                                            it.longitude
+                                        )
+                                    ),
                                     title = it.title,
                                     imageURL = it.profileImgUrl,
                                     insufficientMoney = it.targetPrice,
-                                    timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                    timeRemaining = ((it.targetTime - System.currentTimeMillis() / 1000) / 60),
                                     deadLineHour = it.targetTime.convertTimestampToHour(),
                                     deadLineMinute = it.targetTime.convertTimestampToMinute()
                                 )
@@ -108,46 +117,5 @@ fun RecruitingsScreen(
                 GradientCompponent(Modifier.align(Alignment.BottomCenter))
             }
         }
-    }
-}
-
-@Composable
-fun categoryContainer() {
-    var selectedItem by remember { mutableStateOf("") }
-    val categoryList = listOf("분식", "한식", "일식", "중식", "양식", "디저트", "피자", "패스트푸드")
-
-    TopRoundContainer {
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-        ) {
-            item {
-                Spacer(modifier = Modifier.width(11.dp))
-            }
-            this.items(items = categoryList) {
-                Row {
-                    RecruitingCategory(
-                        text = it,
-                        isSelected = selectedItem == it,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .selectable(
-                                selected = selectedItem == it,
-                                onClick = { selectedItem = it }
-                            )
-                    )
-                    Spacer(modifier = Modifier.width(7.dp))
-                }
-            }
-        }
-    }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DVIDETheme {
-        //RecruitingsScreen(rememberNavController())
     }
 }

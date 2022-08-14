@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings.component
 
-import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -8,10 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.End
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,17 +23,15 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
+import com.d_vide.D_VIDE.app.presentation.util.convertMinuteToHour
 import com.d_vide.D_VIDE.ui.theme.*
 import java.text.DecimalFormat
 
@@ -43,18 +42,18 @@ fun RecruitingItem(
     onClick: () -> Unit,
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
-    timeRemaining: Int = 0,
+    timeRemaining: Long = 2,
     imageURL: String = "",
-    title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요.",
+    title: String = "삼첩분식 드실분~저는 빨리먹고 싶어sdfsdf요.",
     deadLineHour: Int = 4,
     deadLineMinute: Int = 0,
-    insufficientMoney: Int = 0,
+    insufficientMoney: Int = 15000,
     progress: Float = 0.5f
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(152.dp)
+            .height(156.dp)
             .background(background)
             .scale(0.9f)
     ) {
@@ -67,7 +66,7 @@ fun RecruitingItem(
                 timeRemaining
             )
         }
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 35.dp)
@@ -77,9 +76,8 @@ fun RecruitingItem(
                         topEnd = 26.dp
                     )
                 )
+                .background(White)
                 .clickable(onClick = onClick)
-            ,
-            backgroundColor = White
         ) {
             Row(
                 modifier = Modifier
@@ -90,42 +88,40 @@ fun RecruitingItem(
                 Column(
                     modifier = Modifier.padding(start = 18.dp)
                 ) {
-                    RecruitingTitle(Modifier, title)
+                    RecruitingTitle(Modifier.padding(end = 27.dp), title)
                     Row (
-                        modifier = Modifier.padding(top = 18.dp)
+                        modifier = Modifier.padding(bottom = 5.dp, top = 18.dp, end = 27.dp)
                     ){
-                        Box(
-                            modifier = Modifier.weight(1f)
+                        Column(
+                            modifier = Modifier.weight(0.5f)
                         ) {
-                            RecruitingDeadLine(Modifier.align(Center), deadLineHour, deadLineMinute)
+                            RecruitingDeadLine(Modifier.align(Start), deadLineHour, deadLineMinute)
                         }
                         Divider(
-                        color = line_gray,
-                        modifier = Modifier
-                            .height(55.dp)
-                            .width(1.dp)
-                            .align(CenterVertically)
+                            color = line_gray,
+                            modifier = Modifier
+                                .height(55.dp)
+                                .width(1.dp)
+                                .align(CenterVertically)
                         )
-                        Box(
-                            modifier = Modifier.weight(1f)
+                        Column(
+                            modifier = Modifier.weight(0.5f)
                         ) {
-                            RecruitingInsufficientMoney(Modifier.align(Center), insufficientMoney)
+                           RecruitingInsufficientMoney(Modifier.align(End), insufficientMoney)
                         }
-                        Spacer(modifier = Modifier.width(27.dp))
                     }
                 }
             }
-            Row{
-                LinearProgressIndicator(
-                    progress = progress,
-                    color = mainYellow,
-                    backgroundColor = graph_gray,
-                    modifier = Modifier
-                        .align(Bottom)
-                        .fillMaxWidth()
-                        .height(7.dp)
-                )
-            }
+            LinearProgressIndicator(
+                progress = progress,
+                color = if (progress == 1f) main1 else main0,
+                backgroundColor = graph_gray,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(BottomCenter)
+                    .height(7.dp)
+            )
+
         }
     }
 }
@@ -163,13 +159,14 @@ fun RecruitingUserName(
         modifier = Modifier
             .padding(start = 19.dp)
             .padding(bottom = 7.dp)
-            .background(background),
+            .background(background)
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.clickable(onClick = onClick),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+      //  Row(
+      //      modifier = Modifier.clickable(onClick = onClick),
+      //      verticalAlignment = Alignment.CenterVertically
+      //  ) {
             DivideImage(
                 modifier = Modifier
                     .size(28.dp)
@@ -189,21 +186,19 @@ fun RecruitingUserName(
                 modifier = Modifier
                     .padding(start = 8.dp)
             )
-        }
-
-
-        Text(
-            text = userLocation,
-            style = TextStyles.Small1,
-            color = recruit_city,
-            modifier = Modifier.padding(start = 10.dp)
-        )
+            Text(
+                text = userLocation,
+                style = TextStyles.Small1,
+                color = recruit_city,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+       // }
     }
 }
 @Composable
 fun MessageBallon(
     modifier: Modifier = Modifier,
-    timeRemaining: Int = 36
+    timeRemaining: Long = 36
 ){
     Box(
         modifier = modifier
@@ -216,7 +211,7 @@ fun MessageBallon(
             modifier = Modifier.fillMaxSize()
         )
         Text(
-            text = timeRemaining.toString() + "분 후 주문 예정",
+            text = convertMinuteToHour(timeRemaining) + " 후 주문 예정",
             color = White,
             style = TextStyles.Small3,
             modifier = Modifier
@@ -232,10 +227,10 @@ fun RecruitingTitle(
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어요."
 ){
     Text(
+        modifier = modifier,
         text = title,
         maxLines = 1,
         style = TextStyles.Point1,
-        modifier = modifier.padding(end = 40.dp),
         overflow = TextOverflow.Ellipsis
     )
 }
@@ -267,31 +262,30 @@ fun RecruitingDeadLine(
                 Text(
                     text = if(deadLineHour > 12) "오후" else "오전",
                     style = TextStyles.Point3,
-                    color = mainYellow,
-                    modifier = Modifier.padding(top = 10.dp)
+                    color = main0,
+                    modifier = Modifier.padding(top = 7.dp)
                 )
                 Text(
                     text = "$hoursStr:$minutesStr",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = mainOrange,
-                    modifier = Modifier.padding(start = 4.dp)
+                    style = TextStyles.Big1,
+                    color = main1,
+                    modifier = Modifier.padding(start = 6.dp)
                 )
             }
         }
-        Spacer(modifier = Modifier.width(16.dp))
     }
 
 }
 @Composable
 fun RecruitingInsufficientMoney(
     modifier: Modifier = Modifier,
-    insufficientMoney: Int = 0
+    insufficientMoney: Int = 15000
 ) {
     val pattern = DecimalFormat("#,###")
     Row(
         modifier = modifier
     ){
+      //  Spacer(modifier = Modifier.width(16.dp))
         Column{
             Text(
                 text = "부족한 금액",
@@ -303,19 +297,18 @@ fun RecruitingInsufficientMoney(
             )
             Text(
                 text = pattern.format(insufficientMoney),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = mainOrange,
+                style = TextStyles.Big1,
+                color = main1,
                 modifier = Modifier.align(CenterHorizontally)
             )
         }
         Text(
             text = "원",
             style = TextStyles.Point3,
-            color = mainYellow,
+            color = main0,
             modifier = Modifier
                 .padding(start = 5.dp)
-                .padding(top = 25.dp)
+                .padding(top = 20.dp)
         )
     }
 

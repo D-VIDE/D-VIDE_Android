@@ -8,6 +8,12 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.End
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -107,13 +113,34 @@ fun RecruitingSmallText(
     subtext: String,
     unit: String?
 ){
-    Row(
-        verticalAlignment = Alignment.Bottom,
-        modifier = modifier
-    ) {
-        Text(text = "• ${text}", style = TextStyles.Point4, color = gray3, modifier = Modifier.weight(4f))
-        Text(text = subtext, style = TextStyles.Point4, color = gray3, modifier = Modifier.weight(1f), textAlign = TextAlign.End)
-        Text(text = unit!!, style = TextStyles.Basics2, color = gray1, modifier = Modifier.weight(0.5f), textAlign = TextAlign.End)
+    Box{
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = CenterStart
+        ){
+            Text(
+                text = "• ${text}",
+                style = TextStyles.Point4,
+                color = gray3
+            )
+        }
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = CenterEnd
+        ){
+            Text(
+                text = subtext,
+                style = TextStyles.Point4,
+                color = gray3,
+                modifier = Modifier.padding(end = 23.dp)
+            )
+            Text(
+                text = unit!!,
+                style = TextStyles.Basics2,
+                color = gray1,
+            )
+
+        }
     }
 }
 
@@ -124,13 +151,37 @@ fun RecruitingBigText(
     subtext: String,
     unit: String
 ){
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Text(text = "• ${text}", style = TextStyles.Point4, color = gray3, modifier = Modifier.weight(4f))
-        Text(text = subtext, style = TextStyles.Big1, color = main1, modifier = Modifier.weight(1.5f), textAlign = TextAlign.End)
-        Text(text = unit, style = TextStyles.Basics2, color = gray1, modifier = Modifier.weight(0.5f), textAlign = TextAlign.End)
+    Box{
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = CenterStart
+        ) {
+            Text(
+                text = "• ${text}",
+                style = TextStyles.Point4,
+                color = gray3
+            )
+        }
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = CenterEnd
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = subtext,
+                    style = TextStyles.Big1,
+                    color = main1
+                )
+                Text(
+                    text = unit,
+                    style = TextStyles.Basics2,
+                    color = gray1,
+                    modifier = Modifier.padding(start = 6.dp)
+                )
+            }
+        }
     }
 }
 

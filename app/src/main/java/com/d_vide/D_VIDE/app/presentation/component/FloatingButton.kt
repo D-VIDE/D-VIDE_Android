@@ -16,8 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.app._constants.UIConst
-import com.d_vide.D_VIDE.ui.theme.mainOrange
-
+import com.d_vide.D_VIDE.ui.theme.main2
 @Composable
 fun FloatingButton(
     text: String,
@@ -28,7 +27,7 @@ fun FloatingButton(
     Column() {
         ExtendedFloatingActionButton(
             text = { FABTextContent(text, fontSize) },
-            backgroundColor = mainOrange,
+            backgroundColor = main2,
             onClick = onClick,
             modifier = Modifier.fillMaxWidth(0.9f),
             shape = MaterialTheme.shapes.large.copy(CornerSize(percent = 100))
@@ -46,7 +45,7 @@ fun FABTextContent(
     Text(
         text = text,
         fontWeight = FontWeight.ExtraBold,
-        color = Color(0xFFFFFFFF),
+        color = Color.White,
         fontSize = fontSize
     )
 }

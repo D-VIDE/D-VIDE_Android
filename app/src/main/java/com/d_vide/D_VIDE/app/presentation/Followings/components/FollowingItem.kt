@@ -28,9 +28,8 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.ui.theme.TextStyles
-import com.d_vide.D_VIDE.ui.theme.mainOrange
-import com.d_vide.D_VIDE.ui.theme.mainYellow
-import com.d_vide.D_VIDE.ui.theme.main_gray1
+import com.d_vide.D_VIDE.ui.theme.gray4
+import com.d_vide.D_VIDE.ui.theme.main1
 
 @Composable
 fun FollowingItem(
@@ -89,11 +88,11 @@ fun FollowerProfileImage(
 fun FollowDeleteButton(
     modifier: Modifier = Modifier
 ){
-    var buttonColor by remember{ mutableStateOf(mainOrange) }
+    var buttonColor by remember{ mutableStateOf(main1) }
 
     Button(
         onClick = {
-            buttonColor = main_gray1
+            buttonColor = gray4
             // DELETE followers here
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = buttonColor),

@@ -35,6 +35,8 @@ import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.NavigateButton
 import com.d_vide.D_VIDE.ui.theme.*
+import com.d_vide.D_VIDE.ui.theme.mainOrange
+import com.d_vide.D_VIDE.ui.theme.main2
 
 @Composable
 fun TopRoundBar(

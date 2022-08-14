@@ -38,7 +38,7 @@ fun RecruitingCategory(
         modifier = modifier
             .height(26.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(if (isSelected) mainOrange else category_gray)
+            .background(if (isSelected) main1 else gray0)
     ) {
         Text(
             text = text,
@@ -48,7 +48,7 @@ fun RecruitingCategory(
                 .matchParentSize()
                 .padding(12.dp, 5.dp),
             fontSize = 12.sp,
-            color = if (isSelected) Color.White else recruit_city
+            color = if (isSelected) Color.White else gray2
         )
 
     }

@@ -22,6 +22,7 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.TextStyles
+import com.d_vide.D_VIDE.ui.theme.gray1_1
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -63,44 +64,44 @@ fun FollowingsScreen(
                         )
                     }
                     Divider(
-                        modifier = Modifier
-                            .height(1.dp)
-                            .fillMaxWidth()
-                            .padding(start = 23.dp)
-                            .padding(end = 17.dp),
-                        color = Color(0xFFECECEC)
-                    )
-                    LazyColumn(
-                        modifier = Modifier.align(CenterHorizontally),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(top = 16.dp)
-                    ) {
-                        for (i in 1..3) {
-                            item {
-                                FollowingItem(
-                                    modifier = Modifier.padding(start = 33.dp, end = 40.dp),
-                                    onClick = {
-                                        scope.launch {
-                                            state.animateTo(
-                                                ModalBottomSheetValue.Expanded,
-                                                tween(500)
-                                            )
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                        item {
-                            Box {
-                                Divider(
-                                    modifier = Modifier
-                                        .height(1.dp)
-                                        .fillMaxWidth()
-                                        .padding(start = 23.dp)
-                                        .padding(end = 17.dp),
-                                    color = Color(0xFFECECEC)
-                                )
-                            }
+                      modifier = Modifier
+                          .height(1.dp)
+                          .fillMaxWidth()
+                          .padding(start = 23.dp)
+                          .padding(end = 17.dp),
+                      color = gray1_1
+                  )
+                  LazyColumn(
+                      modifier = Modifier.align(CenterHorizontally),
+                      verticalArrangement = Arrangement.spacedBy(16.dp),
+                      contentPadding = PaddingValues(top = 16.dp)
+                  ) {
+                      for (i in 1..3) {
+                          item {
+                              FollowingItem(
+                                  modifier = Modifier.padding(start = 33.dp, end = 40.dp),
+                                  onClick = {
+                                      scope.launch {
+                                          state.animateTo(
+                                              ModalBottomSheetValue.Expanded,
+                                              tween(500)
+                                          )
+                                      }
+                                  }
+                              )
+                          }
+                      }
+                      item {
+                          Box {
+                              Divider(
+                                  modifier = Modifier
+                                      .height(1.dp)
+                                      .fillMaxWidth()
+                                      .padding(start = 23.dp)
+                                      .padding(end = 17.dp),
+                                  color = Color(0xFFECECEC)
+                              )
+                           }
                         }
                         for (i in 1..7) {
                             item {
