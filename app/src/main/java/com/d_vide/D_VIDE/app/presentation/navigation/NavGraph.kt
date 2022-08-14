@@ -7,11 +7,13 @@ import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
+import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetail
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
+import com.d_vide.D_VIDE.app.presentation.SplashScreen
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
@@ -25,7 +27,7 @@ fun NavGraphBuilder.divideGraph(
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
     navigation(
-        route = Screen.Splash.route,
+        route = Screen.HomeScreen.route,
         startDestination = Screen.RecruitingsScreen.route
     ) {
         MainNavGraph(
@@ -36,6 +38,18 @@ fun NavGraphBuilder.divideGraph(
             upPress = upPress,
             navController = navController
         )
+    }
+    
+    composable(
+        route = Screen.SplashScreen.route
+    ) {
+        SplashScreen(navController)
+    }
+
+    composable(
+        route = Screen.LoginScreen.route
+    ) {
+        LoginScreen(navController)
     }
 
     composable(

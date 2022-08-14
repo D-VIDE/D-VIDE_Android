@@ -1,12 +1,10 @@
 package com.d_vide.D_VIDE.app.presentation.component
 
-import android.widget.Space
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -15,10 +13,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app._constants.UIConst
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 
 enum class BottomSections(
@@ -41,7 +37,7 @@ fun BottomNavigationBar(
 ) {
     BottomNavigation(
         modifier = Modifier
-            .height(UIConst.UIConstant.HEIGHT_BOTTOM_BAR)
+            .height(Const.UIConst.HEIGHT_BOTTOM_BAR)
             .fillMaxWidth()
             .shadow(
                 elevation = 4.dp,

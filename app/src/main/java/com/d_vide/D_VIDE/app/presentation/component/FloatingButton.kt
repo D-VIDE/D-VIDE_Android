@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.d_vide.D_VIDE.app._constants.UIConst
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.ui.theme.main2
 @Composable
 fun FloatingButton(
@@ -33,7 +33,7 @@ fun FloatingButton(
             shape = MaterialTheme.shapes.large.copy(CornerSize(percent = 100))
         )
         if(shouldShowBottomBar)
-            Spacer(Modifier.padding(bottom = UIConst.UIConstant.HEIGHT_BOTTOM_BAR))
+            Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR))
     }
 }
 

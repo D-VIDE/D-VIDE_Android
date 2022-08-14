@@ -1,7 +1,9 @@
 package com.d_vide.D_VIDE.app.presentation.navigation
 
 sealed class Screen(val route: String) {
-    object Splash: Screen("splash_screen")
+    object SplashScreen: Screen("splash_screen")
+    object LoginScreen: Screen("login_screen")
+    object HomeScreen: Screen("home_screen")
     object RecruitingsScreen: Screen("recruitings_screen")
     object PostRecruitingScreen: Screen("post_recruiting_screen")
     object ReviewsScreen: Screen("reviews_screen")
