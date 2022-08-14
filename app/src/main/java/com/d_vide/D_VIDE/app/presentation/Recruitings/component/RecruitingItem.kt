@@ -78,8 +78,6 @@ fun RecruitingItem(
                 )
                 .background(White)
                 .clickable(onClick = onClick)
-            ,
-            backgroundColor = White
         ) {
             Row(
                 modifier = Modifier

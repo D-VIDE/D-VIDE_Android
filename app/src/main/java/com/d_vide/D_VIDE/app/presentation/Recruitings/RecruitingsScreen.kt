@@ -58,21 +58,22 @@ fun RecruitingsScreen(
                 )
             }
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(background)
-            ) {
-                CategoryContainer(
-                    onCategoryChange = {
-                        viewModel.getRecruitings(category = it)
-                    }
-                )
-                LazyColumn(
-                    modifier = Modifier.align(CenterHorizontally),
-                    horizontalAlignment = CenterHorizontally,
-                    contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+            Box {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(background)
                 ) {
+                    CategoryContainer(
+                        onCategoryChange = {
+                            viewModel.getRecruitings(category = it)
+                        }
+                    )
+                    LazyColumn(
+                        modifier = Modifier.align(CenterHorizontally),
+                        horizontalAlignment = CenterHorizontally,
+                        contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
+                    ) {
                         item {
                             Spacer(modifier = Modifier.width(9.dp))
                         }
@@ -80,12 +81,12 @@ fun RecruitingsScreen(
                             item {
                                 RecruitingItem(
                                     onUserClick = {
-                                          scope.launch {
-                                              state.animateTo(
-                                                  ModalBottomSheetValue.Expanded,
-                                                  tween(500)
-                                          )
-                                       }
+                                        scope.launch {
+                                            state.animateTo(
+                                                ModalBottomSheetValue.Expanded,
+                                                tween(500)
+                                            )
+                                        }
                                     },
                                     onClick = { onRecruitingClick(it.postId) },
                                     userName = it.nickname,
@@ -98,7 +99,7 @@ fun RecruitingsScreen(
                                     title = it.title,
                                     imageURL = it.profileImgUrl,
                                     insufficientMoney = it.targetPrice,
-                                    timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
+                                    timeRemaining = ((it.targetTime - System.currentTimeMillis() / 1000) / 60),
                                     deadLineHour = it.targetTime.convertTimestampToHour(),
                                     deadLineMinute = it.targetTime.convertTimestampToMinute()
                                 )
