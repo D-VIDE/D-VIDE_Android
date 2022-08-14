@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings.component
 
-import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -8,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -19,23 +17,16 @@ import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
@@ -170,13 +161,14 @@ fun RecruitingUserName(
         modifier = Modifier
             .padding(start = 19.dp)
             .padding(bottom = 7.dp)
-            .background(background),
+            .background(background)
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.clickable(onClick = onClick),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+      //  Row(
+      //      modifier = Modifier.clickable(onClick = onClick),
+      //      verticalAlignment = Alignment.CenterVertically
+      //  ) {
             DivideImage(
                 modifier = Modifier
                     .size(28.dp)
@@ -196,15 +188,13 @@ fun RecruitingUserName(
                 modifier = Modifier
                     .padding(start = 8.dp)
             )
-        }
-
-
-        Text(
-            text = userLocation,
-            style = TextStyles.Small1,
-            color = recruit_city,
-            modifier = Modifier.padding(start = 10.dp)
-        )
+            Text(
+                text = userLocation,
+                style = TextStyles.Small1,
+                color = recruit_city,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+       // }
     }
 }
 @Composable
