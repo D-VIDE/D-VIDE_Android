@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +26,7 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.app.presentation.util.LocationConverter
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
@@ -39,7 +41,8 @@ fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel(),
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    onRecruitingClick: (Int) -> Unit
 ) {
 
     BottomSheetUserFeedSreen(
@@ -70,20 +73,21 @@ fun RecruitingsScreen(
                     horizontalAlignment = CenterHorizontally,
                     contentPadding = PaddingValues(top = 13.dp, bottom = 150.dp)
                 ) {
-                    item {
-                        Spacer(modifier = Modifier.width(9.dp))
-                    }
-                    viewModel.state.value.recruitingDTOS.forEach {
                         item {
+                            Spacer(modifier = Modifier.width(9.dp))
+                        }
+                        viewModel.state.value.recruitingDTOS.forEach {
+                            item {
                                 RecruitingItem(
-                                    onClick = {
-                                        scope.launch {
-                                            state.animateTo(
-                                                ModalBottomSheetValue.Expanded,
-                                                tween(500)
-                                            )
-                                        }
+                                    onUserClick = {
+                                          scope.launch {
+                                              state.animateTo(
+                                                  ModalBottomSheetValue.Expanded,
+                                                  tween(500)
+                                          )
+                                       }
                                     },
+                                    onClick = { onRecruitingClick(it.postId) },
                                     userName = it.nickname,
                                     userLocation = LocationConverter(
                                         LatLng(
@@ -94,20 +98,22 @@ fun RecruitingsScreen(
                                     title = it.title,
                                     imageURL = it.profileImgUrl,
                                     insufficientMoney = it.targetPrice,
-                                    timeRemaining = ((it.targetTime - System.currentTimeMillis() / 1000) / 60),
+                                    timeRemaining = ((it.targetTime - System.currentTimeMillis()/1000) / 60).toInt(),
                                     deadLineHour = it.targetTime.convertTimestampToHour(),
                                     deadLineMinute = it.targetTime.convertTimestampToMinute()
                                 )
+                            }
+                        }
+                        item {
+                            BlankIndicator(
+                                modifier = Modifier
+                                    .align(CenterHorizontally)
+                                    .padding(vertical = 78.dp)
+                            )
                         }
                     }
-                    item {
-                        BlankIndicator(
-                            modifier = Modifier
-                                .align(CenterHorizontally)
-                                .padding(vertical = 78.dp)
-                        )
-                    }
                 }
+                GradientCompponent(Modifier.align(Alignment.BottomCenter))
             }
         }
     }

@@ -38,7 +38,8 @@ import java.text.DecimalFormat
 @Composable
 fun RecruitingItem(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onUserClick: () -> Unit = {},
+    onClick: () -> Unit,
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Long = 2,
@@ -56,7 +57,7 @@ fun RecruitingItem(
             .background(background)
             .scale(0.9f)
     ) {
-        RecruitingUserName(Modifier, userName, userLocation, imageURL, onClick)
+        RecruitingUserName(Modifier, userName, userLocation, imageURL, onUserClick)
         if(timeRemaining > 0) {
             MessageBallon(
                 modifier = Modifier
@@ -76,10 +77,9 @@ fun RecruitingItem(
                     )
                 )
                 .background(White)
-      //          .shadow(2.dp)
-                .clickable {
-                    // do something
-                }
+                .clickable(onClick = onClick)
+            ,
+            backgroundColor = White
         ) {
             Row(
                 modifier = Modifier
@@ -314,11 +314,4 @@ fun RecruitingInsufficientMoney(
         )
     }
 
-}
-@Preview(showBackground = true)
-@Composable
-fun RecruitingUserPreview() {
-    DVIDETheme {
-        RecruitingItem(Modifier)
-    }
 }

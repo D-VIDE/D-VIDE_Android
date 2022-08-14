@@ -34,6 +34,7 @@ import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -48,45 +49,48 @@ fun UserFeedScreen(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit
 ){
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(main_gray2)
-            .background(profile_gray)
-            .padding(horizontal = 18.dp)
-    ) {
-        Spacer(modifier = Modifier.height(18.dp))
-        UserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
-        Row(
-            modifier = Modifier
-                .padding(top = 18.dp)
-                .padding(bottom = 8.dp)
-                .height(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+    Box(){
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(main_gray2)
+                .background(profile_gray)
+                .padding(horizontal = 18.dp)
         ) {
-            Canvas(
+            Spacer(modifier = Modifier.height(18.dp))
+            UserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
+            Row(
                 modifier = Modifier
-                    .padding(start = 13.dp)
-                    .padding(end = 9.dp)
-                    .size(4.dp)
+                    .padding(top = 18.dp)
+                    .padding(bottom = 8.dp)
+                    .height(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                drawCircle(Black)
+                Canvas(
+                    modifier = Modifier
+                        .padding(start = 13.dp)
+                        .padding(end = 9.dp)
+                        .size(4.dp)
+                ) {
+                    drawCircle(Black)
+                }
+                Text(
+                    text = "룡룡님 피드",
+                    style = TextStyles.Basics4,
+                    modifier = Modifier.weight(1f)
+                )
             }
-            Text(
-                text = "룡룡님 피드",
-                style = TextStyles.Basics4,
-                modifier = Modifier.weight(1f)
-            )
-        }
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f),
-          //  contentPadding = PaddingValues(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            item { ReviewItem(onReviewClick = {onReviewSelected(1234)}, onTagClick = {onTagClick("test")}) }
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f),
+                //  contentPadding = PaddingValues(vertical = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                item { ReviewItem(onReviewClick = {onReviewSelected(1234)}, onTagClick = {onTagClick("test")}) }
 
+            }
         }
+        GradientCompponent(Modifier.align(Alignment.BottomCenter))
     }
 }
 
