@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._enums.Category
+import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
@@ -40,8 +41,6 @@ fun RecruitingsScreen(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit
 ) {
-    var selectedCategory: Category = Category.ALL
-    var containerCategory = ""
 
     BottomSheetUserFeedSreen(
         navController = navController,
@@ -61,7 +60,7 @@ fun RecruitingsScreen(
                     .fillMaxSize()
                     .background(background)
             ) {
-                containerCategory = categoryContainer(
+                CategoryContainer(
                     onCategoryChange = {
                         viewModel.getRecruitings(category = it)
                     }
@@ -76,7 +75,6 @@ fun RecruitingsScreen(
                     }
                     viewModel.state.value.recruitingDTOS.forEach {
                         item {
-                         //   if (it.category == containerCategory || containerCategory == "") {
                                 RecruitingItem(
                                     onClick = {
                                         scope.launch {
@@ -100,7 +98,6 @@ fun RecruitingsScreen(
                                     deadLineHour = it.targetTime.convertTimestampToHour(),
                                     deadLineMinute = it.targetTime.convertTimestampToMinute()
                                 )
-                     //       }
                         }
                     }
                     item {
@@ -113,53 +110,5 @@ fun RecruitingsScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun categoryContainer(
-    recruitingCategory: Category = Category.ALL,
-    onCategoryChange: (Category) -> Unit
-) : String{
-    var selectedItem by remember { mutableStateOf("") }
-
-    TopRoundContainer {
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-        ) {
-            item {
-                Spacer(modifier = Modifier.width(11.dp))
-            }
-            item {
-                Category::class.sealedSubclasses.mapNotNull { it.objectInstance }.forEach {
-                    Row {
-                        RecruitingCategory(
-                            text = it.name,
-                            isSelected = selectedItem == it.tag,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(20.dp))
-                                .selectable(
-                                    selected = selectedItem == it.tag,
-                                    onClick = {
-                                        selectedItem = it.tag
-                                        onCategoryChange(it)
-                                    },
-                                )
-                        )
-                        Spacer(modifier = Modifier.width(7.dp))
-                    }
-                }
-            }
-        }
-    }
-    return selectedItem
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DVIDETheme {
-        //RecruitingsScreen(rememberNavController())
     }
 }
