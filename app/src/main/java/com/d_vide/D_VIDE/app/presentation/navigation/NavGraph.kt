@@ -79,7 +79,7 @@ fun NavGraphBuilder.divideGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val recruitingId = arguments.getInt(DetailDestinationKey.RECRUITING)
-        RecruitingDetail(postId = recruitingId, upPress = upPress)
+        RecruitingDetail(postId = recruitingId, upPress = upPress, navController = navController)
     }
 
 
