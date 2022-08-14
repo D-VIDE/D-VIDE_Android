@@ -148,8 +148,9 @@ fun PostRecruitingScreen(
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
                 LazyRow() {
-                    item { PhotoPicker(iconId = R.drawable.add_photo) }
-                    item { PhotoPicker(iconId = R.drawable.add_photo) }
+                    item { PhotoPicker(iconId = R.drawable.add_photo, modifier = Modifier.size(77.dp,71.dp)) }
+                    item { Spacer(modifier = Modifier.width(10.dp)) }
+                    item { PhotoPicker(iconId = R.drawable.add_photo, modifier = Modifier.size(77.dp,71.dp)) }
                 }
             }
 

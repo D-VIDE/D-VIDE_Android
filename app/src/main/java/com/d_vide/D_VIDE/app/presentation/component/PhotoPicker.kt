@@ -23,6 +23,7 @@ import com.d_vide.D_VIDE.R
 @Composable
 fun PhotoPicker(
     @DrawableRes iconId: Int,
+    modifier: Modifier = Modifier
 //    viewModel: PostRecruitingViewModel
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -31,15 +32,14 @@ fun PhotoPicker(
     ) { uri: Uri? -> imageUri = uri }
     var isSelected by remember { mutableStateOf(false) }
 
-    Row() {
+    Row(
+        modifier = modifier
+    ) {
         Button(
             onClick = {
                 isSelected = true
                 launcher.launch("image/*")
             },
-            modifier = Modifier
-                .width(80.dp)
-                .height(75.dp),
             contentPadding = PaddingValues(0.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0x00000000)
@@ -50,19 +50,17 @@ fun PhotoPicker(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(
                         if (isSelected) imageUri
-                        else R.drawable.add_photo
+                        else iconId
                     )
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
                 placeholder = painterResource(iconId),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(80.dp, 75.dp)
+                modifier = modifier
                     .clip(shape = RoundedCornerShape(15.dp))
 
             )
         }
-        Spacer(modifier = Modifier.padding(start = 10.dp))
     }
 }
