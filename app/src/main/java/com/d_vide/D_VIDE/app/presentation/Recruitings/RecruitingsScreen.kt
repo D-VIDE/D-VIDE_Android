@@ -1,12 +1,10 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,12 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
-import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -35,7 +31,6 @@ import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -66,7 +61,11 @@ fun RecruitingsScreen(
                     .fillMaxSize()
                     .background(background)
             ) {
-                containerCategory = categoryContainer()
+                containerCategory = categoryContainer(
+                    onCategoryChange = {
+                        viewModel.getRecruitings(category = it)
+                    }
+                )
                 LazyColumn(
                     modifier = Modifier.align(CenterHorizontally),
                     horizontalAlignment = CenterHorizontally,
@@ -77,7 +76,7 @@ fun RecruitingsScreen(
                     }
                     viewModel.state.value.recruitingDTOS.forEach {
                         item {
-                            if (it.category == containerCategory || containerCategory == "") {
+                         //   if (it.category == containerCategory || containerCategory == "") {
                                 RecruitingItem(
                                     onClick = {
                                         scope.launch {
@@ -101,7 +100,7 @@ fun RecruitingsScreen(
                                     deadLineHour = it.targetTime.convertTimestampToHour(),
                                     deadLineMinute = it.targetTime.convertTimestampToMinute()
                                 )
-                            }
+                     //       }
                         }
                     }
                     item {
@@ -118,7 +117,10 @@ fun RecruitingsScreen(
 }
 
 @Composable
-fun categoryContainer() : String{
+fun categoryContainer(
+    recruitingCategory: Category = Category.ALL,
+    onCategoryChange: (Category) -> Unit
+) : String{
     var selectedItem by remember { mutableStateOf("") }
 
     TopRoundContainer {
@@ -139,7 +141,10 @@ fun categoryContainer() : String{
                                 .clip(RoundedCornerShape(20.dp))
                                 .selectable(
                                     selected = selectedItem == it.tag,
-                                    onClick = { selectedItem = it.tag },
+                                    onClick = {
+                                        selectedItem = it.tag
+                                        onCategoryChange(it)
+                                    },
                                 )
                         )
                         Spacer(modifier = Modifier.width(7.dp))

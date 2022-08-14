@@ -40,7 +40,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ProfileImage
 import com.d_vide.D_VIDE.app.presentation.util.convertMinuteToHour
 import com.d_vide.D_VIDE.ui.theme.*
 import java.text.DecimalFormat
