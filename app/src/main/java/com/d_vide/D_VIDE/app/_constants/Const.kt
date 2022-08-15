@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.dp
 class Const {
     object UIConst {
         val HEIGHT_BOTTOM_BAR = 74.dp
-        val DURATION_ANIMATION_SPLASH = 3000 // 밀리초
+        val DURATION_ANIMATION_SPLASH = 1000 // 밀리초
     }
 
     object RemoteConst {
