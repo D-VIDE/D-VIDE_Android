@@ -5,6 +5,7 @@ import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
 import retrofit2.Response
+import java.io.File
 
 interface RecruitingRepository {
 
@@ -15,5 +16,5 @@ interface RecruitingRepository {
         offset: Int
     ): Response<RecruitingsDTO>
 
-    suspend fun postRecruiting(userId: Int, recruitingBody: RecruitingBodyDTO): Response<RecruitingIdDTO>
+    suspend fun postRecruiting(recruitingBody: RecruitingBodyDTO, files: List<File>): Response<RecruitingIdDTO>
 }

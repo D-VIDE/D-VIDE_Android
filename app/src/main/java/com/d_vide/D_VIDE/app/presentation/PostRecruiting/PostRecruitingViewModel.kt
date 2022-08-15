@@ -1,25 +1,33 @@
 package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
+import android.app.Application
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d_vide.D_VIDE.DivideApplication
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruiting
 import com.d_vide.D_VIDE.app.domain.util.Resource
+import com.d_vide.D_VIDE.app.domain.util.UriUtil.toFile
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
+import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PostRecruitingViewModel @Inject constructor(
-    val postRecruitingUseCase: PostRecruiting
+    val postRecruitingUseCase: PostRecruiting,
+    @ApplicationContext val context: Context
 ) : ViewModel() {
     private var _imageUris = mutableStateListOf<Uri>()
     val imageUris: SnapshotStateList<Uri> = _imageUris
@@ -83,6 +91,7 @@ class PostRecruitingViewModel @Inject constructor(
                 _recruitingBody.value = recruitingBodyDTO.value.copy(
                     content = event.value
                 )
+
             }
             is PostRecruitingsEvent.SaveRecruiting -> {
                 viewModelScope.launch {
@@ -100,6 +109,8 @@ class PostRecruitingViewModel @Inject constructor(
                             return@launch
                         }
 
+                        val fileList = _imageUris.map { toFile(context, it) }
+
                         val location = _cameraPositionState.value.position.target
                         postRecruitingUseCase(
                             RecruitingBodyDTO(
@@ -111,8 +122,7 @@ class PostRecruitingViewModel @Inject constructor(
                                 targetTime = recruitingBodyDTO.value.targetTime,
                                 longitude = location.longitude,
                                 latitude = location.latitude
-                            ),
-                            emptyList()
+                            ), fileList
                         ).collect() { it ->
                             when (it) {
                                 is Resource.Success -> {
