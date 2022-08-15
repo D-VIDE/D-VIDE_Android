@@ -88,20 +88,23 @@ fun RecruitingsScreen(
                                             )
                                         }
                                     },
-                                    onClick = { onRecruitingClick(it.postId) },
-                                    userName = it.nickname,
+                                    onClick = { onRecruitingClick(it.post.id) },
+                                    userName = it.user.nickName,
                                     userLocation = LocationConverter(
                                         LatLng(
-                                            it.latitude,
-                                            it.longitude
+                                            it.post.latitude,
+                                            it.post.longitude
                                         )
                                     ),
-                                    title = it.title,
-                                    imageURL = it.profileImgUrl,
-                                    insufficientMoney = it.targetPrice,
-                                    timeRemaining = ((it.targetTime - System.currentTimeMillis() / 1000) / 60),
-                                    deadLineHour = it.targetTime.convertTimestampToHour(),
-                                    deadLineMinute = it.targetTime.convertTimestampToMinute()
+                                    title = it.post.title,
+                                    imageURL = it.user.profileImgUrl,
+                                    insufficientMoney =
+                                    if(it.post.targetPrice > it.post.orderedPrice)
+                                        it.post.targetPrice - it.post.orderedPrice
+                                    else 0,
+                                    timeRemaining = ((it.post.targetTime - System.currentTimeMillis() / 1000) / 60),
+                                    deadLineHour = it.post.targetTime.convertTimestampToHour(),
+                                    deadLineMinute = it.post.targetTime.convertTimestampToMinute()
                                 )
                             }
                         }
