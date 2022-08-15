@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._enums.Category
+import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
@@ -41,18 +40,12 @@ fun PostRecruitingScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is PostRecruitingViewModel.UiEvent.ShowSnackbar -> {
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        message = event.message
-//                    )
-                    Log.d("test", "뭔가 문제")
+                    "post 성공".log()
                     navController.navigateUp()
                 }
-                is PostRecruitingViewModel.UiEvent.SaveRecruiting -> {
-                    Log.d("test", "성공 & 뒤로가자")
-
-                }
+                is PostRecruitingViewModel.UiEvent.SaveRecruiting -> "post 과정에서 error 발생".log()
             }
         }
     }
@@ -148,8 +141,20 @@ fun PostRecruitingScreen(
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
                 LazyRow() {
-                    item { PhotoPicker(iconId = R.drawable.add_photo) }
-                    item { PhotoPicker(iconId = R.drawable.add_photo) }
+                    viewModel.imageUris.forEachIndexed { idx, it ->
+                        item {
+                            PhotoPicker(it,
+                                { viewModel.onEvent(PostRecruitingsEvent.EnteredImage(it, idx)) },
+                                { viewModel.onEvent(PostRecruitingsEvent.DeleteImage(idx)) })
+                        }
+                    }
+                    if (viewModel.imageUris.size < 3) item {
+                        PhotoPicker(onGetContent = {
+                            viewModel.onEvent(
+                                PostRecruitingsEvent.EnteredImage(it, -1),
+                            )
+                        })
+                    }
                 }
             }
 

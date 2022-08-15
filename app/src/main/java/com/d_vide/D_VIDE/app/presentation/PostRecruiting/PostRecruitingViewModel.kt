@@ -1,29 +1,28 @@
 package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruiting
 import com.d_vide.D_VIDE.app.domain.util.Resource
-import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsState
+import com.d_vide.D_VIDE.app.domain.util.log
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class PostRecruitingViewModel @Inject constructor(
     val postRecruitingUseCase: PostRecruiting
 ) : ViewModel() {
-    var imageUri = mutableStateOf<Uri?>(null)
+    private var _imageUris = mutableStateListOf<Uri>()
+    val imageUris: SnapshotStateList<Uri> = _imageUris
 
     val pathfinder = CameraPosition(LatLng(35.232234, 129.085211), 17f, 1.0f, 0f)
     private val _cameraPositionState = mutableStateOf(CameraPositionState(pathfinder))
@@ -34,6 +33,7 @@ class PostRecruitingViewModel @Inject constructor(
 
     private var _recruitingBody = mutableStateOf(RecruitingBodyDTO())
     val recruitingBodyDTO: State<RecruitingBodyDTO> = _recruitingBody
+
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -69,13 +69,16 @@ class PostRecruitingViewModel @Inject constructor(
                 _recruitingBody.value = recruitingBodyDTO.value.copy(
                     targetTime = event.value
                 )
-                Log.d("test" , "input timestamp : ${event.value}")
             }
-//            is PostRecruitingsEvent.EnteredImage -> {
-//                _recruitingBody.value = recruitingBodyDTO.value.copy(
-//                    title = event.value
-//                )
-//            }
+            is PostRecruitingsEvent.EnteredImage -> {
+                if(event.index >= 0)
+                    _imageUris[event.index] = event.value!!
+                else if(_imageUris.size < 3)
+                    _imageUris.add(event.value!!)
+            }
+            is PostRecruitingsEvent.DeleteImage -> {
+                _imageUris.removeAt(event.index)
+            }
             is PostRecruitingsEvent.EnteredContent -> {
                 _recruitingBody.value = recruitingBodyDTO.value.copy(
                     content = event.value
@@ -84,7 +87,7 @@ class PostRecruitingViewModel @Inject constructor(
             is PostRecruitingsEvent.SaveRecruiting -> {
                 viewModelScope.launch {
                     try {
-                        Log.d("test", "save button pushed")
+                        // 모든 빈칸이 채워졌는지 check
                         if (recruitingBodyDTO.value.title.isNullOrBlank()
                             || recruitingBodyDTO.value.content.isNullOrBlank()
                             || recruitingBodyDTO.value.category.isNullOrBlank()
@@ -93,18 +96,12 @@ class PostRecruitingViewModel @Inject constructor(
                             || recruitingBodyDTO.value.targetPrice == null
                             || recruitingBodyDTO.value.targetPrice!! < 0
                         ) {
-                            Log.d("test" , ",ERROR 입력 되지 않은 칸이 존재")
-                            _eventFlow.emit(
-                                UiEvent.ShowSnackbar(
-                                    message = "모든 칸의 내용을 채워주세요"
-                                )
-                            )
+                            _eventFlow.emit(UiEvent.ShowSnackbar("모든 칸의 내용을 채워주세요"))
                             return@launch
                         }
+
                         val location = _cameraPositionState.value.position.target
-                        Log.d("test", "selected location : ${location.longitude}, ${location.latitude}")
                         postRecruitingUseCase(
-                            1,
                             RecruitingBodyDTO(
                                 title = recruitingBodyDTO.value.title,
                                 category = recruitingBodyDTO.value.category,
@@ -114,32 +111,21 @@ class PostRecruitingViewModel @Inject constructor(
                                 targetTime = recruitingBodyDTO.value.targetTime,
                                 longitude = location.longitude,
                                 latitude = location.latitude
-                            )
+                            ),
+                            emptyList()
                         ).collect() { it ->
                             when (it) {
                                 is Resource.Success -> {
                                     it.data!!.postId.also { _postId.value = it }
-                                    Log.d("test", "success : ${it.data}")
+                                    "모집글 올리기 성공 postId: ${it.data!!.postId}"
                                 }
-                                is Resource.Error -> {
-                                    Log.d("test", "error")
-                                }
-                                is Resource.Loading -> {
-                                    Log.d("test", "loading")
-                                }
+                                is Resource.Error -> "모집글 올리기 실패".log()
+                                is Resource.Loading -> "모집글 올리는 중".log()
                             }
                         }
-//                        Log.d("test", "${RecruitingBodyDTO(
-//                            title = recruitingBodyDTO.value.title,
-//                            category = recruitingBodyDTO.value.category,
-//                            storeName = recruitingBodyDTO.value.storeName,
-//                            deliveryPrice = recruitingBodyDTO.value.deliveryPrice,
-//                            content = recruitingBodyDTO.value.content,
-//                            targetTime = recruitingBodyDTO.value.
-//                        )}")
                         _eventFlow.emit(UiEvent.SaveRecruiting)
+
                     } catch (e: Exception) {
-                        Log.d("test", "save recruiting error!!")
                         e.printStackTrace()
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
@@ -151,7 +137,6 @@ class PostRecruitingViewModel @Inject constructor(
             }
         }
     }
-
     sealed class UiEvent {
         data class ShowSnackbar(val message: String) : UiEvent()
         object SaveRecruiting : UiEvent()
