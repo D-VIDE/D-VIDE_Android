@@ -91,7 +91,27 @@ fun RecruitingOrderForm(
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                item { PhotoPicker(iconId = R.drawable.add_big_photo, modifier = Modifier.height(263.dp)) }
+                viewModel.imageUris.forEachIndexed { idx, it ->
+                    item {
+                        PhotoPicker(
+                            R.drawable.add_big_photo, it,
+                            { viewModel.onEvent(PostRecruitingOrderEvent.EnteredImage(it, idx)) },
+                            { viewModel.onEvent(PostRecruitingOrderEvent.DeleteImage(idx)) },
+                            modifier = Modifier.height(263.dp)
+                        )
+                    }
+                }
+                if (viewModel.imageUris.size < 3) item {
+                    PhotoPicker(
+                        iconId = R.drawable.add_big_photo,
+                        onGetContent = {
+                            viewModel.onEvent(
+                                PostRecruitingOrderEvent.EnteredImage(it, -1)
+                            )
+                        },
+                        modifier = Modifier.height(263.dp)
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(25.dp))
             Row {

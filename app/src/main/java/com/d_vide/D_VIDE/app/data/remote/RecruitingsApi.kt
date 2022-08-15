@@ -28,9 +28,10 @@ interface RecruitingsApi {
         @Part images: List<MultipartBody.Part?>,
     ): Response<RecruitingIdDTO>
 
+    @Multipart
     @POST("/api/v1/order")
     suspend fun postRecruitingOrder(
-       // @Query("userId") userId: Int,
-        @Body recruitingOrder: RecruitingOrderDTO
+        @Part("request") request: RequestBody,
+        @Part images: List<MultipartBody.Part?>,
     ): Response <RecruitingOrderIdDTO>
 }

@@ -1,15 +1,21 @@
 package com.d_vide.D_VIDE.app.presentation.RecruitingDetail
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruitingOrder
 import com.d_vide.D_VIDE.app.domain.util.Resource
+import com.d_vide.D_VIDE.app.domain.util.UriUtil
+import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -17,9 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostRecruitingOrderViewModel @Inject constructor(
-     val postRecruitingOrderUseCase: PostRecruitingOrder
+     val postRecruitingOrderUseCase: PostRecruitingOrder,
+     @ApplicationContext val context: Context
 ) : ViewModel() {
-    var imageUri = mutableStateOf<Uri?>(null)
+    private var _imageUris = mutableStateListOf<Uri>()
+    val imageUris: SnapshotStateList<Uri> = _imageUris
 
     private var _orderId = mutableStateOf(0L)
     val orderId: State<Long> = _orderId
@@ -43,6 +51,17 @@ class PostRecruitingOrderViewModel @Inject constructor(
                     orderPrice = event.value
                 )
             }
+
+            is PostRecruitingOrderEvent.EnteredImage -> {
+                if(event.index >= 0)
+                    _imageUris[event.index] = event.value!!
+                else if(_imageUris.size < 3)
+                    _imageUris.add(event.value!!)
+            }
+            is PostRecruitingOrderEvent.DeleteImage -> {
+                _imageUris.removeAt(event.index)
+            }
+
             is PostRecruitingOrderEvent.SaveRecruitingOrder -> {
                 viewModelScope.launch {
                     try {
@@ -56,11 +75,15 @@ class PostRecruitingOrderViewModel @Inject constructor(
                             )
                             return@launch
                         }
+
+                        val fileList = _imageUris.map { UriUtil.toFile(context, it) }
+
                         postRecruitingOrderUseCase(
                             RecruitingOrderDTO(
                                 postId = recruitingOrderDTO.value.postId,
                                 orderPrice = recruitingOrderDTO.value.orderPrice,
-                            )
+                            ),
+                            fileList
                         ).collect() { it ->
                             when (it) {
                                 is Resource.Success -> {

@@ -8,16 +8,17 @@ import com.d_vide.D_VIDE.app.domain.util.log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
 class PostRecruitingOrder @Inject constructor (
     val repository: RecruitingRepository
 ) {
-    operator fun invoke(recruitingOrder: RecruitingOrderDTO): Flow<Resource<RecruitingOrderIdDTO>> = flow{
+    operator fun invoke(recruitingOrder: RecruitingOrderDTO, files: List<File>): Flow<Resource<RecruitingOrderIdDTO>> = flow{
         try {
             emit(Resource.Loading())
-            val r = repository.postRecruitingOrder(recruitingOrder)
+            val r = repository.postRecruitingOrder(recruitingOrder, files)
             when(r.code()) {
                 201 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {
