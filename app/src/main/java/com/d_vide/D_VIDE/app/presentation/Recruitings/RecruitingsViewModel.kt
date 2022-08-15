@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.domain.use_case.GetRecruitings
 import com.d_vide.D_VIDE.app.domain.util.Resource
+import com.d_vide.D_VIDE.app.domain.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,7 +36,7 @@ class RecruitingsViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _state.value = result.data?.let { RecruitingsState(recruitingDTOS = it.recruitingDTOS) }!!
-                    Log.d("test", "success : ${result.data.recruitingDTOS.toString()}")
+                    result.data.recruitingDTOS.toString().log()
                 }
                 is Resource.Error -> {
                     _state.value = RecruitingsState(error = result.message ?: "An unexpected error occured")

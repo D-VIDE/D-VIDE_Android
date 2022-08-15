@@ -1,8 +1,8 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
 import android.util.Log
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingBodyDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow

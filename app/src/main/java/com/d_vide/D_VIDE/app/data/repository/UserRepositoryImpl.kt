@@ -1,8 +1,8 @@
 package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
-import com.d_vide.D_VIDE.app.data.remote.dto.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.data.storage.TokenStore
 import com.d_vide.D_VIDE.app.domain.model.Token
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository

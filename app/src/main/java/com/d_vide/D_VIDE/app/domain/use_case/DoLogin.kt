@@ -1,6 +1,6 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
-import com.d_vide.D_VIDE.app.data.remote.dto.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.domain.model.Token
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
