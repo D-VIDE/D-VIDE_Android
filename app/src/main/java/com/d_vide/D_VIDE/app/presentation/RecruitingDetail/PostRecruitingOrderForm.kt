@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalFocusManager
@@ -41,6 +42,8 @@ fun RecruitingOrderForm(
     modifier: Modifier = Modifier
 ){
     val scrollableState = rememberScrollState()
+    val focusManager = LocalFocusManager.current
+
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
@@ -104,11 +107,13 @@ fun RecruitingOrderForm(
                     singleLine = true,
                     inputText = viewModel.recruitingOrderDTO.value.orderPrice?.toString() ?: "",
                     onValueChange = {
-                        viewModel.onEvent(
-                            PostRecruitingOrderEvent.EnteredOrderPrice(
-                                if (it.isNullOrBlank()) null else it.toInt()
+                        if (it.length < 10) {
+                            viewModel.onEvent(
+                                PostRecruitingOrderEvent.EnteredOrderPrice(
+                                    if (it.isNullOrBlank()) null else it.toInt()
+                                )
                             )
-                        )
+                        }
                     }
                 )
             }
