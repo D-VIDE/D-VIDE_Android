@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.data.remote.responseDTO
 
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingDTO
 import com.google.gson.annotations.SerializedName
 
 data class RecruitingsDTO (
