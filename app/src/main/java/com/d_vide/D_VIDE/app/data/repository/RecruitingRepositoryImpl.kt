@@ -33,7 +33,7 @@ class RecruitingRepositoryImpl @Inject constructor(
         files.forEachIndexed { index, file ->
             multipartBodyList.add(
                 MultipartBody.Part.createFormData(
-                    name = "postImageFiles",
+                    name = "postImgFiles",
                     filename = file.name,
                     body = file.asRequestBody("image/*".toMediaType())
                 )

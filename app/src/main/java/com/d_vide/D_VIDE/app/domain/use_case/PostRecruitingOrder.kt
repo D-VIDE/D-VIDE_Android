@@ -19,7 +19,7 @@ class PostRecruitingOrder @Inject constructor (
             emit(Resource.Loading())
             val r = repository.postRecruitingOrder(recruitingOrder)
             when(r.code()) {
-                200 -> { emit(Resource.Success(r.body()!!)) }
+                201 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {
                     "postRecruitingOrder ERROR ${r.code()}: ${r.errorBody().toString()}".log()
                 }

@@ -21,7 +21,7 @@ interface RecruitingsApi {
 
     // 모집글 작성
     @Multipart
-    @POST("/api/v1/post")
+    @POST("/api/v2/post")
     suspend fun postRecruiting(
         @Part("request") request: RequestBody,
         @Part images: List<MultipartBody.Part?>,
