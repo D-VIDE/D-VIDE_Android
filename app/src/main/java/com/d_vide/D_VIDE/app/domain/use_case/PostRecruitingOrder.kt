@@ -1,7 +1,7 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingOrderDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingOrderIdDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log

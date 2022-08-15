@@ -6,7 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruitingOrder
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

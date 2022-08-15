@@ -1,17 +1,15 @@
 package com.d_vide.D_VIDE.app.presentation.Login
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d_vide.D_VIDE.app.data.remote.dto.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.domain.model.Token
 import com.d_vide.D_VIDE.app.domain.use_case.UserUseCases
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
-import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -28,11 +26,13 @@ class LoginViewModel @Inject constructor(
     private var _user = mutableStateOf(UserDTO())
     val user: State<UserDTO> = _user
 
-    private var _emailPw = mutableStateOf(EmailPasswordDTO(
+    private var _emailPw = mutableStateOf(
+        EmailPasswordDTO(
         // TODO: 나중에 지웁시다
         email = "email@gmail.com",
         password = "password1"
-    ))
+    )
+    )
     val emailPw: State<EmailPasswordDTO> = _emailPw
 
     private var token = mutableStateOf(Token())

@@ -1,10 +1,11 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import com.d_vide.D_VIDE.app.data.remote.dto.*
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
 import retrofit2.Response
 import retrofit2.http.*
 

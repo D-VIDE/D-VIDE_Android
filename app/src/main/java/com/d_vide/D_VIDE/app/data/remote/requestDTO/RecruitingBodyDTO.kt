@@ -1,4 +1,4 @@
-package com.d_vide.D_VIDE.app.data.remote.dto
+package com.d_vide.D_VIDE.app.data.remote.requestDTO
 
 import com.d_vide.D_VIDE.app._enums.Category
 import java.time.LocalDateTime

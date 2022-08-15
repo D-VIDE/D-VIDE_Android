@@ -1,4 +1,4 @@
-package com.d_vide.D_VIDE.app.data.remote.dto
+package com.d_vide.D_VIDE.app.data.remote.responseDTO
 
 data class UserDTO (
     val email: String = "",

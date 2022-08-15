@@ -1,7 +1,11 @@
 package com.d_vide.D_VIDE.app.domain.repository
 
 import com.d_vide.D_VIDE.app._enums.Category
-import com.d_vide.D_VIDE.app.data.remote.dto.*
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingBodyDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import retrofit2.Response
 import java.io.File
 

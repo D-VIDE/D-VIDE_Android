@@ -1,6 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingDTO
 
 data class RecruitingsState(
     val isLoading: Boolean = false,

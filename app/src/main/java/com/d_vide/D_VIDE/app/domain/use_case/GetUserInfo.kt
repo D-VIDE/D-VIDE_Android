@@ -1,7 +1,6 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
-import android.util.Log
-import com.d_vide.D_VIDE.app.data.remote.dto.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
