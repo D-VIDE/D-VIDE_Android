@@ -34,6 +34,13 @@ object TextStyles{
         fontSize = 22.sp,
         letterSpacing = 0.6.sp
     )
+    val Big1_1 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp,
+        letterSpacing = 0.6.sp,
+        textAlign = TextAlign.End
+    )
 
     val Big2 = TextStyle(
         fontFamily = SpoqaHanSansNeo,
