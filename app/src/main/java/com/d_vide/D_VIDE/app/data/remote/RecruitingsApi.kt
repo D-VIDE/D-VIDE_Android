@@ -1,11 +1,10 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app._enums.Category
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import com.d_vide.D_VIDE.app.data.remote.dto.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -28,4 +27,9 @@ interface RecruitingsApi {
         @Part images: List<MultipartBody.Part?>,
     ): Response<RecruitingIdDTO>
 
+    @POST("/api/v1/order")
+    suspend fun postRecruitingOrder(
+       // @Query("userId") userId: Int,
+        @Body recruitingOrder: RecruitingOrderDTO
+    ): Response <RecruitingOrderIdDTO>
 }

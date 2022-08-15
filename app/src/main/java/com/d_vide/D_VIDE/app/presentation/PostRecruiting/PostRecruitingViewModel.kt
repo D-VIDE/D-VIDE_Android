@@ -1,14 +1,11 @@
 package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
-import android.app.Application
 import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d_vide.D_VIDE.DivideApplication
 import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruiting
 import com.d_vide.D_VIDE.app.domain.util.Resource

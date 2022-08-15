@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableFieldItem
@@ -121,7 +122,7 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.deliveryPrice?.toString() ?: "",
-                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredDeliveryPrice(if (it.isNullOrBlank()) null else it.toInt())) }
+                    onValueChange = { if (it.length < 10) {viewModel.onEvent(PostRecruitingsEvent.EnteredDeliveryPrice(if (it.isNullOrBlank()) null else it.toInt())) }}
                 )
             }
 
@@ -131,7 +132,7 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.targetPrice?.toString() ?: "",
-                    onValueChange = { viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) null else it.toInt())) }
+                    onValueChange = { if (it.length < 10) {viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) null else it.toInt())) }}
                 )
             }
 
@@ -140,20 +141,29 @@ fun PostRecruitingScreen(
 
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
-                LazyRow() {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     viewModel.imageUris.forEachIndexed { idx, it ->
                         item {
-                            PhotoPicker(it,
+                            PhotoPicker(
+                                R.drawable.add_photo, it,
                                 { viewModel.onEvent(PostRecruitingsEvent.EnteredImage(it, idx)) },
-                                { viewModel.onEvent(PostRecruitingsEvent.DeleteImage(idx)) })
+                                { viewModel.onEvent(PostRecruitingsEvent.DeleteImage(idx)) },
+                                modifier = Modifier.size(77.dp,71.dp)
+                            )
                         }
                     }
                     if (viewModel.imageUris.size < 3) item {
-                        PhotoPicker(onGetContent = {
-                            viewModel.onEvent(
-                                PostRecruitingsEvent.EnteredImage(it, -1),
-                            )
-                        })
+                        PhotoPicker(
+                            iconId = R.drawable.add_photo,
+                            onGetContent = {
+                                viewModel.onEvent(
+                                    PostRecruitingsEvent.EnteredImage(it, -1)
+                                )
+                            },
+                            modifier = Modifier.size(77.dp,71.dp)
+                        )
                     }
                 }
             }

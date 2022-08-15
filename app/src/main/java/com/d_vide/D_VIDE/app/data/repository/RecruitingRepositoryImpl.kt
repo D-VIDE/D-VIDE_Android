@@ -3,9 +3,7 @@ package com.d_vide.D_VIDE.app.data.repository
 import android.util.Log
 import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingBodyDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
-import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
+import com.d_vide.D_VIDE.app.data.remote.dto.*
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -46,5 +44,9 @@ class RecruitingRepositoryImpl @Inject constructor(
                 .toRequestBody("application/json".toMediaTypeOrNull()),
             images = multipartBodyList
         )
+    }
+
+    override suspend fun postRecruitingOrder(recruitingOrder: RecruitingOrderDTO): Response<RecruitingOrderIdDTO> {
+        return api.postRecruitingOrder(recruitingOrder)
     }
 }

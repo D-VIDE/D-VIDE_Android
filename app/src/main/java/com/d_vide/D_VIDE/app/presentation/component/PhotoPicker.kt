@@ -3,6 +3,7 @@ package com.d_vide.D_VIDE.app.presentation.Recruitings.component
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -29,33 +30,35 @@ import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhotoPicker(
+    @DrawableRes iconId: Int?,
     uri: Uri? = null,
     onGetContent: (Uri) -> Unit = {},
-    onLongClick: () -> Unit = {}
+    onLongClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     var showMenu by remember { mutableStateOf(false) }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? -> uri?.let { onGetContent(it) } }
 
-    Row {
+    Row(
+        modifier = modifier
+    ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(uri ?: R.drawable.add_photo)
+                .data(uri ?: iconId)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
             placeholder = painterResource(R.drawable.add_photo),
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(80.dp, 75.dp)
+            modifier = modifier
                 .clip(shape = RoundedCornerShape(15.dp))
                 .combinedClickable(
                     onClick = { launcher.launch("image/*") },
                     onLongClick = { showMenu = true },
                 )
         )
-        Spacer(modifier = Modifier.padding(start = 10.dp))
     }
     PopupMenu(
         item = "삭제",
