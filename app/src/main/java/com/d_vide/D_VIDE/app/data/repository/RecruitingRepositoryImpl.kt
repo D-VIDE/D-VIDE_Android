@@ -49,7 +49,21 @@ class RecruitingRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun postRecruitingOrder(recruitingOrder: RecruitingOrderDTO): Response<RecruitingOrderIdDTO> {
-        return api.postRecruitingOrder(recruitingOrder)
+    override suspend fun postRecruitingOrder(recruitingOrder: RecruitingOrderDTO, files: List<File>): Response<RecruitingOrderIdDTO> {
+        val multipartBodyList = arrayListOf<MultipartBody.Part>()
+        files.forEachIndexed{ index, file ->
+            multipartBodyList.add(
+                MultipartBody.Part.createFormData(
+                    name = "orderImgFiles",
+                    filename = file.name,
+                    body = file.asRequestBody("image/*".toMediaType())
+                )
+            )
+        }
+        return api.postRecruitingOrder(
+            request = Gson().toJson(recruitingOrder)
+                .toRequestBody("application/json".toMediaTypeOrNull()),
+            images = multipartBodyList
+        )
     }
 }
