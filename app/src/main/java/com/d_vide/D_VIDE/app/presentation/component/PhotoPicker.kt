@@ -3,66 +3,82 @@ package com.d_vide.D_VIDE.app.presentation.Recruitings.component
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingViewModel
+import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhotoPicker(
-    @DrawableRes iconId: Int,
-//    viewModel: PostRecruitingViewModel
+    uri: Uri? = null,
+    onGetContent: (Uri) -> Unit = {},
+    onLongClick: () -> Unit = {}
 ) {
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var showMenu by remember { mutableStateOf(false) }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? -> imageUri = uri }
-    var isSelected by remember { mutableStateOf(false) }
+    ) { uri: Uri? -> uri?.let { onGetContent(it) } }
 
-    Row() {
-        Button(
-            onClick = {
-                isSelected = true
-                launcher.launch("image/*")
-            },
+    Row {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(uri ?: R.drawable.add_photo)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            placeholder = painterResource(R.drawable.add_photo),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(80.dp)
-                .height(75.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(0x00000000)
-            ),
-            elevation = ButtonDefaults.elevation(0.dp)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(
-                        if (isSelected) imageUri
-                        else R.drawable.add_photo
-                    )
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                placeholder = painterResource(iconId),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(80.dp, 75.dp)
-                    .clip(shape = RoundedCornerShape(15.dp))
-
-            )
-        }
+                .size(80.dp, 75.dp)
+                .clip(shape = RoundedCornerShape(15.dp))
+                .combinedClickable(
+                    onClick = { launcher.launch("image/*") },
+                    onLongClick = { showMenu = true },
+                )
+        )
         Spacer(modifier = Modifier.padding(start = 10.dp))
+    }
+    PopupMenu(
+        item = "삭제",
+        onClickCallbacks = onLongClick,
+        showMenu = showMenu,
+        onDismiss = { showMenu = false }
+    )
+}
+
+@Composable
+fun PopupMenu(
+    item: String,
+    onClickCallbacks: () -> Unit,
+    showMenu: Boolean,
+    onDismiss: () -> Unit,
+) {
+    DropdownMenu(
+        expanded = showMenu,
+        onDismissRequest = { onDismiss() },
+    ) {
+        DropdownMenuItem(onClick = {
+            onDismiss()
+            onClickCallbacks()
+        }) { Text(text = item) }
     }
 }
