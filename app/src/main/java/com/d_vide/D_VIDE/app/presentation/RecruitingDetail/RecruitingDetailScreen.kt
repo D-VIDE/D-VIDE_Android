@@ -34,7 +34,7 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RecruitingDetail(
+fun RecruitingDetailScreen(
     postId: Int = 0,
     navController: NavController,
     upPress: () -> Unit = {}
@@ -42,7 +42,8 @@ fun RecruitingDetail(
     val scrollableState = rememberScrollState()
 
     BottomSheetOrderForm(
-        navController = navController
+        navController = navController,
+        postId = postId
     ) { state, scope ->
         Box(
             modifier = Modifier
@@ -129,6 +130,7 @@ fun RecruitingDetail(
 @Composable
 fun BottomSheetOrderForm(
     navController: NavController,
+    postId: Int = 0,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
     val state = rememberModalBottomSheetState(
@@ -143,8 +145,9 @@ fun BottomSheetOrderForm(
         sheetState = state,
         sheetContent = {
             RecruitingOrderForm(
+                navController = navController,
+                postId = postId,
                 modifier = Modifier.fillMaxHeight(0.7f),
-
             )
         }
     ) {

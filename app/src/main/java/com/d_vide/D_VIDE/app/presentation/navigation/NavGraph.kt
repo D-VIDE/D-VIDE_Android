@@ -9,7 +9,7 @@ import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
-import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetail
+import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetailScreen
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
@@ -79,7 +79,7 @@ fun NavGraphBuilder.divideGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val recruitingId = arguments.getInt(DetailDestinationKey.RECRUITING)
-        RecruitingDetail(postId = recruitingId, upPress = upPress, navController = navController)
+        RecruitingDetailScreen(postId = recruitingId, upPress = upPress, navController = navController)
     }
 
 
@@ -125,7 +125,6 @@ private fun NavGraphBuilder.MainNavGraph(
         MyPageScreen(navController)
     }
 
-
     composable(route = Screen.PostRecruitingScreen.route) {
         PostRecruitingScreen(navController, upPress = upPress)
     }
@@ -135,5 +134,4 @@ private fun NavGraphBuilder.MainNavGraph(
     composable(route = Screen.FollowingsScreen.route) { from ->
         FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
     }
-
 }
