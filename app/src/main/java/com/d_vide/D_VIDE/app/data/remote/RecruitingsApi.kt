@@ -1,12 +1,12 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app._enums.Category
+import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingIdDTO
+import com.d_vide.D_VIDE.app.data.remote.dto.RecruitingsDTO
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import com.d_vide.D_VIDE.app.data.remote.dto.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface RecruitingsApi {
 
@@ -20,10 +20,11 @@ interface RecruitingsApi {
     ): Response<RecruitingsDTO>
 
     // 모집글 작성
+    @Multipart
     @POST("/api/v1/post")
     suspend fun postRecruiting(
-        @Query("userId") userId: Int,
-        @Body recruitingBody: RecruitingBodyDTO
+        @Part("request") request: RequestBody,
+        @Part images: List<MultipartBody.Part?>,
     ): Response<RecruitingIdDTO>
 
     @POST("/api/v1/order")

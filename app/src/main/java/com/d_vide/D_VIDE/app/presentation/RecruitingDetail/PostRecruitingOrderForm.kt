@@ -88,9 +88,9 @@ fun RecruitingOrderForm(
                 color = main1
             )
             Spacer(modifier = Modifier.height(25.dp))
-            LazyRow() {
-                item { PhotoPicker(iconId = R.drawable.add_big_image, modifier = Modifier.height(263.dp)) }
-                item { Spacer(modifier = Modifier.width(16.dp)) }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 item { PhotoPicker(iconId = R.drawable.add_big_photo, modifier = Modifier.height(263.dp)) }
             }
             Spacer(modifier = Modifier.height(25.dp))

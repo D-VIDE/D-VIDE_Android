@@ -34,18 +34,22 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        @ApplicationContext appContext: Context
-    ): Interceptor = Interceptor{ chain ->
-        "토큰 값 -> ${runBlocking { appContext.dataStore.data.map {it[stringPreferencesKey("user")]}.first() }}".log()
+        @ApplicationContext appContext: Context,
+    ): Interceptor = Interceptor { chain ->
         val newRequest = chain
             .request()
             .newBuilder()
             .addHeader(
                 "Authorization",
-                "Bearer ${ runBlocking { appContext.dataStore.data.map {it[stringPreferencesKey("user")]}.first() }}"
+                "Bearer ${
+                    runBlocking { 
+                        appContext.dataStore.data.map {it[stringPreferencesKey("user")]}.first() 
+                    }
+                }"
             )
             .build()
         return@Interceptor chain.proceed(newRequest)
+
     }
 
     @Singleton

@@ -30,7 +30,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun getUserToken(): Token {
-        return runBlocking {
+        return runBlocking(Dispatchers.IO) {
             store.getToken().first()
         }
     }
