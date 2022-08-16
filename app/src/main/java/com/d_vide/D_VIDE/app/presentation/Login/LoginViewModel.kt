@@ -57,7 +57,6 @@ class LoginViewModel @Inject constructor(
                 is Resource.Success -> {
                     token.value = it.data!!
                     userUseCases.setToken(token.value)
-                    "LoginViewModel에서 확인한 토큰값 : ${it.data!!.value}".log()
                     "LoginViewModel에서 확인한 토큰값 : ${token.value.value}".log()
                     _eventFlow.emit(UiEvent.Login)
                 }

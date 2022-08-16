@@ -67,7 +67,7 @@ fun MyOrdersScreen(
                                     }
                                 },
                                 onClick = { onRecruitingClick(it.post.id) },
-                                userName = it.user.nickName,
+                                userName = it.user.nickname,
                                 userLocation = LocationConverter(
                                     LatLng(
                                         it.post.latitude,

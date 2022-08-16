@@ -21,7 +21,6 @@ class UserRepositoryImpl @Inject constructor(
     private val store: TokenStore,
     private val api: UserApi
 ) : UserRepository {
-    private val scope = CoroutineScope(Dispatchers.IO)
     override suspend fun doLogin(emailPw: EmailPasswordDTO): Response<Token> {
         return api.login(emailPw)
     }
@@ -37,7 +36,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun setUserToken(token: Token) {
-        scope.launch {
+        runBlocking(Dispatchers.IO) {
             store.setToken(token)
         }
     }
