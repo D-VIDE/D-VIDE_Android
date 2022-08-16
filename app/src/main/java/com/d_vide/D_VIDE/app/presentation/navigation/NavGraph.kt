@@ -8,6 +8,7 @@ import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
+import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetailScreen
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
@@ -124,7 +125,16 @@ private fun NavGraphBuilder.MainNavGraph(
     composable(route = Screen.MyPageScreen.route) {
         MyPageScreen(navController)
     }
-
+    composable(
+        route = Screen.MyOrdersScreen.route
+    ) { from ->
+        MyOrdersScreen(
+            navController = navController,
+            onReviewSelected = {id -> onReviewClick(id, from)},
+            onTagClick = { id -> onTagClick(id, from)},
+            onRecruitingClick = { id -> onRecruitingClick(id, from)}
+        )
+    }
     composable(route = Screen.PostRecruitingScreen.route) {
         PostRecruitingScreen(navController, upPress = upPress)
     }
