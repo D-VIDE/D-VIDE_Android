@@ -5,8 +5,10 @@ import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingBodyDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.ReviewBodyDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.ReviewIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -62,6 +64,24 @@ class RecruitingRepositoryImpl @Inject constructor(
         }
         return api.postRecruitingOrder(
             request = Gson().toJson(recruitingOrder)
+                .toRequestBody("application/json".toMediaTypeOrNull()),
+            images = multipartBodyList
+        )
+    }
+
+    override suspend fun postReview(reviewBody: ReviewBodyDTO, files: List<File>): Response<ReviewIdDTO> {
+        val multipartBodyList = arrayListOf<MultipartBody.Part>()
+        files.forEachIndexed{ index, file ->
+            multipartBodyList.add(
+                MultipartBody.Part.createFormData(
+                    name = "reviewImgUrls",
+                    filename = file.name,
+                    body = file.asRequestBody("image/*".toMediaType())
+                )
+            )
+        }
+        return api.postReview(
+            request = Gson().toJson(reviewBody)
                 .toRequestBody("application/json".toMediaTypeOrNull()),
             images = multipartBodyList
         )
