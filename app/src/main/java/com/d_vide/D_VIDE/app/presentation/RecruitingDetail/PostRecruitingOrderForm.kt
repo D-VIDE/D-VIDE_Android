@@ -52,6 +52,9 @@ fun RecruitingOrderForm(
                     navController.navigateUp()
                 }
                 is PostRecruitingOrderViewModel.UiEvent.SaveRecruiting -> {
+                    navController.navigate(Screen.ChattingsScreen.route){
+                        popUpTo(0)
+                    }
                     Log.d("test", "성공 & 뒤로가자")
                 }
             }
@@ -145,7 +148,6 @@ fun RecruitingOrderForm(
                 viewModel.onEvent(PostRecruitingOrderEvent.EnteredPostId(postId.toLong()))
                 viewModel.onEvent(PostRecruitingOrderEvent.SaveRecruitingOrder)
 
-                navController.navigateUp()
             },
             modifier = Modifier
                 .padding(bottom = 50.dp)
