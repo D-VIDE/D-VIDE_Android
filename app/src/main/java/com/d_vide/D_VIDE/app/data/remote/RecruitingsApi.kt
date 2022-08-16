@@ -34,4 +34,11 @@ interface RecruitingsApi {
         @Part("request") request: RequestBody,
         @Part images: List<MultipartBody.Part?>,
     ): Response <RecruitingOrderIdDTO>
+
+    @Multipart
+    @POST("/api/v1/review")
+    suspend fun postReview(
+        @Part("request") request: RequestBody,
+        @Part images: List<MultipartBody.Part?>,
+    ): Response <RecruitingOrderIdDTO>
 }
