@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Recruitings
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -79,6 +80,7 @@ fun RecruitingsScreen(
                         }
                         viewModel.state.value.recruitingDTOS.forEach {
                             item {
+                                Log.d("testProgress","${it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()}")
                                 RecruitingItem(
                                     onUserClick = {
                                         scope.launch {
@@ -89,7 +91,7 @@ fun RecruitingsScreen(
                                         }
                                     },
                                     onClick = { onRecruitingClick(it.post.id) },
-                                    userName = it.user.nickName,
+                                    userName = it.user.nickname,
                                     userLocation = LocationConverter(
                                         LatLng(
                                             it.post.latitude,
@@ -104,7 +106,8 @@ fun RecruitingsScreen(
                                     else 0,
                                     timeRemaining = ((it.post.targetTime - System.currentTimeMillis() / 1000) / 60),
                                     deadLineHour = it.post.targetTime.convertTimestampToHour(),
-                                    deadLineMinute = it.post.targetTime.convertTimestampToMinute()
+                                    deadLineMinute = it.post.targetTime.convertTimestampToMinute(),
+                                    progress = it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()
                                 )
                             }
                         }

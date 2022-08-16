@@ -114,7 +114,7 @@ fun RecruitingItem(
             }
             LinearProgressIndicator(
                 progress = progress,
-                color = if (progress == 1f) main1 else main0,
+                color = if (progress >= 1f) main1 else main0,
                 backgroundColor = graph_gray,
                 modifier = Modifier
                     .fillMaxWidth()
