@@ -54,7 +54,9 @@ fun MyPageScreen(
                 onClick = { navController.navigate(Screen.FollowingsScreen.route) }
             )
             MyPageSavings()
-            MyPageCommonCell("나의 주문내역 보기")
+            MyPageCommonCell("나의 주문내역 보기") {
+                navController.navigate(Screen.MyOrdersScreen.route)
+            }
             MyPageCommonCell("내가 쓴 리뷰 보기")
             MyPageCommonCell("고객센터로 이동 ")
         }
@@ -89,7 +91,8 @@ fun MyPageCommonCell(
     CardContainer(onClick = onClick) {
         Box(modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp)) {
+            .padding(horizontal = 12.dp)
+        ) {
             Text(
                 text = text,
                 fontSize = 14.sp,
@@ -275,7 +278,7 @@ fun CardContainer(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(elevation = 5.dp, shape = RoundedCornerShape(26.dp), clip = true)
-            .clickable { onClick }
+            .clickable(onClick = onClick)
     ) {
         Column(modifier = ColumnModifier) {
             Spacer(modifier = Modifier.size(verticalPadding))
