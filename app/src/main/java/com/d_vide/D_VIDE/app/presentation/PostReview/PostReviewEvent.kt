@@ -8,6 +8,7 @@ sealed class PostReviewEvent {
     data class EnteredImage(val value: Uri?, val index: Int): PostReviewEvent()
     data class DeleteImage(val index: Int): PostReviewEvent()
     data class EnteredContent(val value: String): PostReviewEvent()
+    data class EnteredStarRating(val value: Double): PostReviewEvent()
 
     object SaveReview: PostReviewEvent()
 }

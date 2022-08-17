@@ -22,5 +22,5 @@ interface RecruitingRepository {
 
     suspend fun postRecruiting(recruitingBody: RecruitingBodyDTO, files: List<File>): Response<RecruitingIdDTO>
     suspend fun postRecruitingOrder(recruitingOrder: RecruitingOrderDTO, files: List<File>): Response<RecruitingOrderIdDTO>
-    suspend fun postReview(reviewBody: ReviewBodyDTO, files: List<File>): Response<ReviewIdDTO>
+    suspend fun postReview(reviewBody: ReviewBodyDTO, files: List<File>, postId: Int): Response<ReviewIdDTO>
 }

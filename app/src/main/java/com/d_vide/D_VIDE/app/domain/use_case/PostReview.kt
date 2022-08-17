@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.domain.use_case
 
+import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.ReviewBodyDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
@@ -17,10 +18,11 @@ import javax.inject.Inject
 class PostReview @Inject constructor (
     val repository: RecruitingRepository
 ){
-    operator fun invoke(reviewBody: ReviewBodyDTO, files: List<File>): Flow<Resource<ReviewIdDTO>> = flow{
+    operator fun invoke(reviewBody: ReviewBodyDTO, files: List<File>, postId: Int): Flow<Resource<ReviewIdDTO>> = flow{
         try {
             emit(Resource.Loading())
-            val r = repository.postReview(reviewBody, files)
+            val r = repository.postReview(reviewBody, files, postId)
+
             when(r.code()) {
                 201 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {

@@ -58,7 +58,9 @@ fun MyPageScreen(
                 navController.navigate(Screen.MyOrdersScreen.route)
             }
             MyPageCommonCell("내가 쓴 리뷰 보기")
-            MyPageCommonCell("고객센터로 이동 ")
+            MyPageCommonCell("고객센터로 이동 "){
+                navController.navigate(Screen.PostReviewScreen.route)
+            }
         }
         BackgroundImage(Modifier.align(Alignment.BottomEnd))
     }

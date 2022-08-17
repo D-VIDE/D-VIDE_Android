@@ -39,6 +39,7 @@ interface RecruitingsApi {
     @Multipart
     @POST("/api/v1/review")
     suspend fun postReview(
+        @Query("postId") postId: Int,
         @Part("request") request: RequestBody,
         @Part images: List<MultipartBody.Part?>,
     ): Response <ReviewIdDTO>

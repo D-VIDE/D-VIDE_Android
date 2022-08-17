@@ -33,8 +33,8 @@ class PostReviewViewModel @Inject constructor(
     private var _imageUris = mutableStateListOf<Uri>()
     val imageUris: SnapshotStateList<Uri> = _imageUris
     
-    private var _reviewId = mutableStateOf(0)
-    val reviewId: State<Int> = _reviewId
+    private var _reviewId = mutableStateOf(1L)
+    val reviewId: State<Long> = _reviewId
 
     private var _reviewBody = mutableStateOf(ReviewBodyDTO())
     val reviewBodyDTO: State<ReviewBodyDTO> = _reviewBody
@@ -42,6 +42,9 @@ class PostReviewViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    /**
+     * starRating 추가하여 수정
+     */
     fun onEvent(event: PostReviewEvent) {
         when (event) {
             is PostReviewEvent.EnteredStoreName -> {
@@ -77,11 +80,16 @@ class PostReviewViewModel @Inject constructor(
 
                         val fileList = _imageUris.map { UriUtil.toFile(context, it) }
 
+                        /**
+                         * postId입력할 때 savedStateHandle을 이용해서 넘겨준걸로 수정해야함 지금은 1임
+                         */
+
                         postReviewUseCase(
                             ReviewBodyDTO(
+                                starRating = 4.5,
                                 storeName = reviewBodyDTO.value.storeName,
                                 content = reviewBodyDTO.value.content,
-                            ), fileList
+                            ), fileList, 1
                         ).collect() { it ->
                             when (it) {
                                 is Resource.Success -> {
