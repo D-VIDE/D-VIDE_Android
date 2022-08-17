@@ -21,6 +21,7 @@ import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableField
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.StarRating
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
@@ -83,6 +84,11 @@ fun PostReviewScreen(
                 )
             }
 
+            StarRating(
+                rating = viewModel.reviewBodyDTO.value.starRating,
+                onValueChange = {viewModel.onEvent(PostReviewEvent.EnteredStarRating(it))}
+            )
+            
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
                 LazyRow(

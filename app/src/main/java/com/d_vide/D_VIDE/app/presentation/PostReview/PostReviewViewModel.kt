@@ -42,6 +42,7 @@ class PostReviewViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+
     /**
      * starRating 추가하여 수정
      */
@@ -52,6 +53,13 @@ class PostReviewViewModel @Inject constructor(
                     storeName = event.value
                 )
             }
+
+            is PostReviewEvent.EnteredStarRating -> {
+                _reviewBody.value = reviewBodyDTO.value.copy(
+                    starRating = event.value
+                )
+            }
+
             is PostReviewEvent.EnteredImage -> {
                 if(event.index >= 0)
                     _imageUris[event.index] = event.value!!
@@ -86,7 +94,7 @@ class PostReviewViewModel @Inject constructor(
 
                         postReviewUseCase(
                             ReviewBodyDTO(
-                                starRating = 4.5,
+                                starRating = reviewBodyDTO.value.starRating,
                                 storeName = reviewBodyDTO.value.storeName,
                                 content = reviewBodyDTO.value.content,
                             ), fileList, 1
