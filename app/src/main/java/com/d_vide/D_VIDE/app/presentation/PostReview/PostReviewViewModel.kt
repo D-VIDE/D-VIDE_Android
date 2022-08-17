@@ -94,7 +94,7 @@ class PostReviewViewModel @Inject constructor(
                             when (it) {
                                 is Resource.Success -> {
                                     it.data!!.reviewId.also { _reviewId.value = it }
-                                    "리뷰글 올리기 성공 reviewId: ${it.data!!.reviewId}"
+                                    "리뷰글 올리기 성공 reviewId: ${it.data!!.reviewId}".log()
                                 }
                                 is Resource.Error -> "리뷰글 올리기 실패".log()
                                 is Resource.Loading -> "리뷰글 올리는 중".log()

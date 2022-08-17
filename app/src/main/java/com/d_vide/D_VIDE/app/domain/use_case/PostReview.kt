@@ -24,7 +24,7 @@ class PostReview @Inject constructor (
             val r = repository.postReview(reviewBody, files, postId)
 
             when(r.code()) {
-                201 -> { emit(Resource.Success(r.body()!!)) }
+                200 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {
                     "postReview ERROR ${r.code()}: ${r.errorBody().toString()}".log()
                 }
