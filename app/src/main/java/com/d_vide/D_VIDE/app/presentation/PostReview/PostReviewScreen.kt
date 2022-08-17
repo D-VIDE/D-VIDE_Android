@@ -84,10 +84,17 @@ fun PostReviewScreen(
                 )
             }
 
-            StarRating(
-                rating = viewModel.reviewBodyDTO.value.starRating,
-                onValueChange = {viewModel.onEvent(PostReviewEvent.EnteredStarRating(it))}
-            )
+            EditableFieldItem(labelText = "별점") {
+                Box(modifier = Modifier.fillMaxWidth()){
+                    StarRating(
+                        modifier = Modifier.align(Alignment.Center),
+                        rating = viewModel.reviewBodyDTO.value.starRating,
+                        onValueChange = {viewModel.onEvent(PostReviewEvent.EnteredStarRating(it))}
+                    )
+                }
+            }
+
+
             
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
@@ -119,9 +126,9 @@ fun PostReviewScreen(
             }
 
             // 내용
-            EditableFieldItem(labelText = "내용", height = 200.dp) {
+            EditableFieldItem(labelText = "내용", height = 330.dp) {
                 EditableTextField(
-                    height = 200.dp,
+                    height = 330.dp,
                     singleLine = false,
                     inputText = viewModel.reviewBodyDTO.value.content ?: "",
                     onValueChange = { viewModel.onEvent(PostReviewEvent.EnteredContent(it)) }) {}
