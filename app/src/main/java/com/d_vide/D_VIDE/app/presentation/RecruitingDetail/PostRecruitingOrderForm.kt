@@ -29,9 +29,7 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.component.PhotoPicker
 import com.d_vide.D_VIDE.app.presentation.component.DivideButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
-import com.d_vide.D_VIDE.ui.theme.TextStyles
-import com.d_vide.D_VIDE.ui.theme.gray7
-import com.d_vide.D_VIDE.ui.theme.main1
+import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -147,14 +145,20 @@ fun RecruitingOrderForm(
             onClick = {
                 viewModel.onEvent(PostRecruitingOrderEvent.EnteredPostId(postId.toLong()))
                 viewModel.onEvent(PostRecruitingOrderEvent.SaveRecruitingOrder)
-
             },
             modifier = Modifier
                 .padding(bottom = 50.dp)
                 .align(CenterHorizontally)
                 .height(50.dp)
-                .fillMaxWidth()) {
-            Text(text = "D/VIDE!", style = TextStyles.Big1, color = gray7)
+                .fillMaxWidth(),
+            backgroundColor = if (viewModel.recruitingOrderDTO.value.orderPrice == null) gray4 else main2
+        ) {
+            Text(
+                style = TextStyles.Big1,
+                text = if (viewModel.recruitingOrderDTO.value.orderPrice == null) "D/VIDE!"
+                       else "D/VIDER와 대화하기",
+                color = White,
+            )
         }
     }
 }
