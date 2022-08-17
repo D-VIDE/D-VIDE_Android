@@ -99,7 +99,8 @@ fun RecruitingsScreen(
                                         )
                                     ),
                                     title = it.post.title,
-                                    imageURL = it.user.profileImgUrl,
+                                    imageURL = it.post.postImgUrl,
+                                    profileURL = it.user.profileImgUrl,
                                     insufficientMoney =
                                     if(it.post.targetPrice > it.post.orderedPrice)
                                         it.post.targetPrice - it.post.orderedPrice

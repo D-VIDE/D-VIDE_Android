@@ -9,5 +9,5 @@ data class RecruitingPostInfoDTO(
     val targetPrice: Int,
     val orderedPrice: Int,
     val status: String,
-    val profileImgUrl: String,
+    val postImgUrl: String,
 )
