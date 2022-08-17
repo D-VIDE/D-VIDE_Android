@@ -20,10 +20,12 @@ fun LocationConverter(
     var address = geoCoder.getFromLocation(position.latitude, position.longitude, 10)
 
     try {
-        gu = address.get(0).subLocality
-        dong = address.get(0).thoroughfare
-        //gu = geoCoder.getFromLocation(position.latitude, position.longitude, 1).first().subLocality
-        //dong = geoCoder.getFromLocation(position.latitude, position.longitude, 1).first().thoroughfare
+        if (address.get(0).subLocality != null && address.get(0).subLocality.isNotEmpty()) {
+            gu = address.get(0).subLocality
+        }
+        if (address.get(0).thoroughfare != null && address.get(0).thoroughfare.isNotEmpty()) {
+            dong = address.get(0).thoroughfare
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }
