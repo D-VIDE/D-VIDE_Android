@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
@@ -36,6 +38,12 @@ fun Reviews(
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBarWithImage() },
+            floatingActionButton = {
+                RecruitingWriteButton(
+                    onClick = { navController.navigate(Screen.PostReviewScreen.route) },
+                    shouldShowBottomBar = true
+                )
+            }
         ){
             Surface(
                 color = gray6,

@@ -10,6 +10,7 @@ import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
+import com.d_vide.D_VIDE.app.presentation.PostReview.PostReviewScreen
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetailScreen
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
 import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
@@ -143,5 +144,8 @@ private fun NavGraphBuilder.MainNavGraph(
     }
     composable(route = Screen.FollowingsScreen.route) { from ->
         FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    }
+    composable(route = Screen.PostReviewScreen.route) {
+        PostReviewScreen(navController, upPress)
     }
 }

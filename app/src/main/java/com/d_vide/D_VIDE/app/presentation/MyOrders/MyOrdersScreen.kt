@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.MyOrders.component.MyCompletedOrder
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundTextContainer
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.*
 import com.d_vide.D_VIDE.ui.theme.background
 
@@ -51,7 +52,7 @@ fun MyOrdersScreen(
                         item {
                             MyCompletedOrder(
                                 onClick = { onRecruitingClick(it.post.id) },
-                                onButtonClick = { },
+                                onButtonClick = { navController.navigate(Screen.PostReviewScreen.route) },
                                 title = it.post.title,
                                 imageURL = it.user.profileImgUrl,
                                 price = it.post.orderedPrice,
@@ -60,7 +61,7 @@ fun MyOrdersScreen(
                                         + it.post.targetTime.convertTimestampToMinute()
                                     .toString(),
                                 date = (it.post.targetTime * 1000).convertTimestampToPointFullDate(),
-                                enabled = if (it.post.status == "RECRUIT_SUCCESS") true else false
+                                enabled = it.post.status == "RECRUIT_SUCCESS"
                             )
                         }
                     }
