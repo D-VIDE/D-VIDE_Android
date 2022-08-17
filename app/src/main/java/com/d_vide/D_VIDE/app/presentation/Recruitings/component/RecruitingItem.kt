@@ -43,6 +43,7 @@ fun RecruitingItem(
     userName: String = "kksmedd104",
     userLocation: String = "세종시 조치원읍",
     timeRemaining: Long = 2,
+    profileURL: String = "",
     imageURL: String = "",
     title: String = "삼첩분식 드실분~저는 빨리먹고 싶어sdfsdf요.",
     deadLineHour: Int = 4,
@@ -57,7 +58,7 @@ fun RecruitingItem(
             .background(background)
             .scale(0.9f)
     ) {
-        RecruitingUserName(Modifier, userName, userLocation, imageURL, onUserClick)
+        RecruitingUserName(Modifier, userName, userLocation, profileURL, onUserClick)
         if(timeRemaining > 0) {
             MessageBallon(
                 modifier = Modifier
@@ -152,7 +153,7 @@ fun RecruitingUserName(
     modifier: Modifier = Modifier,
     userName: String = "kksmedd10204",
     userLocation: String = "세종시 조치원읍",
-    imageURL: String = "",
+    profileImageURL: String = "",
     onClick: () -> Unit={}
 ){
     Row(
@@ -176,7 +177,7 @@ fun RecruitingUserName(
                         color = Color.Gray,
                         shape = CircleShape
                     ),
-                imageURL = imageURL
+                imageURL = profileImageURL
             )
             Text(
                 text = userName,
