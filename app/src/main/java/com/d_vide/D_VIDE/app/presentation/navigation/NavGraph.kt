@@ -198,7 +198,7 @@ private fun NavGraphBuilder.MyReviewNavGraph(
         )
     }
 
-    composable(route = Screen.PostReviewScreen.route) {
+    composable(route = Screen.PostReviewScreen.route) { from ->
         PostReviewScreen(navController, upPress)
     }
 }

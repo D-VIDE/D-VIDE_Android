@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.PostReview
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,6 +15,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.util.log
@@ -23,6 +25,7 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.StarRating
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
+import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
@@ -35,16 +38,22 @@ fun PostReviewScreen(
 ){
 
     val viewModel = hiltViewModel<PostReviewViewModel>()
+    val reviewId = viewModel.reviewId.value
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is PostReviewViewModel.UiEvent.ShowSnackbar -> {
-                    "post 성공".log()
+                    "post 실패".log()
                     navController.navigateUp()
                 }
-                is PostReviewViewModel.UiEvent.SaveReview -> "post 과정에서 error 발생".log()
+                is PostReviewViewModel.UiEvent.SaveReview -> {
+                    navController.navigate(NavGraph.MYREVIEW){
+                        popUpTo(NavGraph.MYREVIEW)
+                    }
+                    Log.d("test", "성공 & 뒤로가자")
+                }
             }
         }
     }
@@ -57,7 +66,6 @@ fun PostReviewScreen(
                 text = "업로드 하기",
                 onClick = {
                     viewModel.onEvent(PostReviewEvent.SaveReview)
-                    navController.navigate(Screen.ReviewsScreen.route)
                 },
                 shouldShowBottomBar = false
             )
