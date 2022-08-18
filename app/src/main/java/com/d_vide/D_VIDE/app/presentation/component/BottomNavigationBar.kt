@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 
 enum class BottomSections(
@@ -68,13 +69,24 @@ fun BottomNavigationBar(
                         Spacer(modifier = Modifier.size(7.dp))
                     }
                 },
-                onClick = { navigationToRoute(it.route) }
+                onClick = bottomNavigate(section = it, navigateToRoute = navigationToRoute)
             )
         }
 
         Spacer(modifier = Modifier.padding(end = 30.dp))
     }
 }
+
+@Composable
+private fun bottomNavigate(
+    section: BottomSections,
+    navigateToRoute: (String) -> Unit
+) = if (section == BottomSections.PROFILE) {
+    { navigateToRoute(NavGraph.MYPAGE) }
+} else {
+    { navigateToRoute(section.route) }
+}
+
 
 @Preview
 @Composable

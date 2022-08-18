@@ -97,6 +97,14 @@ fun NavGraphBuilder.divideGraph(
             onReviewSelected = { id -> onReviewClick(id, backStackEntry)},
             onTagClick = { id -> onTagClick(id, backStackEntry)})
     }
+
+    composable(route = Screen.UserFeedScreen.route) { from ->
+        UserFeedScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)},onTagClick = { id -> onTagClick(id, from)})
+    }
+
+    composable(route = Screen.PostRecruitingScreen.route) {
+        PostRecruitingScreen(navController, upPress = upPress)
+    }
 }
 
 
@@ -123,9 +131,62 @@ private fun NavGraphBuilder.MainNavGraph(
     composable(route = Screen.ChattingsScreen.route) { from ->
         Chattings(navController, onChattingSelected = {id -> onChattingClick(id, from)})
     }
+    navigation(
+        route = NavGraph.MYPAGE,
+        startDestination = Screen.MyPageScreen.route
+    ) {
+        MyPageNavGraph(
+            onReviewClick = onReviewClick,
+            onChattingClick = onChattingClick,
+            onTagClick = onTagClick,
+            onRecruitingClick = onRecruitingClick,
+            upPress = upPress,
+            navController = navController
+        )
+    }
+
+
+}
+
+private fun NavGraphBuilder.MyPageNavGraph(
+    navController: NavController,
+    upPress: () -> Unit,
+    onReviewClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onTagClick: (String, NavBackStackEntry) -> Unit,
+    onRecruitingClick: (Int, NavBackStackEntry) -> Unit
+){
     composable(route = Screen.MyPageScreen.route) {
         MyPageScreen(navController)
     }
+
+    composable(route = Screen.FollowingsScreen.route) { from ->
+        FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    }
+
+    navigation(
+        route = NavGraph.MYREVIEW,
+        startDestination = Screen.MyOrdersScreen.route
+    ) {
+        MyReviewNavGraph(
+            onReviewClick = onReviewClick,
+            onChattingClick = onChattingClick,
+            onTagClick = onTagClick,
+            onRecruitingClick = onRecruitingClick,
+            upPress = upPress,
+            navController = navController
+        )
+    }
+}
+
+private fun NavGraphBuilder.MyReviewNavGraph(
+    navController: NavController,
+    upPress: () -> Unit,
+    onReviewClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onTagClick: (String, NavBackStackEntry) -> Unit,
+    onRecruitingClick: (Int, NavBackStackEntry) -> Unit
+){
     composable(
         route = Screen.MyOrdersScreen.route
     ) { from ->
@@ -136,15 +197,7 @@ private fun NavGraphBuilder.MainNavGraph(
             onRecruitingClick = { id -> onRecruitingClick(id, from)}
         )
     }
-    composable(route = Screen.PostRecruitingScreen.route) {
-        PostRecruitingScreen(navController, upPress = upPress)
-    }
-    composable(route = Screen.UserFeedScreen.route) { from ->
-        UserFeedScreen(navController, onReviewSelected = {id -> onReviewClick(id, from)},onTagClick = { id -> onTagClick(id, from)})
-    }
-    composable(route = Screen.FollowingsScreen.route) { from ->
-        FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
-    }
+
     composable(route = Screen.PostReviewScreen.route) {
         PostReviewScreen(navController, upPress)
     }

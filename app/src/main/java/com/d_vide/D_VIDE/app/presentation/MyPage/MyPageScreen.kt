@@ -31,6 +31,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.mainOrange
@@ -55,7 +56,7 @@ fun MyPageScreen(
             )
             MyPageSavings()
             MyPageCommonCell("나의 주문내역 보기") {
-                navController.navigate(Screen.MyOrdersScreen.route)
+                navController.navigate(NavGraph.MYREVIEW)
             }
             MyPageCommonCell("내가 쓴 리뷰 보기")
             MyPageCommonCell("고객센터로 이동 "){
