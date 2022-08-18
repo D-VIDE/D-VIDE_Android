@@ -31,3 +31,15 @@ object NavGraph{
     const val MYPAGE = "mypage_nav_graph"
     const val MYREVIEW = "myreview_nav_graph"
 }
+
+val shouldShowBottomScreen = listOf(
+    Screen.RecruitingsScreen.route,
+    Screen.ReviewsScreen.route,
+    Screen.TaggedReviewsScreen.route,
+    "reviews_screen",
+    "my_page_screen",
+    "chattings_screen",
+    "followings_screen",
+    "review_detail_screen",
+    "my_orders_screen"
+)

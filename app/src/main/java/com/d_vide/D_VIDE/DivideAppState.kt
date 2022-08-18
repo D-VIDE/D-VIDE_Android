@@ -12,6 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.component.BottomSections
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.navigation.shouldShowBottomScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -82,12 +83,14 @@ class DivideAppState(
     // val screens = Screen::class.sealedSubclasses.mapNotNull{ it.objectInstance }.map{ it.route }
 
     // BotNavBar 에 존재하는 routes
-    val bottomBarTabs = BottomSections.values()
-    private val bottomBarRoutes = bottomBarTabs.map { it.route }
+//    val bottomBarTabs = BottomSections.values()
+//    //private val bottomBarRoutes = bottomBarTabs.map { it.route }
 
-    val shouldShowBottomBar: Boolean
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
+//    private val bottomBarRoutes = shouldShowBottomScreen
+//
+//    val shouldShowBottomBar: Boolean
+//        @Composable get() = navController
+//            .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
 
     fun upPress() { navController.navigateUp() }
 }

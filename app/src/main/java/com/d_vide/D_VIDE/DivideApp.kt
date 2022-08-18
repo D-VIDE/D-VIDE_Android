@@ -16,13 +16,11 @@ fun DivideApp() {
         DivideScaffold(
             scaffoldState = appState.scaffoldState,
             bottomBar = {
-                if(appState.shouldShowBottomBar) {
-                    BottomNavigationBar(
-                        tabs = appState.bottomBarTabs,
-                        currentRoute = appState.currentRoute!!,
-                        navigationToRoute = appState::navigateToBottomBarRoute
-                    )
-                }
+                BottomNavigationBar(
+                    tabs = appState.bottomBarTabs,
+                    currentRoute = appState.currentRoute,
+                    navigationToRoute = appState::navigateToBottomBarRoute
+                )
             },
         ) { innerPaddingModifier ->
             NavHost(

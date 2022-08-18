@@ -33,7 +33,7 @@ enum class BottomSections(
 @Composable
 fun BottomNavigationBar(
     tabs: Array<BottomSections>,
-    currentRoute: String,
+    currentRoute: String?,
     navigationToRoute: (String) -> Unit
 ) {
     BottomNavigation(
