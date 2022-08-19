@@ -25,3 +25,17 @@ object DetailDestinationKey{
     const val CHATTING = "chattingId"
     const val TAGGEDREVIEW = "taggedReviewId"
 }
+
+object NavGraph{
+    const val MAIN = "main_nav_graph"
+    const val MYPAGE = "mypage_nav_graph"
+    const val MYREVIEW = "myreview_nav_graph"
+}
+
+val shouldNotShowBottomScreen = listOf(
+    Screen.PostReviewScreen.route,
+    Screen.PostRecruitingScreen.route,
+    Screen.SplashScreen.route,
+    Screen.LoginScreen.route,
+    Screen.ChattingDetailScreen.route+"/{${DetailDestinationKey.CHATTING}}"
+)

@@ -16,11 +16,12 @@ fun DivideApp() {
         DivideScaffold(
             scaffoldState = appState.scaffoldState,
             bottomBar = {
-                if(appState.shouldShowBottomBar) {
+                if(appState.shouldShowBottomBar){
                     BottomNavigationBar(
                         tabs = appState.bottomBarTabs,
-                        currentRoute = appState.currentRoute!!,
-                        navigationToRoute = appState::navigateToBottomBarRoute
+                        currentDestination = appState.currentDestination,
+                        navigationToRoute = appState::navigateToBottomBarRoute,
+                        navController = appState.navController
                     )
                 }
             },

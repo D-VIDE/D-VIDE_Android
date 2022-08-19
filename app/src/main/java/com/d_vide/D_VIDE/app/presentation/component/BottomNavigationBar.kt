@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.component
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -13,9 +14,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import kotlinx.coroutines.selects.select
 
 enum class BottomSections(
     val title: String,
@@ -32,9 +38,12 @@ enum class BottomSections(
 @Composable
 fun BottomNavigationBar(
     tabs: Array<BottomSections>,
-    currentRoute: String,
-    navigationToRoute: (String) -> Unit
+    currentDestination: NavDestination?,
+    navigationToRoute: (String) -> Unit,
+    navController: NavController
 ) {
+
+
     BottomNavigation(
         modifier = Modifier
             .height(Const.UIConst.HEIGHT_BOTTOM_BAR)
@@ -48,33 +57,47 @@ fun BottomNavigationBar(
     ) {
         Spacer(modifier = Modifier.padding(start = 30.dp))
 
-        tabs.forEach {
+        tabs.forEach { screen ->
+
+            val selected = navController.backQueue.any { it.destination.route == screen.route }
+
             BottomNavigationItem(
                 modifier = Modifier.padding(bottom = 5.dp),
-                selected = currentRoute == it.route,
+                selected = selected,
                 label = {
                     Text(
-                        it.title,
+                        screen.title,
                         fontSize = 12.sp
                     )
                 },
                 icon = {
                     Column() {
                         Image(
-                            painterResource(id = if(currentRoute == it.route) it.selectedIcon else it.icon),
-                            contentDescription = it.title,
+                            painterResource(id = if(navController.backQueue.any { it.destination.route == screen.route }) screen.selectedIcon else screen.icon),
+                            contentDescription = screen.title,
                             modifier = Modifier.size(27.dp)
                         )
                         Spacer(modifier = Modifier.size(7.dp))
                     }
                 },
-                onClick = { navigationToRoute(it.route) }
+                onClick = bottomNavigate(section = screen, navigateToRoute = navigationToRoute)
             )
         }
 
         Spacer(modifier = Modifier.padding(end = 30.dp))
     }
 }
+
+@Composable
+private fun bottomNavigate(
+    section: BottomSections,
+    navigateToRoute: (String) -> Unit
+) = if (section == BottomSections.PROFILE) {
+    { navigateToRoute(NavGraph.MYPAGE) }
+} else {
+    { navigateToRoute(section.route) }
+}
+
 
 @Preview
 @Composable

@@ -7,11 +7,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.component.BottomSections
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.navigation.shouldNotShowBottomScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -34,15 +36,15 @@ class DivideAppState(
         coroutineScope.launch {}
     }
 
-    val currentRoute: String?
-        get() = navController.currentDestination?.route
+    val currentDestination: NavDestination?
+        get() = navController.currentDestination
 
     fun navigateToBottomBarRoute(route: String) {
-        if (route != currentRoute) {
+        if (route != currentDestination?.route) {
             navController.navigate(route) {
                 launchSingleTop = true
                 restoreState = true
-                popUpTo(BottomSections.DIVIDE.route) {
+                popUpTo(Screen.HomeScreen.route) {
                     saveState = true
                 }
             }
@@ -83,11 +85,11 @@ class DivideAppState(
 
     // BotNavBar 에 존재하는 routes
     val bottomBarTabs = BottomSections.values()
-    private val bottomBarRoutes = bottomBarTabs.map { it.route }
+    private val notShowBottomBarRoutes = shouldNotShowBottomScreen
 
     val shouldShowBottomBar: Boolean
         @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
+            .currentBackStackEntryAsState().value?.destination?.route !in notShowBottomBarRoutes
 
     fun upPress() { navController.navigateUp() }
 }
