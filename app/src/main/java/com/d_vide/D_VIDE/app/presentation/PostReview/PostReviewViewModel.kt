@@ -33,8 +33,8 @@ class PostReviewViewModel @Inject constructor(
     private var _imageUris = mutableStateListOf<Uri>()
     val imageUris: SnapshotStateList<Uri> = _imageUris
     
-    private var _reviewId = mutableStateOf(0)
-    val reviewId: State<Int> = _reviewId
+    private var _reviewId = mutableStateOf(1L)
+    val reviewId: State<Long> = _reviewId
 
     private var _reviewBody = mutableStateOf(ReviewBodyDTO())
     val reviewBodyDTO: State<ReviewBodyDTO> = _reviewBody
@@ -42,6 +42,10 @@ class PostReviewViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+
+    /**
+     * starRating 추가하여 수정
+     */
     fun onEvent(event: PostReviewEvent) {
         when (event) {
             is PostReviewEvent.EnteredStoreName -> {
@@ -49,6 +53,13 @@ class PostReviewViewModel @Inject constructor(
                     storeName = event.value
                 )
             }
+
+            is PostReviewEvent.EnteredStarRating -> {
+                _reviewBody.value = reviewBodyDTO.value.copy(
+                    starRating = event.value
+                )
+            }
+
             is PostReviewEvent.EnteredImage -> {
                 if(event.index >= 0)
                     _imageUris[event.index] = event.value!!
@@ -77,16 +88,21 @@ class PostReviewViewModel @Inject constructor(
 
                         val fileList = _imageUris.map { UriUtil.toFile(context, it) }
 
+                        /**
+                         * postId입력할 때 savedStateHandle을 이용해서 넘겨준걸로 수정해야함 지금은 1임
+                         */
+
                         postReviewUseCase(
                             ReviewBodyDTO(
+                                starRating = reviewBodyDTO.value.starRating,
                                 storeName = reviewBodyDTO.value.storeName,
                                 content = reviewBodyDTO.value.content,
-                            ), fileList
+                            ), fileList, 1
                         ).collect() { it ->
                             when (it) {
                                 is Resource.Success -> {
                                     it.data!!.reviewId.also { _reviewId.value = it }
-                                    "리뷰글 올리기 성공 reviewId: ${it.data!!.reviewId}"
+                                    "리뷰글 올리기 성공 reviewId: ${it.data!!.reviewId}".log()
                                 }
                                 is Resource.Error -> "리뷰글 올리기 실패".log()
                                 is Resource.Loading -> "리뷰글 올리는 중".log()

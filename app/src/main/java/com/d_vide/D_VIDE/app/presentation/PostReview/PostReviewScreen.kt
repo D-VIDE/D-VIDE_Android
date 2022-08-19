@@ -21,6 +21,7 @@ import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableField
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.StarRating
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
@@ -83,6 +84,18 @@ fun PostReviewScreen(
                 )
             }
 
+            EditableFieldItem(labelText = "별점") {
+                Box(modifier = Modifier.fillMaxWidth()){
+                    StarRating(
+                        modifier = Modifier.align(Alignment.Center),
+                        rating = viewModel.reviewBodyDTO.value.starRating,
+                        onValueChange = {viewModel.onEvent(PostReviewEvent.EnteredStarRating(it))}
+                    )
+                }
+            }
+
+
+            
             // 사진
             EditableFieldItem(labelText = "사진", height = 80.dp) {
                 LazyRow(
@@ -113,9 +126,9 @@ fun PostReviewScreen(
             }
 
             // 내용
-            EditableFieldItem(labelText = "내용", height = 200.dp) {
+            EditableFieldItem(labelText = "내용", height = 330.dp) {
                 EditableTextField(
-                    height = 200.dp,
+                    height = 330.dp,
                     singleLine = false,
                     inputText = viewModel.reviewBodyDTO.value.content ?: "",
                     onValueChange = { viewModel.onEvent(PostReviewEvent.EnteredContent(it)) }) {}

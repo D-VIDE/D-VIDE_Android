@@ -69,18 +69,19 @@ class RecruitingRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun postReview(reviewBody: ReviewBodyDTO, files: List<File>): Response<ReviewIdDTO> {
+    override suspend fun postReview(reviewBody: ReviewBodyDTO, files: List<File>, postId: Int): Response<ReviewIdDTO> {
         val multipartBodyList = arrayListOf<MultipartBody.Part>()
         files.forEachIndexed{ index, file ->
             multipartBodyList.add(
                 MultipartBody.Part.createFormData(
-                    name = "reviewImgUrls",
+                    name = "reviewImageFiles",
                     filename = file.name,
                     body = file.asRequestBody("image/*".toMediaType())
                 )
             )
         }
         return api.postReview(
+            postId,
             request = Gson().toJson(reviewBody)
                 .toRequestBody("application/json".toMediaTypeOrNull()),
             images = multipartBodyList
