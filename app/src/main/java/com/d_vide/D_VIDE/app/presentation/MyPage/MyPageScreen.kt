@@ -8,7 +8,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -34,13 +37,16 @@ import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.background
+import com.d_vide.D_VIDE.ui.theme.main1
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
 
 @Composable
 fun MyPageScreen(
     navController: NavController,
+    viewModel: MyPageViewModel = hiltViewModel()
 ) {
+    val viewModelState = viewModel.state.value.userDTO
     Box(modifier = Modifier.background(background)) {
         Column(
             modifier = Modifier
@@ -52,9 +58,14 @@ fun MyPageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MyPageUserProfile(
-                onClick = { navController.navigate(Screen.FollowingsScreen.route) }
+                username = viewModelState.nickname,
+                badges = if (viewModelState.badges?.isEmpty() == true) "디바이드 공식 돼지" else viewModelState.badges?.get(1)!!,
+                followerCount = viewModelState.followerCount,
+                followingCount = viewModelState.followingCount,
+                image = viewModelState.profileImgUrl,
+                onClick = { navController.navigate(Screen.FollowingsScreen.route) },
             )
-            MyPageSavings()
+            MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
                 navController.navigate(NavGraph.MYREVIEW)
             }
@@ -116,7 +127,9 @@ fun MyPageCommonCell(
 }
 
 @Composable
-fun MyPageSavings() {
+fun MyPageSavings(
+    savedPrice: Int = 0
+) {
     CardContainer(verticalPadding = 25.dp) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -135,23 +148,27 @@ fun MyPageSavings() {
             horizontalArrangement = SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("5930 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text(savedPrice.toString()+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
             Divider(
                 modifier = Modifier.size(1.dp, 31.dp),
                 color = Color.Gray,
             )
-            Text("5930 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text((savedPrice*0.6).toInt().toString()+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
         }
     }
 }
 
 @Composable
 fun MyPageUserProfile(
-    modifier: Modifier = Modifier,
+    username: String = "디바이드 공식 돼지",
+    badges: String = "",
+    followerCount: Int = 0,
+    followingCount: Int = 0,
+    image: String = "",
     onClick: () -> Unit
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
-        UserProfileImage(imageUrl = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg")
+        UserProfileImage(imageUrl = image)
         Card(
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
@@ -162,7 +179,7 @@ fun MyPageUserProfile(
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.size(55.dp))
                 Text(
-                    text = "디바이드 공식 돼지",
+                    text = badges,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -170,12 +187,16 @@ fun MyPageUserProfile(
                     modifier = Modifier.padding(top = 3.dp)
                 )
                 Text(
-                    text = "룡룡",
+                    text = username,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
-                Following(onClick = onClick)
+                Following(
+                    onClick = onClick,
+                    Follower = followerCount,
+                    Following = followingCount
+                )
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
@@ -227,7 +248,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "6",
+                    text = Following.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 20.sp,
@@ -252,7 +273,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
-                    text = "12",
+                    text = Follower.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 20.sp,
