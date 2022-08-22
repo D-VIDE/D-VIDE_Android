@@ -18,6 +18,7 @@ import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.MoreButton
+import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
 import com.d_vide.D_VIDE.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -110,7 +111,7 @@ fun ReviewCard(
             
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(text = "❤️️", style = TextStyles.Basics1)
-                Text(text = "$like", style = TextStyles.Basics2, color = gray2)
+                Text(text = formatAmountOrMessage(1234.toString()), style = TextStyles.Basics2, color = gray2)
             }
 
             Text(text = "# ${tag}", style = TextStyles.Point4, color = red0, modifier = Modifier.clickable(onClick = {onTagClick(tag)}))

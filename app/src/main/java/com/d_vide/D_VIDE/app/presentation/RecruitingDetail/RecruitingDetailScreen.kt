@@ -27,6 +27,7 @@ import com.d_vide.D_VIDE.app.presentation.component.DivideButton
 import com.d_vide.D_VIDE.app.presentation.component.DivideDivider
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.component.TopRectangleBar
+import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
 import com.d_vide.D_VIDE.ui.theme.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
@@ -70,15 +71,15 @@ fun RecruitingDetailScreen(
                         )
                         RecruitingSmallText(text = "마감시간", subtext = "04:00", unit = "PM")
                         Spacer(modifier = Modifier.size(12.dp))
-                        RecruitingSmallText(text = "배달비", subtext = "30,000", unit = "원")
+                        RecruitingSmallText(text = "배달비", subtext = formatAmountOrMessage(30000.toString()), unit = "원")
                         DivideDivider(
                             Modifier
                                 .alpha(0.2f)
                                 .padding(vertical = 14.dp)
                         )
-                        RecruitingBigText(text = "목표 주문 금액", subtext = "30,000", unit = "원")
+                        RecruitingBigText(text = "목표 주문 금액", subtext = formatAmountOrMessage(30000.toString()), unit = "원")
                         Spacer(modifier = Modifier.size(12.dp))
-                        RecruitingBigText(text = "현재 주문 금액", subtext = "16,000", unit = "원")
+                        RecruitingBigText(text = "현재 주문 금액", subtext = formatAmountOrMessage(16000.toString()), unit = "원")
 
                         LinearProgressIndicator(
                             progress = 0.7f,

@@ -36,10 +36,12 @@ import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
 import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.main1
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
+import java.text.DecimalFormat
 
 @Composable
 fun MyPageScreen(
@@ -151,12 +153,12 @@ fun MyPageSavings(
             horizontalArrangement = SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(savedPrice.toString()+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text(formatAmountOrMessage(savedPrice.toString())+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
             Divider(
                 modifier = Modifier.size(1.dp, 31.dp),
                 color = Color.Gray,
             )
-            Text((savedPrice*0.6).toInt().toString()+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text(formatAmountOrMessage((savedPrice*0.6).toInt().toString())+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
         }
     }
 }
@@ -251,7 +253,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = Following.toString(),
+                    text = formatAmountOrMessage(Following.toString()),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 20.sp,
@@ -276,7 +278,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
-                    text = Follower.toString(),
+                    text = formatAmountOrMessage(Follower.toString()),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 20.sp,
