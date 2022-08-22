@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.component.DivideButton
 import com.d_vide.D_VIDE.app.presentation.component.DivideDivider
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
@@ -47,6 +48,7 @@ fun RecruitingDetailScreen(
     ) { state, scope ->
         Box(
             modifier = Modifier
+                .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
                 .fillMaxSize()
                 .verticalScroll(scrollableState)
         ) {

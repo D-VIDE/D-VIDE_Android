@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
@@ -33,7 +34,7 @@ fun ReviewDetail(
         topBar = { TopRoundBar("리뷰", onClick = upPress) },
     ){ innerPadding ->
             Column(
-                Modifier.verticalScroll(rememberScrollState())
+                Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR).verticalScroll(rememberScrollState())
             ) {
                 ReviewCard(
                     imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg",

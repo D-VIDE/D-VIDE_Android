@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.component.OrderFormField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.PhotoPicker
@@ -60,6 +61,7 @@ fun RecruitingOrderForm(
     }
     Column(
         modifier = modifier
+            .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
             .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp))
             .background(White)
             .padding(horizontal = 20.dp)

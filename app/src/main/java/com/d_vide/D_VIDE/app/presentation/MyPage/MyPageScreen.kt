@@ -47,12 +47,15 @@ fun MyPageScreen(
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
     val viewModelState = viewModel.state.value.userDTO
+    val scrollState = rememberScrollState()
+
     Box(modifier = Modifier.background(background)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp)
                 .zIndex(2F)
+                .verticalScroll(scrollState)
             ,
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally

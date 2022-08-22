@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
@@ -47,7 +48,7 @@ fun Reviews(
         ){
             Surface(
                 color = gray6,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight().padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
             ) {
                 Box() {
                     LazyColumn(
