@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,7 @@ fun EditableTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     height: Dp = 60.dp,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit = {},
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit = {}
@@ -69,6 +71,7 @@ fun EditableTextField(
                 .padding(0.dp)
                 .focusRequester(focusRequester)
             ,
+            visualTransformation = visualTransformation,
             singleLine = singleLine,
             enabled = enabled,
             shape = RoundedCornerShape(0.dp, 18.dp, 18.dp, 0.dp),

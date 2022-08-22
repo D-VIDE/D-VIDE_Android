@@ -29,6 +29,7 @@ import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.component.OrderFormFi
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.PhotoPicker
 import com.d_vide.D_VIDE.app.presentation.component.DivideButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.NumberFormatting
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.flow.collectLatest
@@ -129,6 +130,7 @@ fun RecruitingOrderForm(
                     unitText = "원",
                     singleLine = true,
                     inputText = viewModel.recruitingOrderDTO.value.orderPrice?.toString() ?: "",
+                    visualTransformation = NumberFormatting(),
                     onValueChange = {
                         if (it.length < 10) {
                             viewModel.onEvent(

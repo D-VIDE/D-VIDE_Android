@@ -9,7 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +26,7 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.NumberFormatting
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
 import kotlinx.coroutines.flow.collectLatest
@@ -122,6 +125,7 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.deliveryPrice?.toString() ?: "",
+                    visualTransformation = NumberFormatting(),
                     onValueChange = { if (it.length < 10) {viewModel.onEvent(PostRecruitingsEvent.EnteredDeliveryPrice(if (it.isNullOrBlank()) null else it.toInt())) }}
                 )
             }
@@ -132,7 +136,12 @@ fun PostRecruitingScreen(
                     unitText = "원",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     inputText = viewModel.recruitingBodyDTO.value.targetPrice?.toString() ?: "",
-                    onValueChange = { if (it.length < 10) {viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) null else it.toInt())) }}
+                    visualTransformation = NumberFormatting(),
+                    onValueChange = {
+                        if (it.length < 10) {
+                            viewModel.onEvent(PostRecruitingsEvent.EnteredTargetPrice(if (it.isNullOrBlank()) null else it.toInt()))
+                        }
+                    }
                 )
             }
 
@@ -150,7 +159,7 @@ fun PostRecruitingScreen(
                                 R.drawable.add_photo, it,
                                 { viewModel.onEvent(PostRecruitingsEvent.EnteredImage(it, idx)) },
                                 { viewModel.onEvent(PostRecruitingsEvent.DeleteImage(idx)) },
-                                modifier = Modifier.size(77.dp,71.dp)
+                                modifier = Modifier.size(77.dp, 71.dp)
                             )
                         }
                     }
@@ -162,7 +171,7 @@ fun PostRecruitingScreen(
                                     PostRecruitingsEvent.EnteredImage(it, -1)
                                 )
                             },
-                            modifier = Modifier.size(77.dp,71.dp)
+                            modifier = Modifier.size(77.dp, 71.dp)
                         )
                     }
                 }
