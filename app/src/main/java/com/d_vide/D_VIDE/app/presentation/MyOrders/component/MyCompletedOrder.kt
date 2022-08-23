@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
@@ -201,7 +202,7 @@ fun OrderPrice(
             modifier = Modifier.align(Alignment.TopEnd),
         ) {
             Text(
-                text = price.toString(),
+                text = formatAmountOrMessage(price.toString()),
                 style = TextStyles.Basics4
             )
             Text(

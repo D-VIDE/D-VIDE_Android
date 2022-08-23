@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.DivideOutlinedTextField
@@ -40,6 +41,7 @@ fun OrderFormField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     height: Dp = 60.dp,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit = {},
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit = {}
@@ -75,6 +77,7 @@ fun OrderFormField(
                 .background(color = Color.White)
                 .padding(end = 20.dp)
             ,
+            visualTransformation = visualTransformation,
             textStyle = TextStyles.Big1_1,
             singleLine = singleLine,
             enabled = enabled,

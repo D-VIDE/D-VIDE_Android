@@ -23,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.component.OrderFormField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.PhotoPicker
 import com.d_vide.D_VIDE.app.presentation.component.DivideButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.NumberFormatting
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.flow.collectLatest
@@ -60,6 +62,7 @@ fun RecruitingOrderForm(
     }
     Column(
         modifier = modifier
+            .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
             .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp))
             .background(White)
             .padding(horizontal = 20.dp)
@@ -127,6 +130,7 @@ fun RecruitingOrderForm(
                     unitText = "원",
                     singleLine = true,
                     inputText = viewModel.recruitingOrderDTO.value.orderPrice?.toString() ?: "",
+                    visualTransformation = NumberFormatting(),
                     onValueChange = {
                         if (it.length < 10) {
                             viewModel.onEvent(
