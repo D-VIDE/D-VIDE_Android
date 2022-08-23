@@ -74,7 +74,9 @@ fun MyPageScreen(
             MyPageCommonCell("나의 주문내역 보기") {
                 navController.navigate(NavGraph.MYREVIEW)
             }
-            MyPageCommonCell("내가 쓴 리뷰 보기")
+            MyPageCommonCell("내가 쓴 리뷰 보기"){
+                navController.navigate(Screen.MyReviewsScreen.route)
+            }
             MyPageCommonCell("고객센터로 이동 "){
                 navController.navigate(Screen.PostReviewScreen.route)
             }
