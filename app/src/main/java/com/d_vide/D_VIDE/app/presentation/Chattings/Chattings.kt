@@ -42,7 +42,7 @@ fun Chattings(
     onChattingSelected: (Int) -> Unit
 ){
     Scaffold(
-        topBar = { TopRoundBarWithImage(image = R.drawable.chatting_title, modifier = Modifier.padding(top = 5.dp)) },
+        topBar = { TopRoundBar(text = "D/VIDE 채팅") },
     ){
         Surface(
             color = gray6,

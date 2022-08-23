@@ -57,10 +57,13 @@ fun TopRoundBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onClick) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBackIos,
-                    contentDescription = "뒤로가기"
+            IconButton(
+                onClick = onClick,
+                modifier = Modifier.padding(start = 20.dp).size(11.dp, 19.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.up_press_gray),
+                    contentDescription = "뒤로가기",
                 )
             }
         },
