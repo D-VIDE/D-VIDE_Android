@@ -9,6 +9,7 @@ import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
+import com.d_vide.D_VIDE.app.presentation.MyReviews.MyReviewsScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
 import com.d_vide.D_VIDE.app.presentation.PostReview.PostReviewScreen
 import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetailScreen
@@ -195,6 +196,17 @@ private fun NavGraphBuilder.MyReviewNavGraph(
             onReviewSelected = {id -> onReviewClick(id, from)},
             onTagClick = { id -> onTagClick(id, from)},
             onRecruitingClick = { id -> onRecruitingClick(id, from)}
+        )
+    }
+
+    composable(
+        route = Screen.MyReviewsScreen.route
+    ) { from ->
+        MyReviewsScreen(
+            navController = navController,
+            onReviewSelected = {id -> onReviewClick(id, from)},
+            onTagClick = { id -> onTagClick(id, from)},
+            upPress = upPress
         )
     }
 

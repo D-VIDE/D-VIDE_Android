@@ -143,6 +143,21 @@ object TextStyles{
         letterSpacing = 0.6.sp,
         lineHeight = 16.sp
     )
+
+    val Intro = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        letterSpacing = 0.6.sp,
+        lineHeight = 35.sp
+    )
+
+    val LoginText = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.5.sp,
+        letterSpacing = 0.4.sp,
+    )
 }
 
 val Typography = Typography(
