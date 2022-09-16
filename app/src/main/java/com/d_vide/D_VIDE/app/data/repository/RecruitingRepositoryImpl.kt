@@ -3,12 +3,9 @@ package com.d_vide.D_VIDE.app.data.repository
 import com.d_vide.D_VIDE.app._enums.Category
 import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingBodyDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.ReviewBodyDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.ReviewIdDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -86,5 +83,9 @@ class RecruitingRepositoryImpl @Inject constructor(
                 .toRequestBody("application/json".toMediaTypeOrNull()),
             images = multipartBodyList
         )
+    }
+
+    override suspend fun getRecruitingDetail(postId: Long): Response<RecruitingDetailDTO> {
+        return api.getRecruitingDetail(postId)
     }
 }
