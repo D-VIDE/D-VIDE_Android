@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.RecruitingDetail
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.component.DivideButton
@@ -42,6 +44,11 @@ fun RecruitingDetailScreen(
     upPress: () -> Unit = {}
 ){
     val scrollableState = rememberScrollState()
+    val viewModel  = hiltViewModel<RecruitingDetailViewModel>()
+    val recruitingDetail = viewModel.recruitingDetail.value.recruitingDetail
+    val postDetail = recruitingDetail.postDetail
+    val userDetail = recruitingDetail.user
+    val postId = viewModel.postId!!
 
     BottomSheetOrderForm(
         navController = navController,
@@ -54,35 +61,48 @@ fun RecruitingDetailScreen(
                 .verticalScroll(scrollableState)
         ) {
             Column{
+                    //게시자 정보를 나타내는 topAppBar
                     TopRectangleBar(
-                        title = "룡룡",
-                        imageURL = "https://item.kakaocdn.net/do/6905d2b5d05b4d0b27ec8731cb8252fa7f9f127ae3ca5dc7f0f6349aebcdb3c4",
+                        title = userDetail.nickname,
+                        imageURL = userDetail.profileImgUrl,
                         upPress = upPress
                     )
                     Spacer(modifier = Modifier.size(15.dp))
-                    RecrutingPager()
+                    //모집 글 사진
+                    RecrutingPager(postDetail.postImgUrls)
                     Spacer(modifier = Modifier.size(34.dp))
+
                     Column(modifier = Modifier.padding(horizontal = 36.dp)) {
-                        Text(text = "삼첩분식 드실 분~", style = TextStyles.Big1, color = gray5)
+                        //모집 글 제목
+                        Text(text = postDetail.title, style = TextStyles.Big1, color = gray5)
                         DivideDivider(
                             Modifier
                                 .alpha(0.2f)
                                 .padding(vertical = 14.dp)
                         )
+                        //마감시간
+                        //subtext: 시간
+                        //unit: AM, PM
                         RecruitingSmallText(text = "마감시간", subtext = "04:00", unit = "PM")
                         Spacer(modifier = Modifier.size(12.dp))
-                        RecruitingSmallText(text = "배달비", subtext = formatAmountOrMessage(30000.toString()), unit = "원")
+                        //배달비
+                        //subtext: 배달비
+                        RecruitingSmallText(text = "배달비", subtext = formatAmountOrMessage(postDetail.deliveryPrice.toString()), unit = "원")
                         DivideDivider(
                             Modifier
                                 .alpha(0.2f)
                                 .padding(vertical = 14.dp)
                         )
-                        RecruitingBigText(text = "목표 주문 금액", subtext = formatAmountOrMessage(30000.toString()), unit = "원")
+                        //목표 주문 금액
+                        //subtext = 목표 주문 금액
+                        RecruitingBigText(text = "목표 주문 금액", subtext = formatAmountOrMessage(postDetail.targetPrice.toString()), unit = "원")
                         Spacer(modifier = Modifier.size(12.dp))
-                        RecruitingBigText(text = "현재 주문 금액", subtext = formatAmountOrMessage(16000.toString()), unit = "원")
+                        //현재 주문 금액
+                        //subtext = 현재 주문 금액
+                        RecruitingBigText(text = "현재 주문 금액", subtext = formatAmountOrMessage(postDetail.orderedPrice.toString()), unit = "원")
 
                         LinearProgressIndicator(
-                            progress = 0.7f,
+                            progress = postDetail.targetPrice.toFloat().div(postDetail.orderedPrice.toFloat()),
                             color = main0,
                             backgroundColor = gray4,
                             modifier = Modifier
@@ -97,7 +117,11 @@ fun RecruitingDetailScreen(
                             verticalAlignment = Alignment.Bottom,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
+
                             Text(text = "• 장소", style = TextStyles.Point4, color = gray3)
+                            /**
+                             * 구체적인 장소가 안나옴..수정필요
+                             */
                             Text(
                                 text = "역삼디오빌 앞",
                                 style = TextStyles.Point4,
@@ -133,7 +157,7 @@ fun RecruitingDetailScreen(
 @Composable
 fun BottomSheetOrderForm(
     navController: NavController,
-    postId: Int = 0,
+    postId: Long = 0,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
     val state = rememberModalBottomSheetState(
@@ -158,6 +182,9 @@ fun BottomSheetOrderForm(
     }
 }
 
+/**
+ * text :
+ */
 @Composable
 fun RecruitingSmallText(
     modifier: Modifier = Modifier,
@@ -239,13 +266,15 @@ fun RecruitingBigText(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun RecrutingPager(){
+private fun RecrutingPager(
+    imageUrls: List<String>
+){
     val pagerState = rememberPagerState()
 
     Box() {
 
         HorizontalPager(
-            count = 3,
+            count = imageUrls.size,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 46.dp),
             modifier = Modifier
@@ -273,10 +302,9 @@ private fun RecrutingPager(){
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     }
-
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(26.dp)),
-                imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg")
+                imageURL = imageUrls[page])
         }
         HorizontalPagerIndicator(
             pagerState = pagerState,

@@ -78,7 +78,7 @@ fun NavGraphBuilder.divideGraph(
 
     composable(
         "${Screen.RecruitingDetailScreen.route}/{${DetailDestinationKey.RECRUITING}}",
-        arguments = listOf(navArgument(DetailDestinationKey.RECRUITING) { type = NavType.IntType })
+        arguments = listOf(navArgument(DetailDestinationKey.RECRUITING) { type = NavType.LongType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val recruitingId = arguments.getInt(DetailDestinationKey.RECRUITING)

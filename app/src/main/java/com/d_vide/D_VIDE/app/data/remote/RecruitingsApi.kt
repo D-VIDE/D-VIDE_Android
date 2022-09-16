@@ -42,7 +42,7 @@ interface RecruitingsApi {
     ): Response <ReviewIdDTO>
 
     //상세 게시글 조회
-    @GET("/api/v1/post/{postId}")
+    @GET("/api/v1/posts/{postId}")
     suspend fun getRecruitingDetail(
         @Path("postId") postId : Long
     ): Response<RecruitingDetailDTO>

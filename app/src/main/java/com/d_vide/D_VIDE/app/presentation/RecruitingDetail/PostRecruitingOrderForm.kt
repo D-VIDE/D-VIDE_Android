@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun RecruitingOrderForm(
     navController: NavController,
-    postId: Int = 0,
+    postId: Long = 0,
     viewModel: PostRecruitingOrderViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ){
@@ -147,7 +147,7 @@ fun RecruitingOrderForm(
         }
         DivideButton(
             onClick = {
-                viewModel.onEvent(PostRecruitingOrderEvent.EnteredPostId(postId.toLong()))
+                viewModel.onEvent(PostRecruitingOrderEvent.EnteredPostId(postId))
                 viewModel.onEvent(PostRecruitingOrderEvent.SaveRecruitingOrder)
             },
             modifier = Modifier
