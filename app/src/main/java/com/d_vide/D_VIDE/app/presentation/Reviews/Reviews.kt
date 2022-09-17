@@ -40,6 +40,7 @@ fun Reviews(
 
     val viewModel = hiltViewModel<ReviewsViewModel>()
     val reviews = viewModel.state.value.reviews
+    val recommend = viewModel.state.value.recommendStore
 
     BottomSheetUserFeedSreen(
         navController = navController,
@@ -67,7 +68,7 @@ fun Reviews(
                         verticalArrangement = Arrangement.spacedBy(15.dp),
                     ) {
                         item {
-                            RecommendRow(onTagClick)
+                            RecommendRow(onTagClick, recommend)
                         }
                         items(reviews){ item ->
                             ReviewItem(
