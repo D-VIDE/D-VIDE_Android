@@ -52,7 +52,9 @@ fun ReviewItem(
     onUserClick: () -> Unit={},
     onReviewClick: () -> Unit,
     onTagClick: (String) -> Unit,
-    review: ReviewDTO
+    liked: Boolean = false,
+    userImageURL: String = "",
+    userName: String = ""
 ){
     var isClicked by remember{ mutableStateOf(false)}
 
@@ -62,7 +64,7 @@ fun ReviewItem(
     ) {
         Row() {
             //좋아요 클릭시 왼쪽 색상 변경
-            if(review.review.liked){
+            if(liked){
                 Surface(
                     color = main0,
                     modifier = Modifier
@@ -87,13 +89,13 @@ fun ReviewItem(
                     UserInfo(
                         onClick = onUserClick,
                         modifier = Modifier.weight(1f),
-                        userImageURL = review.user.profileImgUrl,
-                        userId = review.user.nickname
+                        userImageURL = userImageURL,
+                        userId = userName
                     )
                     LikeButton(
                         onClick = {isClicked = !isClicked},
                         modifier = Modifier.size(17.dp, 15.dp),
-                        isClicked = review.review.liked
+                        isClicked = liked
                     )
                 }
                 Review(onTagClick = onTagClick)
