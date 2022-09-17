@@ -80,7 +80,10 @@ fun Reviews(
                                 onTagClick = {onTagClick(item.review.storeName)},
                                 liked = item.review.liked,
                                 userImageURL = item.user.profileImgUrl,
-                                userName = item.user.nickname
+                                userName = item.user.nickname,
+                                reviewTitle = item.review.storeName,
+                                reviewText = item.review.content,
+                                reviewImage = item.review.reviewImgUrl
                             )
                         }
                         item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }

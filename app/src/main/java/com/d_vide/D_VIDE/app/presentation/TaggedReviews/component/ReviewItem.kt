@@ -39,12 +39,6 @@ import com.d_vide.D_VIDE.app.presentation.util.LikeButton
 import com.d_vide.D_VIDE.ui.theme.*
 
 
-/**
- * 1. model 정해지면 model 인자로 받도록 수정
- * 2. shape 추가 가능하면 추가하고 card shape 수정
- * 3. design, color나오면 card인자 전체 수정
- */
-
 
 
 @Composable
@@ -54,7 +48,10 @@ fun ReviewItem(
     onTagClick: (String) -> Unit,
     liked: Boolean = false,
     userImageURL: String = "",
-    userName: String = ""
+    userName: String = "",
+    reviewTitle : String = "",
+    reviewText : String = "",
+    reviewImage: String = ""
 ){
     var isClicked by remember{ mutableStateOf(false)}
 
@@ -98,7 +95,18 @@ fun ReviewItem(
                         isClicked = liked
                     )
                 }
-                Review(onTagClick = onTagClick)
+
+                /**
+                 * reviewTitle : 식당 이름
+                 * reviewText : 리뷰 본문
+                 * reviewImage: 리뷰 이미지
+                 */
+                Review(
+                    onTagClick = onTagClick,
+                    reviewTitle = reviewTitle,
+                    reviewText = reviewText,
+                    reviewImage = reviewImage
+                )
             }
         }
     }
