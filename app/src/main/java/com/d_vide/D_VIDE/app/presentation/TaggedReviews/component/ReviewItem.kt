@@ -31,6 +31,8 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.util.LikeButton
@@ -49,7 +51,8 @@ import com.d_vide.D_VIDE.ui.theme.*
 fun ReviewItem(
     onUserClick: () -> Unit={},
     onReviewClick: () -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    review: ReviewDTO
 ){
     var isClicked by remember{ mutableStateOf(false)}
 
@@ -58,7 +61,8 @@ fun ReviewItem(
         modifier = Modifier.padding(end = 20.dp, start = if(isClicked) 0.dp else 20.dp)
     ) {
         Row() {
-            if(isClicked){
+            //좋아요 클릭시 왼쪽 색상 변경
+            if(review.review.liked){
                 Surface(
                     color = main0,
                     modifier = Modifier
@@ -77,11 +81,19 @@ fun ReviewItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    UserInfo(onClick = onUserClick, modifier = Modifier.weight(1f))
+                    /**
+                     * userImageURL: String = "", userId: String = "userId", userAddress: String = "userAddress"
+                     */
+                    UserInfo(
+                        onClick = onUserClick,
+                        modifier = Modifier.weight(1f),
+                        userImageURL = review.user.profileImgUrl,
+                        userId = review.user.nickname
+                    )
                     LikeButton(
                         onClick = {isClicked = !isClicked},
                         modifier = Modifier.size(17.dp, 15.dp),
-                        isClicked = isClicked
+                        isClicked = review.review.liked
                     )
                 }
                 Review(onTagClick = onTagClick)
