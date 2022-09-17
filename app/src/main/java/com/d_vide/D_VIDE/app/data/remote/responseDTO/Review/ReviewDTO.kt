@@ -5,5 +5,5 @@ import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserInPostDTO
 
 data class ReviewDTO(
     val user: UserInPostDTO,
-    val review: ReviewInPostDTO
+    var review: ReviewInPostDTO
 )

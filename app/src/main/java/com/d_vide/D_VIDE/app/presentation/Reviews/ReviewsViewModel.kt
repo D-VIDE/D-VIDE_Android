@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.domain.use_case.Review.GetRecommend
 import com.d_vide.D_VIDE.app.domain.use_case.Review.GetReviews
+import com.d_vide.D_VIDE.app.domain.use_case.Review.PostLike
+import com.d_vide.D_VIDE.app.domain.use_case.Review.PostUnlike
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsState
@@ -20,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ReviewsViewModel @Inject constructor(
     private val getReviewsUseCase: GetReviews,
-    private val getRecommendUseCase: GetRecommend
+    private val getRecommendUseCase: GetRecommend,
+    private val postLikeUseCase: PostLike,
+    private val postUnlikeUseCase: PostUnlike
 ): ViewModel() {
 
     private var _state = MutableStateFlow(ReviewsState())
@@ -68,6 +72,30 @@ class ReviewsViewModel @Inject constructor(
                     _state.value = ReviewsState(isLoading = true)
                     Log.d("test", "loading")
                 }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun postLike(index: Int){
+        _state.value.reviews[index].review.liked = !_state.value.reviews[index].review.liked
+
+        postLikeUseCase(state.value.reviews[index].review.reviewId).onEach {
+            when (it) {
+                is Resource.Success -> Log.d("스크랩", "스크랩 성공")
+                is Resource.Error -> Log.d("스크랩", "스크랩 실패")
+                is Resource.Loading -> Log.d("스크랩", "스크랩 올리는중")
+            }
+        }.launchIn(viewModelScope)
+    }
+    fun postUnlike(index: Int){
+        _state.value.reviews[index].review.liked = !_state.value.reviews[index].review.liked
+
+        postUnlikeUseCase(state.value.reviews[index].review.reviewId).onEach {
+            Log.d("스크랩", "스크랩 2")
+            when (it) {
+                is Resource.Success -> Log.d("스크랩", "스크랩 취소 성공")
+                is Resource.Error -> Log.d("스크랩", "스크랩 취소 실패")
+                is Resource.Loading -> Log.d("스크랩", "스크랩 취소 올리는중")
             }
         }.launchIn(viewModelScope)
     }

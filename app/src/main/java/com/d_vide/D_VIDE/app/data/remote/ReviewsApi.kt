@@ -3,10 +3,7 @@ package com.d_vide.D_VIDE.app.data.remote
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.*
 import retrofit2.Response
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ReviewsApi {
 
@@ -19,7 +16,7 @@ interface ReviewsApi {
     ): Response<ReviewsDTO>
 
     //리뷰 좋아요 생성
-    @GET("/api/v1/review/{reviewId}/like")
+    @POST("/api/v1/review/{reviewId}/like")
     suspend fun postLike(
         @Path("reviewId") reviewId: Long,
     ): Response<ReviewLikeDTO>

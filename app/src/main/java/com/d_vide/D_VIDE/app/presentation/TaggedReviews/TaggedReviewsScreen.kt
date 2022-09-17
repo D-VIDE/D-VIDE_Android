@@ -75,7 +75,8 @@ fun TaggedReviewsScreen(
                                 onReviewClick = { onReviewSelected(review.reviewId.toInt()) },
                                 onTagClick = { onTagClick(review.storeName) },
                                 userImageURL = review.profileImgUrl,
-                                userName = review.nickname
+                                userName = review.nickname,
+                                isliked = false
                             )
                         }
 

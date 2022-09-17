@@ -71,7 +71,8 @@ fun MyReviewsScreen(
             item {
                 ReviewItem(
                     onReviewClick = { onReviewSelected(1234) },
-                    onTagClick = { onTagClick("금돼지식당 복천점") }
+                    onTagClick = { onTagClick("금돼지식당 복천점") },
+                    isliked = false
                 )
             }
         }

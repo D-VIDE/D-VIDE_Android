@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
@@ -70,7 +71,7 @@ fun Reviews(
                         item {
                             RecommendRow(onTagClick, recommend)
                         }
-                        items(reviews){ item ->
+                        itemsIndexed(reviews){ index, item ->
                             ReviewItem(
                                 onUserClick = {
                                     scope.launch {
@@ -79,7 +80,8 @@ fun Reviews(
                                 },
                                 onReviewClick = {onReviewSelected(item.review.reviewId.toInt())},
                                 onTagClick = {onTagClick(item.review.storeName)},
-                                liked = item.review.liked,
+                                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},
+                                isliked = item.review.liked,
                                 userImageURL = item.user.profileImgUrl,
                                 userName = item.user.nickname,
                                 reviewTitle = item.review.storeName,

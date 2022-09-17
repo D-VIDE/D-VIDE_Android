@@ -39,25 +39,23 @@ import com.d_vide.D_VIDE.app.presentation.util.LikeButton
 import com.d_vide.D_VIDE.ui.theme.*
 
 
-
-
 @Composable
 fun ReviewItem(
     onUserClick: () -> Unit={},
     onReviewClick: () -> Unit,
     onTagClick: (String) -> Unit,
-    liked: Boolean = false,
+    onLikeClick: () -> Unit = {},
+    isliked: Boolean = true,
     userImageURL: String = "",
     userName: String = "",
     reviewTitle : String = "",
     reviewText : String = "",
     reviewImage: String = ""
 ){
-    var isClicked by remember{ mutableStateOf(false)}
-
+    var liked by remember { mutableStateOf(isliked) }
     CardEndRound(
         onClick = onReviewClick,
-        modifier = Modifier.padding(end = 20.dp, start = if(isClicked) 0.dp else 20.dp)
+        modifier = Modifier.padding(end = 20.dp, start = if(liked) 0.dp else 20.dp)
     ) {
         Row() {
             //좋아요 클릭시 왼쪽 색상 변경
@@ -90,7 +88,7 @@ fun ReviewItem(
                         userId = userName
                     )
                     LikeButton(
-                        onClick = {isClicked = !isClicked},
+                        onClick = {onLikeClick(); liked = !liked},
                         modifier = Modifier.size(17.dp, 15.dp),
                         isClicked = liked
                     )

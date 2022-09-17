@@ -86,7 +86,7 @@ fun UserFeedScreen(
                 //  contentPadding = PaddingValues(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                item { ReviewItem(onReviewClick = {onReviewSelected(1234)}, onTagClick = {onTagClick("test")}) }
+                item { ReviewItem(onReviewClick = {onReviewSelected(1234)}, onTagClick = {onTagClick("test")}, isliked = false) }
 
             }
         }
