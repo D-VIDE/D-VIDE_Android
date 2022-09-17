@@ -21,19 +21,19 @@ interface ReviewsApi {
     //리뷰 좋아요 생성
     @GET("/api/v1/review/{reviewId}/like")
     suspend fun postLike(
-        @Path("reviewId") reviewId: Double,
+        @Path("reviewId") reviewId: Long,
     ): Response<ReviewLikeDTO>
 
     //리뷰 좋아요 취소
     @DELETE("/api/v1/review/{reviewId}/like")
     suspend fun postUnlike(
-        @Path("reviewId") reviewId: Double,
+        @Path("reviewId") reviewId: Long,
     ): Response<ReviewLikeDTO>
 
     //상세 리뷰글
     @GET("/api/v1/review/{reviewId}")
     suspend fun getReviewDetail(
-        @Path("reviewId") reviewId: Double,
+        @Path("reviewId") reviewId: Long,
     ): Response<ReviewDetailDTO>
 
     //추천 맛집 조회
