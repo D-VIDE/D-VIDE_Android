@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.data.remote
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.OtherUserInfoDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.domain.model.Token
@@ -8,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface UserApi {
 
@@ -21,4 +23,9 @@ interface UserApi {
 
     @GET("/api/v1/orders")
     suspend fun getMyOrders(): Response<RecruitingsDTO>
+
+    @GET("/api/v1/user/{userId}")
+    suspend fun getOtherUserInfo(
+        @Path("userId") userId: Long,
+    ): Response<OtherUserInfoDTO>
 }
