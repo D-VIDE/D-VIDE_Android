@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._enums.Category
+import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
@@ -46,10 +47,12 @@ fun RecruitingsScreen(
     onRecruitingClick: (Int) -> Unit
 ) {
 
+    val userId = remember { mutableStateOf(0L) }
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
-        onTagClick = onTagClick
+        onTagClick = onTagClick,
+        userId = userId.value
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -84,6 +87,7 @@ fun RecruitingsScreen(
                                 RecruitingItem(
                                     onUserClick = {
                                         scope.launch {
+                                            userId.value = it.user.id
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)
