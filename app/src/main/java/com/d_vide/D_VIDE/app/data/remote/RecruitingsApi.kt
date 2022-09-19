@@ -1,12 +1,9 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingOrderIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.ReviewIdDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -43,4 +40,10 @@ interface RecruitingsApi {
         @Part("request") request: RequestBody,
         @Part images: List<MultipartBody.Part?>,
     ): Response <ReviewIdDTO>
+
+    //상세 게시글 조회
+    @GET("/api/v1/posts/{postId}")
+    suspend fun getRecruitingDetail(
+        @Path("postId") postId : Long
+    ): Response<RecruitingDetailDTO>
 }
