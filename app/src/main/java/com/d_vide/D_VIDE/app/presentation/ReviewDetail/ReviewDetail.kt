@@ -8,11 +8,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
@@ -25,33 +27,32 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
+
 @Composable
 fun ReviewDetail(
     reviewId: Int,
     upPress:() -> Unit,
     onTagClick:(String) -> Unit
 ){
+    val viewModel = hiltViewModel<ReviewDetailViewModel>()
+    val reviewDetail by viewModel.reviewDetail
+
     Scaffold(
         topBar = { TopRoundBar("리뷰", onClick = upPress) },
     ){ innerPadding ->
             Column(
-                Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR).verticalScroll(rememberScrollState())
+                Modifier
+                    .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
+                    .verticalScroll(rememberScrollState())
             ) {
                 ReviewCard(
-                    imageURL = "https://i.ytimg.com/vi/9ONqnsb2adI/maxresdefault.jpg",
-                    userId = "userId",
-                    address = "address",
-                    //ImageList = ,
-                    like = 1234,
-                    tag = "tag",
-                    body = "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~\n" +
-                            "\n" +
-                            "제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 가나다라 마바사!!\n" +
-                            "\n" +
-                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n" +
-                            "\n" +
-                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 ....\n" +
-                            "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며!\n",
+                    userImageURL = reviewDetail.reviewDetail.user.profileImgUrl,
+                    userId = reviewDetail.reviewDetail.user.nickname,
+                    address = "주소 넣어야함",
+                    ImageList = reviewDetail.reviewDetail.reviewDetail.reviewImgUrl,
+                    like = reviewDetail.reviewDetail.reviewDetail.likeCount,
+                    tag = reviewDetail.reviewDetail.reviewDetail.storeName,
+                    body = reviewDetail.reviewDetail.reviewDetail.content,
                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp),
                     onTagClick = onTagClick
                 )
@@ -61,10 +62,10 @@ fun ReviewDetail(
 
 @Composable
 fun ReviewCard(
-    imageURL: String,
+    userImageURL: String,
     userId: String,
     address: String,
-    //ImageList: List<String>,
+    ImageList: List<String>,
     like: Int,
     tag: String,
     body: String,
@@ -87,7 +88,7 @@ fun ReviewCard(
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape),
-                    imageURL = imageURL
+                    imageURL = userImageURL
                 )
                 
                 Row(
@@ -106,12 +107,12 @@ fun ReviewCard(
                 MoreButton()
             }
             
-            ImagePager(items = listOf("1", "2", "3"))
+            ImagePager(items = ImageList)
             
             
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(text = "❤️️", style = TextStyles.Basics1)
-                Text(text = formatAmountOrMessage(1234.toString()), style = TextStyles.Basics2, color = gray2)
+                Text(text = formatAmountOrMessage(like.toString()), style = TextStyles.Basics2, color = gray2)
             }
 
             Text(text = "# ${tag}", style = TextStyles.Point4, color = red0, modifier = Modifier.clickable(onClick = {onTagClick(tag)}))
@@ -150,11 +151,4 @@ fun ImagePager(
             activeColor = main0,
         )
     }
-}
-
-
-@Composable
-@Preview
-fun PreviewDetail(){
-    //ReviewDetail(reviewId = 1234, {})
 }

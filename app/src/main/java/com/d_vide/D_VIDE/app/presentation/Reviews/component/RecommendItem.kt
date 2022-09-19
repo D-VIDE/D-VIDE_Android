@@ -3,6 +3,8 @@ package com.d_vide.D_VIDE.app.presentation.Reviews
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Text
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.RecommendStore
 import com.d_vide.D_VIDE.app.presentation.component.CardRoundSmall
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.ui.theme.TextStyles
@@ -31,7 +34,8 @@ import com.d_vide.D_VIDE.ui.theme.mainOrange
 
 @Composable
 fun RecommendRow(
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    data: List<RecommendStore>
 ){
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -41,12 +45,12 @@ fun RecommendRow(
             contentPadding = PaddingValues(horizontal = 19.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ){
-            items(7) {  count ->
+            itemsIndexed(data){ index, item ->
                 RecommendItem(
-                    onTagClick = {onTagClick("test")},
-                    imageURL = "https://img.siksinhot.com/article/1622690644980620.jpg",
-                    Rank = count,
-                    Title = "가게 이름"
+                    onTagClick = {onTagClick(item.storeName)},
+                    imageURL = item.reviewImgUrl,
+                    Rank = index + 1,
+                    Title = item.storeName
                 )
             }
 

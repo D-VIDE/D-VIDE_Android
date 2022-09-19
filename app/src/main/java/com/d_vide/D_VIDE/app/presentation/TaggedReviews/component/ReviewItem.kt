@@ -31,34 +31,35 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.presentation.component.CardEndRound
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.util.LikeButton
 import com.d_vide.D_VIDE.ui.theme.*
 
 
-/**
- * 1. model 정해지면 model 인자로 받도록 수정
- * 2. shape 추가 가능하면 추가하고 card shape 수정
- * 3. design, color나오면 card인자 전체 수정
- */
-
-
-
 @Composable
 fun ReviewItem(
     onUserClick: () -> Unit={},
     onReviewClick: () -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    onLikeClick: () -> Unit = {},
+    isliked: Boolean = true,
+    userImageURL: String = "",
+    userName: String = "",
+    reviewTitle : String = "",
+    reviewText : String = "",
+    reviewImage: String = ""
 ){
-    var isClicked by remember{ mutableStateOf(false)}
-
+    var liked by remember { mutableStateOf(isliked) }
     CardEndRound(
         onClick = onReviewClick,
-        modifier = Modifier.padding(end = 20.dp, start = if(isClicked) 0.dp else 20.dp)
+        modifier = Modifier.padding(end = 20.dp, start = if(liked) 0.dp else 20.dp)
     ) {
         Row() {
-            if(isClicked){
+            //좋아요 클릭시 왼쪽 색상 변경
+            if(liked){
                 Surface(
                     color = main0,
                     modifier = Modifier
@@ -77,14 +78,33 @@ fun ReviewItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    UserInfo(onClick = onUserClick, modifier = Modifier.weight(1f))
+                    /**
+                     * userImageURL: String = "", userId: String = "userId", userAddress: String = "userAddress"
+                     */
+                    UserInfo(
+                        onClick = onUserClick,
+                        modifier = Modifier.weight(1f),
+                        userImageURL = userImageURL,
+                        userId = userName
+                    )
                     LikeButton(
-                        onClick = {isClicked = !isClicked},
+                        onClick = {onLikeClick(); liked = !liked},
                         modifier = Modifier.size(17.dp, 15.dp),
-                        isClicked = isClicked
+                        isClicked = liked
                     )
                 }
-                Review(onTagClick = onTagClick)
+
+                /**
+                 * reviewTitle : 식당 이름
+                 * reviewText : 리뷰 본문
+                 * reviewImage: 리뷰 이미지
+                 */
+                Review(
+                    onTagClick = onTagClick,
+                    reviewTitle = reviewTitle,
+                    reviewText = reviewText,
+                    reviewImage = reviewImage
+                )
             }
         }
     }

@@ -4,6 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
@@ -12,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
@@ -23,14 +27,21 @@ import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
 
+/**
+ * reviewId Long으로 바뀌었으니 함수 수정 해야함
+ */
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Reviews(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit,
+    onTagClick: (String) -> Unit
 ){
+
+    val viewModel = hiltViewModel<ReviewsViewModel>()
+    val reviews = viewModel.state.value.reviews
+    val recommend = viewModel.state.value.recommendStore
 
     BottomSheetUserFeedSreen(
         navController = navController,
@@ -48,7 +59,9 @@ fun Reviews(
         ){
             Surface(
                 color = gray6,
-                modifier = Modifier.fillMaxHeight().padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)
             ) {
                 Box() {
                     LazyColumn(
@@ -56,17 +69,24 @@ fun Reviews(
                         verticalArrangement = Arrangement.spacedBy(15.dp),
                     ) {
                         item {
-                            RecommendRow(onTagClick)
+                            RecommendRow(onTagClick, recommend)
                         }
-                        items(10) {
+                        itemsIndexed(reviews){ index, item ->
                             ReviewItem(
                                 onUserClick = {
                                     scope.launch {
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },
-                                onReviewClick = {onReviewSelected(1234)},
-                                onTagClick = {onTagClick("test")}
+                                onReviewClick = {onReviewSelected(item.review.reviewId.toInt())},
+                                onTagClick = {onTagClick(item.review.storeName)},
+                                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},
+                                isliked = item.review.liked,
+                                userImageURL = item.user.profileImgUrl,
+                                userName = item.user.nickname,
+                                reviewTitle = item.review.storeName,
+                                reviewText = item.review.content,
+                                reviewImage = item.review.reviewImgUrl
                             )
                         }
                         item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
