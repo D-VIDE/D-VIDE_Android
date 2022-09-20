@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.OtherUserInfoDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.data.storage.TokenStore
@@ -45,4 +46,7 @@ class UserRepositoryImpl @Inject constructor(
         return api.getMyOrders()
     }
 
+    override suspend fun getOtherUserInfo(userId: Long): Response<OtherUserInfoDTO> {
+        return api.getOtherUserInfo(userId)
+    }
 }

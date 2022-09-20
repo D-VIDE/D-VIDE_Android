@@ -11,6 +11,8 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,7 +40,7 @@ fun Reviews(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit
 ){
-
+    val userId = remember{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
     val reviews = viewModel.state.value.reviews
     val recommend = viewModel.state.value.recommendStore
@@ -46,7 +48,8 @@ fun Reviews(
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
-        onTagClick = onTagClick
+        onTagClick = onTagClick,
+        userId = userId.value
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBarWithImage() },
@@ -74,6 +77,7 @@ fun Reviews(
                         itemsIndexed(reviews){ index, item ->
                             ReviewItem(
                                 onUserClick = {
+                                    userId.value = item.user.id
                                     scope.launch {
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }

@@ -1,45 +1,25 @@
 package com.d_vide.D_VIDE.app.presentation.UserFeed
 
-import android.util.Log
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
-import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
-import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun UserFeedScreen(
@@ -47,8 +27,12 @@ fun UserFeedScreen(
     upPress: () -> Unit = {},
     modifier: Modifier = Modifier,
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    userId: Long = 0L
 ){
+    val viewModel = hiltViewModel<UserProfileViewModel>()
+    val userProfile by viewModel.userProfile
+
     Box(){
         Column(
             modifier = modifier
@@ -58,7 +42,15 @@ fun UserFeedScreen(
                 .padding(horizontal = 18.dp)
         ) {
             Spacer(modifier = Modifier.height(18.dp))
-            UserProfile(onClick = { navController.navigate(Screen.FollowingsScreen.route) })
+            UserProfile(
+                onClick = {
+                    navController.navigate(Screen.FollowingsScreen.route)
+                },
+                userName = userProfile.userProfile.nickname,
+                userBadge = if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0) else "",
+                following = userProfile.userProfile.followingCount,
+                follower = userProfile.userProfile.followerCount
+            )
             Row(
                 modifier = Modifier
                     .padding(top = 18.dp)
@@ -100,8 +92,10 @@ fun BottomSheetUserFeedSreen(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
+    userId: Long = 0L,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
+    "유저 아이디 ${userId}".log()
     val state = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
@@ -117,7 +111,8 @@ fun BottomSheetUserFeedSreen(
                 navController = navController,
                 modifier = Modifier.fillMaxHeight(0.945f),
                 onReviewSelected = onReviewSelected,
-                onTagClick = onTagClick
+                onTagClick = onTagClick,
+                userId = userId
             )
         }
     ) {

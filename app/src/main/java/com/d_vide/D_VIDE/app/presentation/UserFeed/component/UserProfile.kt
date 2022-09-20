@@ -42,19 +42,24 @@ fun UserProfile(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     userName: String = "룡룡",
-    userNickName: String = "디바이드 공식 돼지",
-    Following: Int = 6,
-    Follwer: Int = 3
+    userBadge: String = "디바이드 공식 돼지",
+    following: Int = 6,
+    follower: Int = 3
 ){
     Box(
         modifier = modifier.size(349.dp, 83.dp)
     ){
         Row{
-            MainProfile(Modifier.weight(0.6f))
+            MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
             Column(
                 Modifier.padding(start = 7.dp).weight(0.4f)
             ){
-                Following(Modifier.padding(bottom = 9.dp), onClick = onClick)
+                Following(
+                    Modifier.padding(bottom = 9.dp),
+                    onClick = onClick,
+                    following = following,
+                    follower = follower
+                )
                 FollowingButton(Modifier.fillMaxWidth())
             }
         }
@@ -68,7 +73,7 @@ fun MainProfile(
     modifier: Modifier = Modifier,
     imageUrl: String = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
     userName: String = "룡룡",
-    userNickName: String = "디바이드 공식 돼지"
+    userBadge: String = "디바이드 공식 돼지"
 ){
     Box(
        modifier = modifier
@@ -92,7 +97,7 @@ fun MainProfile(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = userNickName,
+                    text = userBadge,
                     textAlign = TextAlign.Center,
                     style = TextStyles.Small3,
                     color = mainOrange,
@@ -127,8 +132,8 @@ fun MainProfile(
 fun Following(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    Following: Int = 6,
-    Follower: Int = 3
+    following: Int = 6,
+    follower: Int = 3
 ){
     Box(
         modifier = modifier
@@ -146,7 +151,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = Following.toString(),
+                    text = following.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
@@ -169,7 +174,7 @@ fun Following(
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
-                    text = Follower.toString(),
+                    text = follower.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

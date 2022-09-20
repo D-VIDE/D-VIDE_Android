@@ -1,0 +1,9 @@
+package com.d_vide.D_VIDE.app.data.remote.responseDTO
+
+data class OtherUserInfoDTO(
+    val nickname: String = "",
+    val profileImgUrl: String = "",
+    val badges: List<String>? = emptyList(),
+    val followerCount: Int = 0,
+    val followingCount: Int = 0
+)
