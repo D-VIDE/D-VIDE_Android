@@ -43,9 +43,8 @@ fun UserFeedScreen(
         ) {
             Spacer(modifier = Modifier.height(18.dp))
             UserProfile(
-                onClick = {
-                    navController.navigate(Screen.FollowingsScreen.route)
-                },
+                onFollowingClick = { navController.navigate(Screen.FollowingScreen.route) },
+                onFollowerClick  = { navController.navigate(Screen.FollowerScreen.route) },
                 userName = userProfile.userProfile.nickname,
                 userBadge = if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0) else "",
                 following = userProfile.userProfile.followingCount,
