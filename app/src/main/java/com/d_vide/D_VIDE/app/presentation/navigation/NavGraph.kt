@@ -5,8 +5,9 @@ import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowerScreen
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowingScreen
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
-import com.d_vide.D_VIDE.app.presentation.Followings.FollowingsScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
 import com.d_vide.D_VIDE.app.presentation.MyReviews.MyReviewsScreen
@@ -161,8 +162,12 @@ private fun NavGraphBuilder.MyPageNavGraph(
         MyPageScreen(navController)
     }
 
-    composable(route = Screen.FollowingsScreen.route) { from ->
-        FollowingsScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    composable(route = Screen.FollowingScreen.route) { from ->
+        FollowingScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    }
+
+    composable(route = Screen.FollowerScreen.route) { from ->
+        FollowerScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
     }
 
     navigation(
