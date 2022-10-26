@@ -2,6 +2,10 @@ package com.d_vide.D_VIDE.app.presentation.Followings.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,21 +26,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.ui.theme.TextStyles
 import com.d_vide.D_VIDE.ui.theme.gray4
 import com.d_vide.D_VIDE.ui.theme.main1
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun FollowingItem(
-    onClick: () -> Unit = {},
+    onUserClick: () -> Unit = {},
     userName: String = "룡룡",
-    profileUrl: String = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
+    profileUrl: String? = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
     modifier: Modifier = Modifier,
-    isFollowing: Boolean = true
+    isFollowing: Boolean = true,
+    userId: Long = 0L
 ){
     Row(
           modifier = modifier
@@ -45,21 +55,26 @@ fun FollowingItem(
           verticalAlignment = Alignment.CenterVertically
     ){
         Row(
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(onClick = onUserClick)
         ){
             FollowerProfileImage(imageUrl = profileUrl)
             Text(
                 text = userName,
                 style = TextStyles.Basics4,
-                modifier = Modifier.padding(start = 9.dp).align(CenterVertically)
+                modifier = Modifier
+                    .padding(start = 9.dp)
+                    .align(CenterVertically)
             )
         }
         Box(
             modifier = Modifier.fillMaxWidth()
         ){
             FollowDeleteButton(
-                modifier = Modifier.size(60.dp, 23.dp).align(CenterEnd),
-                buttonText = if (isFollowing) "팔로잉" else "삭제"
+                modifier = Modifier
+                    .size(60.dp, 23.dp)
+                    .align(CenterEnd),
+                isFollowing = isFollowing,
+                userId = userId
             )
         }
     }
@@ -68,7 +83,7 @@ fun FollowingItem(
 @Composable
 fun FollowerProfileImage(
     modifier: Modifier = Modifier,
-    imageUrl: String
+    imageUrl: String? = ""
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -92,20 +107,32 @@ fun FollowerProfileImage(
 @Composable
 fun FollowDeleteButton(
     modifier: Modifier = Modifier,
-    buttonText: String = "팔로잉",
+    isFollowing: Boolean = false,
+    userId: Long = 0L
 ){
-    var isClicked by remember{ mutableStateOf(false) }
+    var isClicked by remember { mutableStateOf(isFollowing) }
+    val viewModel = hiltViewModel<FollowViewModel>()
+
     Button(
         onClick = {
             isClicked = !isClicked
+            if (isFollowing && isClicked) {
+                "언팔하는 중".log()
+                viewModel.deleteFollow(userId.toInt())
+            }
+            if (isFollowing && !isClicked){
+                "팔로잉하는 중".log()
+                viewModel.postFollow(userId.toInt())
+            }
+            // 나를 팔로우 하는 사람 삭제 api 없음.
         },
         shape = RoundedCornerShape(11.dp),
         modifier = modifier.size(60.dp, 23.dp),
         contentPadding = PaddingValues(0.dp),
-        colors = ButtonDefaults.buttonColors(if(isClicked) main1 else gray4)
+        colors = ButtonDefaults.buttonColors(if(!isClicked && isFollowing) main1 else gray4)
     ) {
         Text(
-            text = if(isClicked) "팔로우" else buttonText,
+            text = if (!isFollowing) "삭제" else if (isClicked) "팔로잉" else "팔로우",
             color = Color.White,
             style = TextStyles.Basics2,
             textAlign = TextAlign.Center,
