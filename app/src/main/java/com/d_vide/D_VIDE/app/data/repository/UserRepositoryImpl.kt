@@ -56,14 +56,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postFollow(
-        userId: Long
+        userIdDTO: UserIdDTO
     ): Response<FollowIdDTO> {
-        return api.postFollow(userId)
+        return api.postFollow(userIdDTO)
     }
 
     override suspend fun deleteFollow(
-        userId: Long
-    ): Response<FollowResultDTO> {
-        return api.deleteFollow(userId)
+        userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO> {
+        return api.deleteFollow(userIdDTO)
     }
 }

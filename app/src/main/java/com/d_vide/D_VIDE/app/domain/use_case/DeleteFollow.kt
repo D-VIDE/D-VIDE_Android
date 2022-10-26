@@ -2,7 +2,7 @@ package com.d_vide.D_VIDE.app.domain.use_case
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowResultDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -14,11 +14,11 @@ import javax.inject.Inject
 class DeleteFollow @Inject constructor(
     private val repository: UserRepository
 ){
-    operator fun invoke(userId: Long ): Flow<Resource<FollowResultDTO>> = flow {
+    operator fun invoke(userIdDTO: UserIdDTO): Flow<Resource<FollowIdDTO>> = flow {
 
         try {
             emit(Resource.Loading())
-            val r = repository.deleteFollow(userId)
+            val r = repository.deleteFollow(userIdDTO)
             when(r.code()) {
                 201 -> {
                     Log.d("test", r.body()!!.toString())

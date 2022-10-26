@@ -19,7 +19,6 @@ interface UserRepository {
     suspend fun getFollowInformation(
         relation: String, offset: Int): Response<FollowInfoDTO>
 
-    suspend fun postFollow(userId: Long): Response<FollowIdDTO>
-
-    suspend fun deleteFollow(userId: Long): Response<FollowResultDTO>
+    suspend fun postFollow(userIdDTO: UserIdDTO): Response<FollowIdDTO>
+    suspend fun deleteFollow(userIdDTO: UserIdDTO): Response<FollowIdDTO>
 }
