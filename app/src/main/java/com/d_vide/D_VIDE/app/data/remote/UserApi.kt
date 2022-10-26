@@ -32,12 +32,12 @@ interface UserApi {
 
     @POST("/api/v1/follow")
     suspend fun postFollow(
-        @Path("userId") userId: Long,
+        @Body userIdDTO: UserIdDTO
     ): Response<FollowIdDTO>
 
-    @DELETE("/api/v1/follow")
+    @HTTP(method = "DELETE", path="api/v1/follow", hasBody = true)
     suspend fun deleteFollow(
-        @Path("userId") userId: Long,
-    ): Response<FollowResultDTO>
+        @Body userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO>
 
 }
