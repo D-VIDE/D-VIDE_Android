@@ -5,8 +5,8 @@ import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
-import com.d_vide.D_VIDE.app.presentation.Followings.FollowerScreen
-import com.d_vide.D_VIDE.app.presentation.Followings.FollowingScreen
+import com.d_vide.D_VIDE.app.presentation.Followings.OtherFollowScreen
+import com.d_vide.D_VIDE.app.presentation.Followings.MyFollowScreen
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
 import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
@@ -161,13 +161,16 @@ private fun NavGraphBuilder.MyPageNavGraph(
     composable(route = Screen.MyPageScreen.route) {
         MyPageScreen(navController)
     }
-
-    composable(route = Screen.FollowingScreen.route) { from ->
-        FollowingScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    composable(route = "${Screen.MyFollowScreen.route}/{isFollowing}",
+        arguments = listOf(navArgument("isFollowing"){type = NavType.BoolType})) { from ->
+        val isFollowing = from.arguments?.getBoolean("isFollowing") ?: false
+        MyFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing)
     }
 
-    composable(route = Screen.FollowerScreen.route) { from ->
-        FollowerScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)})
+    composable(route = "${Screen.OtherFollowScreen.route}/{isFollowing}",
+        arguments = listOf(navArgument("isFollowing"){type = NavType.BoolType})) { from ->
+        val isFollowing = from.arguments?.getBoolean("isFollowing") ?: false
+        OtherFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing)
     }
 
     navigation(

@@ -68,8 +68,8 @@ fun MyPageScreen(
                 followerCount = viewModelState.followerCount,
                 followingCount = viewModelState.followingCount,
                 image = viewModelState.profileImgUrl,
-                onFollowerClick = { navController.navigate(Screen.FollowerScreen.route) },
-                onFollowingClick = { navController.navigate(Screen.FollowingScreen.route)}
+                onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
+                onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")}
             )
             MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
