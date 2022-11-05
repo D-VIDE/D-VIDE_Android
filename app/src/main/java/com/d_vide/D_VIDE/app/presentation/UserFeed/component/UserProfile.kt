@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.presentation.UserFeed.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,32 +12,26 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app.presentation.Recruitings.BlankIndicator
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
-fun UserProfile(
+fun ColumnScope.UserProfile(
     modifier: Modifier = Modifier,
     onFollowingClick: () -> Unit = {},
     onFollowerClick:  () -> Unit = {},
@@ -48,11 +41,10 @@ fun UserProfile(
     follower: Int = 3,
     FollowingButton: () -> Unit = {}
 ){
-    Box(
-        modifier = modifier.size(349.dp, 83.dp)
-    ){
-        Row{
+    Box(modifier = modifier.size(349.dp, 83.dp)) {
+        Row {
             MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
+
             Column(
                 Modifier.padding(start = 7.dp).weight(0.4f)
             ){
@@ -66,9 +58,7 @@ fun UserProfile(
                 FollowingButton(Modifier.fillMaxWidth(), FollowingButton)
             }
         }
-
     }
-
 }
 
 @Composable

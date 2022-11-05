@@ -14,9 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.MyOrders.component.MyCompletedOrder
-import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
-import com.d_vide.D_VIDE.app.presentation.component.TopRoundTextContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.*
 import com.d_vide.D_VIDE.ui.theme.background
@@ -34,7 +33,7 @@ fun MyOrdersScreen(
     Scaffold(
         topBar = { TopRoundBar("주문내역", onClick = upPress) }
     ) {
-        BottomSheetUserFeedSreen(
+        BottomSheetUserFeedScreen(
             navController = navController,
             onReviewSelected = onReviewSelected,
             onTagClick = onTagClick

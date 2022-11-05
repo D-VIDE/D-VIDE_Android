@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -19,9 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
-import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -45,7 +43,7 @@ fun Reviews(
     val reviews = viewModel.state.value.reviews
     val recommend = viewModel.state.value.recommendStore
 
-    BottomSheetUserFeedSreen(
+    BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,
