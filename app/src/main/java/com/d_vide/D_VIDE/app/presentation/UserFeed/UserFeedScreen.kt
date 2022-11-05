@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -32,6 +33,7 @@ fun UserFeedScreen(
 ){
     val viewModel = hiltViewModel<UserProfileViewModel>()
     val userProfile by viewModel.userProfile
+    val followViewModel = hiltViewModel<FollowViewModel>()
 
     Box(){
         Column(
@@ -43,13 +45,13 @@ fun UserFeedScreen(
         ) {
             Spacer(modifier = Modifier.height(18.dp))
             UserProfile(
-                onClick = {
-                    navController.navigate(Screen.FollowingsScreen.route)
-                },
+                onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
+                onFollowerClick  = { navController.navigate("${Screen.OtherFollowScreen.route}/false")  },
                 userName = userProfile.userProfile.nickname,
                 userBadge = if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0) else "",
                 following = userProfile.userProfile.followingCount,
-                follower = userProfile.userProfile.followerCount
+                follower = userProfile.userProfile.followerCount,
+                FollowingButton = { followViewModel.postFollow(2) }
             )
             Row(
                 modifier = Modifier
@@ -95,7 +97,6 @@ fun BottomSheetUserFeedSreen(
     userId: Long = 0L,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ){
-    "유저 아이디 ${userId}".log()
     val state = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
@@ -118,10 +119,4 @@ fun BottomSheetUserFeedSreen(
     ) {
         activityContentScope(state, scope)
     }
-}
-
-@Preview
-@Composable
-fun Preview() {
-   //UserFeedScreen(rememberNavController())
 }

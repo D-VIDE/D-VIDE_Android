@@ -2,9 +2,7 @@ package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.OtherUserInfoDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.data.storage.TokenStore
 import com.d_vide.D_VIDE.app.domain.model.Token
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
@@ -48,5 +46,24 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getOtherUserInfo(userId: Long): Response<OtherUserInfoDTO> {
         return api.getOtherUserInfo(userId)
+    }
+
+    override suspend fun getFollowInformation(
+        relation: String,
+        offset: Int
+    ): Response<FollowInfoDTO> {
+        return api.getFollowInformation(relation, offset)
+    }
+
+    override suspend fun postFollow(
+        userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO> {
+        return api.postFollow(userIdDTO)
+    }
+
+    override suspend fun deleteFollow(
+        userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO> {
+        return api.deleteFollow(userIdDTO)
     }
 }

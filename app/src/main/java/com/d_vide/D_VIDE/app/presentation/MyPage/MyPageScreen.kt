@@ -68,7 +68,8 @@ fun MyPageScreen(
                 followerCount = viewModelState.followerCount,
                 followingCount = viewModelState.followingCount,
                 image = viewModelState.profileImgUrl,
-                onClick = { navController.navigate(Screen.FollowingsScreen.route) },
+                onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
+                onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")}
             )
             MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
@@ -172,7 +173,8 @@ fun MyPageUserProfile(
     followerCount: Int = 0,
     followingCount: Int = 0,
     image: String = "",
-    onClick: () -> Unit
+    onFollowerClick: () -> Unit,
+    onFollowingClick: () -> Unit
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
         UserProfileImage(imageUrl = image)
@@ -200,7 +202,8 @@ fun MyPageUserProfile(
                     fontSize = 16.sp
                 )
                 Following(
-                    onClick = onClick,
+                    onFollowerClick = onFollowerClick,
+                    onFollowingClick = onFollowingClick,
                     Follower = followerCount,
                     Following = followingCount
                 )
@@ -233,7 +236,8 @@ fun UserProfileImage(
 @Composable
 fun Following(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit={},
+    onFollowerClick: () -> Unit = {},
+    onFollowingClick: () -> Unit = {},
     Following: Int = 6,
     Follower: Int = 3
 ){
@@ -251,7 +255,7 @@ fun Following(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .clickable(onClick = onClick),
+                    .clickable(onClick = onFollowingClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -275,7 +279,7 @@ fun Following(
             )
             Column(
                 modifier = Modifier
-                    .clickable(onClick = onClick)
+                    .clickable(onClick = onFollowerClick)
                     .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){

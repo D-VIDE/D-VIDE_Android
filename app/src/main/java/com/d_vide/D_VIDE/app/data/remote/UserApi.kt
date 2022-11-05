@@ -1,15 +1,10 @@
 package com.d_vide.D_VIDE.app.data.remote
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.OtherUserInfoDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.domain.model.Token
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface UserApi {
 
@@ -28,4 +23,21 @@ interface UserApi {
     suspend fun getOtherUserInfo(
         @Path("userId") userId: Long,
     ): Response<OtherUserInfoDTO>
+
+    @GET("/api/v1/follow")
+    suspend fun getFollowInformation(
+        @Query("relation") relation: String,
+        @Query("first") offset: Int,
+    ): Response<FollowInfoDTO>
+
+    @POST("/api/v1/follow")
+    suspend fun postFollow(
+        @Body userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO>
+
+    @HTTP(method = "DELETE", path="api/v1/follow", hasBody = true)
+    suspend fun deleteFollow(
+        @Body userIdDTO: UserIdDTO
+    ): Response<FollowIdDTO>
+
 }
