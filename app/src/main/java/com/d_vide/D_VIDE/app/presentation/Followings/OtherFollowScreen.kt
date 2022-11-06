@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.TextStyles
@@ -40,6 +41,7 @@ fun OtherFollowScreen(
     onTagClick: (String) -> Unit,
     isFollowing: Boolean = false
 ) {
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -62,6 +64,7 @@ fun OtherFollowScreen(
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
                                     scope.launch {
+                                        userViewModel.getOtherUserInfo(i.toLong())
                                         state.animateTo(
                                             ModalBottomSheetValue.Expanded,
                                             tween(500)

@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
@@ -38,6 +39,7 @@ fun TaggedReviewsScreen(
     onTagClick: (String) -> Unit,
 ) {
 
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val viewModel = hiltViewModel<TaggedReviewsViewModel>()
     val reviews = viewModel.state.value.reviews
 
@@ -69,6 +71,7 @@ fun TaggedReviewsScreen(
                             ReviewItem(
                                 onUserClick = {
                                     scope.launch {
+                                        userViewModel.getOtherUserInfo(1) // need to change userId
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },
