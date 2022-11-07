@@ -64,7 +64,7 @@ fun MyPageScreen(
         ) {
             MyPageUserProfile(
                 username = viewModelState.nickname,
-                badges = viewModelState.badges.name,
+                badges = viewModelState.badge.name,
                 followerCount = viewModelState.followerCount,
                 followingCount = viewModelState.followingCount,
                 image = viewModelState.profileImgUrl,

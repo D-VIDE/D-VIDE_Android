@@ -48,7 +48,7 @@ fun UserFeedScreen(
                 onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
                 onFollowerClick  = { navController.navigate("${Screen.OtherFollowScreen.route}/false")  },
                 userName = userProfile.userProfile.nickname,
-                userBadge = userProfile.userProfile.badges.name,
+                userBadge = userProfile.userProfile.badge.name,
                 following = userProfile.userProfile.followingCount,
                 follower = userProfile.userProfile.followerCount,
                 followed = userProfile.userProfile.followed,
