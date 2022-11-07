@@ -41,6 +41,7 @@ import com.d_vide.D_VIDE.ui.theme.background
 import com.d_vide.D_VIDE.ui.theme.main1
 import com.d_vide.D_VIDE.ui.theme.mainOrange
 import com.d_vide.D_VIDE.ui.theme.mainYellow
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @Composable
@@ -50,7 +51,10 @@ fun MyPageScreen(
 ) {
     val viewModelState = viewModel.state.value.userDTO
     val scrollState = rememberScrollState()
-
+    val coroutine = rememberCoroutineScope()
+    coroutine.launch {
+        viewModel.getUserInfo()
+    }
     Box(modifier = Modifier.background(background)) {
         Column(
             modifier = Modifier

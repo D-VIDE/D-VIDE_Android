@@ -167,10 +167,13 @@ private fun NavGraphBuilder.MyPageNavGraph(
         MyFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing)
     }
 
-    composable(route = "${Screen.OtherFollowScreen.route}/{isFollowing}",
-        arguments = listOf(navArgument("isFollowing"){type = NavType.BoolType})) { from ->
+    composable(route = "${Screen.OtherFollowScreen.route}/{isFollowing}/{userId}",
+        arguments = listOf(navArgument("isFollowing"){type = NavType.BoolType},
+        navArgument("userId"){type = NavType.LongType}
+        )) { from ->
         val isFollowing = from.arguments?.getBoolean("isFollowing") ?: false
-        OtherFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing)
+        val userId = from.arguments?.getLong("userId") ?: 0
+        OtherFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)}, onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing, userId = userId)
     }
 
     navigation(

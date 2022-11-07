@@ -9,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -21,6 +20,7 @@ import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserFeedScreen(
@@ -32,9 +32,8 @@ fun UserFeedScreen(
     userId: Long = 0L
 ){
     val viewModel = hiltViewModel<UserProfileViewModel>()
-    val userProfile by viewModel.userProfile
+    val userProfile = viewModel.userProfile.value.userProfile
     val followViewModel = hiltViewModel<FollowViewModel>()
-
     Box(){
         Column(
             modifier = modifier
@@ -45,14 +44,18 @@ fun UserFeedScreen(
         ) {
             Spacer(modifier = Modifier.height(18.dp))
             UserProfile(
-                onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
-                onFollowerClick  = { navController.navigate("${Screen.OtherFollowScreen.route}/false")  },
-                userName = userProfile.userProfile.nickname,
-                userBadge = userProfile.userProfile.badge.name,
-                following = userProfile.userProfile.followingCount,
-                follower = userProfile.userProfile.followerCount,
-                followed = userProfile.userProfile.followed,
-                FollowingButton = { followViewModel.postFollow(userId.toInt()); viewModel.getOtherUserInfo(userId) }
+                onFollowingClick = {
+                    navController.navigate("${Screen.OtherFollowScreen.route}/true/${userId}")
+                },
+                onFollowerClick  ={
+                    navController.navigate("${Screen.OtherFollowScreen.route}/false/${userId}")
+                },
+                userName = userProfile.nickname,
+                userBadge = userProfile.badge.name,
+                following = userProfile.followingCount,
+                follower = userProfile.followerCount,
+                followed = userProfile.followed,
+                userId = userId
             )
             Row(
                 modifier = Modifier

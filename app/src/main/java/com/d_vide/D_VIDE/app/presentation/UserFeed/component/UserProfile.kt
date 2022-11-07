@@ -11,7 +11,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -31,10 +31,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.Recruitings.BlankIndicator
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
@@ -47,7 +51,8 @@ fun UserProfile(
     following: Int = 6,
     follower: Int = 3,
     followed: Boolean = false,
-    FollowingButton: () -> Unit = {}
+    FollowingButton: () -> Unit = {},
+    userId: Long = 0
 ){
     Box(
         modifier = modifier.size(349.dp, 83.dp)
@@ -55,7 +60,9 @@ fun UserProfile(
         Row{
             MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
             Column(
-                Modifier.padding(start = 7.dp).weight(0.4f)
+                Modifier
+                    .padding(start = 7.dp)
+                    .weight(0.4f)
             ){
                 Following(
                     Modifier.padding(bottom = 9.dp),
@@ -64,7 +71,7 @@ fun UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed)
+                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed, userId)
             }
         }
 
@@ -152,7 +159,9 @@ fun Following(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = Modifier.weight(1f).clickable(onClick = onFollowingClick),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onFollowingClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -175,7 +184,9 @@ fun Following(
                 color = main_gray1,
             )
             Column(
-                modifier = Modifier.weight(1f).clickable(onClick = onFollowerClick),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onFollowerClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
@@ -201,14 +212,25 @@ fun Following(
 fun FollowingButton(
     modifier: Modifier = Modifier,
     FollowingButton: () -> Unit = {},
-    followed: Boolean = false
+    followed: Boolean = false,
+    userId: Long = 0
 ){
+    var isClicked by remember { mutableStateOf(followed) }
+    val viewModel = hiltViewModel<FollowViewModel>()
+    val isSelf = (viewModel.followIdDTO.value.followId == userId)
+    isSelf.toString().log()
     Button(
-        onClick = FollowingButton,
-        colors = ButtonDefaults.buttonColors(backgroundColor = if (followed) gray2 else mainOrange),
+        onClick = {
+            isClicked = !isClicked
+            if (isClicked){
+                "팔로잉하는 중".log()
+                viewModel.postFollow(userId.toInt())
+            }
+        },
+        colors = ButtonDefaults.buttonColors(backgroundColor = if (isClicked || isSelf) gray2 else mainOrange),
         shape = RoundedCornerShape(11.dp),
         modifier = modifier.size(129.dp, 22.dp),
-        enabled = !followed,
+        enabled = !isClicked && !isSelf,
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
