@@ -48,10 +48,11 @@ fun UserFeedScreen(
                 onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
                 onFollowerClick  = { navController.navigate("${Screen.OtherFollowScreen.route}/false")  },
                 userName = userProfile.userProfile.nickname,
-                userBadge = if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0) else "",
+                userBadge = userProfile.userProfile.badges.name,
                 following = userProfile.userProfile.followingCount,
                 follower = userProfile.userProfile.followerCount,
-                FollowingButton = { followViewModel.postFollow(2) }
+                followed = userProfile.userProfile.followed,
+                FollowingButton = { followViewModel.postFollow(userId.toInt()); viewModel.getOtherUserInfo(userId) }
             )
             Row(
                 modifier = Modifier

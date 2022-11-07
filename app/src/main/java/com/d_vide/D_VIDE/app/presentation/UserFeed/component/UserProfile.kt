@@ -46,6 +46,7 @@ fun UserProfile(
     userBadge: String = "디바이드 공식 돼지",
     following: Int = 6,
     follower: Int = 3,
+    followed: Boolean = false,
     FollowingButton: () -> Unit = {}
 ){
     Box(
@@ -63,7 +64,7 @@ fun UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton(Modifier.fillMaxWidth(), FollowingButton)
+                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed)
             }
         }
 
@@ -199,18 +200,20 @@ fun Following(
 @Composable
 fun FollowingButton(
     modifier: Modifier = Modifier,
-    FollowingButton: () -> Unit = {}
+    FollowingButton: () -> Unit = {},
+    followed: Boolean = false
 ){
     Button(
         onClick = FollowingButton,
-        colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange),
+        colors = ButtonDefaults.buttonColors(backgroundColor = if (followed) gray2 else mainOrange),
         shape = RoundedCornerShape(11.dp),
         modifier = modifier.size(129.dp, 22.dp),
+        enabled = !followed,
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
             text = "팔로우",
-            color = Color.White,
+            color = White,
             textAlign = TextAlign.Center,
             style = TextStyles.Small3,
             modifier = Modifier.align(CenterVertically)

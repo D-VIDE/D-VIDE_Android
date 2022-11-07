@@ -64,7 +64,7 @@ fun MyPageScreen(
         ) {
             MyPageUserProfile(
                 username = viewModelState.nickname,
-                badges = if (viewModelState.badges?.isEmpty() == true) "디바이드 공식 돼지" else viewModelState.badges?.get(1)!!,
+                badges = viewModelState.badges.name,
                 followerCount = viewModelState.followerCount,
                 followingCount = viewModelState.followingCount,
                 image = viewModelState.profileImgUrl,
