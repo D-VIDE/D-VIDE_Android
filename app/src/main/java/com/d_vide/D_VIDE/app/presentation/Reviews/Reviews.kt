@@ -18,8 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
+import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -40,6 +43,7 @@ fun Reviews(
 ){
     val userId = remember{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val reviews = viewModel.state.value.reviews
     val recommend = viewModel.state.value.recommendStore
 
@@ -75,7 +79,9 @@ fun Reviews(
                         itemsIndexed(reviews){ index, item ->
                             ReviewItem(
                                 onUserClick = {
+                                    "유저 아이디는 ${item.user.id}".log()
                                     userId.value = item.user.id
+                                    userViewModel.getOtherUserInfo(item.user.id)
                                     scope.launch {
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }

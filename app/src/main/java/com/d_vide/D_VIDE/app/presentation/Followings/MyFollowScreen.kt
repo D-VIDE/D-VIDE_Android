@@ -14,6 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ fun MyFollowScreen(
 ) {
     val viewModel = hiltViewModel<FollowViewModel>()
     val follows = viewModel.state.value.follows
-
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val coroutine = rememberCoroutineScope()
     coroutine.launch {
         viewModel.getFollowInfo(relation = if(isFollowing) "FOLLOWING" else "FOLLOWER")
@@ -58,6 +60,7 @@ fun MyFollowScreen(
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
                                     scope.launch {
+                                        userViewModel.getOtherUserInfo(item.userId)
                                         state.animateTo(
                                             ModalBottomSheetValue.Expanded,
                                             tween(500)

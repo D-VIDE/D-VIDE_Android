@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
@@ -36,7 +37,7 @@ fun RecruitingsScreen(
     onTagClick: (String) -> Unit,
     onRecruitingClick: (Int) -> Unit
 ) {
-
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val userId = remember { mutableStateOf(0L) }
     BottomSheetUserFeedScreen(
         navController = navController,
@@ -78,6 +79,7 @@ fun RecruitingsScreen(
                                     onUserClick = {
                                         scope.launch {
                                             userId.value = it.user.id
+                                            userViewModel.getOtherUserInfo(it.user.id)
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)

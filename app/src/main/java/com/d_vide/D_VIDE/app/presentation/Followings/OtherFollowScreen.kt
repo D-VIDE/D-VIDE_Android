@@ -9,9 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ fun OtherFollowScreen(
     onTagClick: (String) -> Unit,
     isFollowing: Boolean = false
 ) {
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -49,6 +52,7 @@ fun OtherFollowScreen(
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
                                     scope.launch {
+                                        userViewModel.getOtherUserInfo(i.toLong())
                                         state.animateTo(
                                             ModalBottomSheetValue.Expanded,
                                             tween(500)
