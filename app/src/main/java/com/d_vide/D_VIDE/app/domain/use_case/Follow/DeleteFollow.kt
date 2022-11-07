@@ -1,8 +1,7 @@
-package com.d_vide.D_VIDE.app.domain.use_case
+package com.d_vide.D_VIDE.app.domain.use_case.Follow
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -11,14 +10,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class PostFollow @Inject constructor(
+class DeleteFollow @Inject constructor(
     private val repository: UserRepository
 ){
-    operator fun invoke(userIdDTO: UserIdDTO): Flow<Resource<FollowIdDTO>> = flow {
+    operator fun invoke(followIdDTO: FollowIdDTO): Flow<Resource<FollowIdDTO>> = flow {
 
         try {
             emit(Resource.Loading())
-            val r = repository.postFollow(userIdDTO)
+            val r = repository.deleteFollow(followIdDTO)
             when(r.code()) {
                 201 -> {
                     Log.d("test", r.body()!!.toString())
