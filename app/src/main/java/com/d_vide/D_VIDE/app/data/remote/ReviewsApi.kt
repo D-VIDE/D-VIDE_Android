@@ -49,4 +49,11 @@ interface ReviewsApi {
     suspend fun getMyReviews(
         @Query("first") first: Int
     ): Response<ReviewsDTO>
+
+    // 타인이 쓴 리뷰 조회
+    @GET("/api/v1/reviews/others")
+    suspend fun getOtherReviews(
+        @Query("first") first: Int,
+        @Query("userId") userId: Long
+    ): Response<ReviewsDTO>
 }
