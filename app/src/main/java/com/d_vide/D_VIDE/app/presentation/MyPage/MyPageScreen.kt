@@ -47,7 +47,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.BadgeDTO
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersViewModel
 import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -68,10 +70,7 @@ fun MyPageScreen(
 ) {
     val viewModelState = viewModel.state.value.userDTO
     val scrollState = rememberScrollState()
-    val coroutine = rememberCoroutineScope()
-    coroutine.launch {
-        viewModel.getUserInfo()
-    }
+
     Box(modifier = Modifier.background(background)) {
         Column(
             modifier = Modifier
@@ -90,7 +89,8 @@ fun MyPageScreen(
                 followingCount = viewModelState.followingCount,
                 image = viewModelState.profileImgUrl,
                 onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
-                onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")}
+                onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")},
+                allBadges = viewModel.state.value.badgesDTO,
             )
             MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
@@ -195,7 +195,8 @@ fun MyPageUserProfile(
     followingCount: Int = 0,
     image: String = "",
     onFollowerClick: () -> Unit,
-    onFollowingClick: () -> Unit
+    onFollowingClick: () -> Unit,
+    allBadges: List<BadgeDTO> = emptyList()
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
     Box(contentAlignment = Alignment.TopCenter) {
@@ -242,17 +243,16 @@ fun MyPageUserProfile(
         }
     }
     if (isDialogOpen.value)
-        BadgeDialog(onDismiss = {isDialogOpen.value = !isDialogOpen.value})
+        BadgeDialog(onDismiss = { isDialogOpen.value = !isDialogOpen.value }, list = allBadges)
 }
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BadgeDialog(
-    onDismiss:() -> Unit = {}
+    onDismiss:() -> Unit = {},
+    list: List<BadgeDTO> = emptyList(),
+    viewModel: MyPageViewModel = hiltViewModel()
 ){
-    val list = mutableListOf("인싸 디바이더", "디바이드 공식 돼지", "꿀꿀냠냠", "디바이드 공식 돼지", "꿀꿀냠냠", "")
-
     val pagerState = rememberPagerState(initialPage = 1)
-
     Dialog(
         onDismissRequest = onDismiss,
     ) {
@@ -260,42 +260,63 @@ fun BadgeDialog(
             horizontalAlignment = CenterHorizontally
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Image(
-                    painter = painterResource(id = R.drawable.setting_unselected),
-                    contentDescription = "setting",
+                Row(
                     modifier = Modifier
                         .padding(top = 7.dp)
                         .padding(10.dp)
-                        .size(23.dp)
-                        .clickable(onClick = onDismiss)
-                        .align(CenterEnd)
-                )
+                        .clickable {
+                            if (pagerState.currentPage > 0) viewModel.postBadges(list[pagerState.currentPage - 1].name)
+                            onDismiss()
+                        }
+                        .align(CenterEnd),
+                    verticalAlignment = CenterVertically
+                ) {
+                    Text(
+                        text = "저장하기",
+                        style = TextStyles.Point2,
+                        color = main_gray2,
+                        modifier = Modifier
+                            .width(80.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(Color.White),
+                        textAlign = TextAlign.Center
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.setting_unselected),
+                        contentDescription = "setting",
+                        modifier = Modifier.size(23.dp)
+                    )
+                }
             }
             Spacer(Modifier.clickable(onClick = onDismiss).padding(bottom = 100.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(31.dp)
-                    .clip(RoundedCornerShape(15.5.dp))
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                HorizontalPager(
-                    count = list.size,
-                    contentPadding = PaddingValues(start = 213.dp),
-                    state = pagerState
-                ) { page ->
-                    Text(
-                        text = list[page],
-                        style = if (page == pagerState.currentPage - 1) TextStyles.Point2 else TextStyles.Small3,
-                        color = if (page == pagerState.currentPage - 1) mainYellow else main_gray2,
-                        textAlign = TextAlign.Center,
-                    )
+            Box {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(31.dp)
+                        .padding(top = 4.dp)
+                        .clip(RoundedCornerShape(15.5.dp))
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HorizontalPager(
+                        count = list.size,
+                        contentPadding = PaddingValues(start = 213.dp),
+                        state = pagerState
+                    ) { page ->
+                        Text(
+                            text = list[page].name,
+                            style = if (page == pagerState.currentPage - 1) TextStyles.Point2 else TextStyles.Small3,
+                            color = if (page == pagerState.currentPage - 1) mainYellow else main_gray2,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 }
                 Box(
                     modifier = Modifier
+                        .align(Alignment.Center)
                         .border(4.dp, mainYellow, RoundedCornerShape(19.5.dp))
-                        .size(140.dp, 50.dp)
+                        .size(140.dp, 35.dp)
                 )
             }
             Spacer(Modifier.clickable(onClick = onDismiss).padding(bottom = 500.dp))
