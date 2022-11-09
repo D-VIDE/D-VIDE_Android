@@ -1,8 +1,12 @@
 package com.d_vide.D_VIDE.app.presentation.MyPage
 
+import android.app.Dialog
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -12,11 +16,18 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -34,15 +47,19 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
+import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
-import com.d_vide.D_VIDE.ui.theme.background
-import com.d_vide.D_VIDE.ui.theme.main1
-import com.d_vide.D_VIDE.ui.theme.mainOrange
-import com.d_vide.D_VIDE.ui.theme.mainYellow
+import com.d_vide.D_VIDE.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import kotlin.math.absoluteValue
 
 @Composable
 fun MyPageScreen(
@@ -180,8 +197,17 @@ fun MyPageUserProfile(
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit
 ) {
+    val isDialogOpen = remember { mutableStateOf(false) }
     Box(contentAlignment = Alignment.TopCenter) {
         UserProfileImage(imageUrl = image)
+        Image(
+            painter = painterResource(id = R.drawable.setting),
+            contentDescription = "setting",
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .size(23.dp)
+                .clickable { isDialogOpen.value = !isDialogOpen.value }
+        )
         Card(
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
@@ -213,6 +239,66 @@ fun MyPageUserProfile(
                 )
                 Spacer(modifier = Modifier.size(10.dp))
             }
+        }
+    }
+    if (isDialogOpen.value)
+        BadgeDialog(onDismiss = {isDialogOpen.value = !isDialogOpen.value})
+}
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun BadgeDialog(
+    onDismiss:() -> Unit = {}
+){
+    val list = mutableListOf("인싸 디바이더", "디바이드 공식 돼지", "꿀꿀냠냠", "디바이드 공식 돼지", "꿀꿀냠냠", "")
+
+    val pagerState = rememberPagerState(initialPage = 1)
+
+    Dialog(
+        onDismissRequest = onDismiss,
+    ) {
+        Column(
+            horizontalAlignment = CenterHorizontally
+        ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Image(
+                    painter = painterResource(id = R.drawable.setting_unselected),
+                    contentDescription = "setting",
+                    modifier = Modifier
+                        .padding(top = 7.dp)
+                        .padding(10.dp)
+                        .size(23.dp)
+                        .clickable(onClick = onDismiss)
+                        .align(CenterEnd)
+                )
+            }
+            Spacer(Modifier.clickable(onClick = onDismiss).padding(bottom = 100.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(31.dp)
+                    .clip(RoundedCornerShape(15.5.dp))
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                HorizontalPager(
+                    count = list.size,
+                    contentPadding = PaddingValues(start = 213.dp),
+                    state = pagerState
+                ) { page ->
+                    Text(
+                        text = list[page],
+                        style = if (page == pagerState.currentPage - 1) TextStyles.Point2 else TextStyles.Small3,
+                        color = if (page == pagerState.currentPage - 1) mainYellow else main_gray2,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .border(4.dp, mainYellow, RoundedCornerShape(19.5.dp))
+                        .size(140.dp, 50.dp)
+                )
+            }
+            Spacer(Modifier.clickable(onClick = onDismiss).padding(bottom = 500.dp))
         }
     }
 }
