@@ -54,5 +54,5 @@ interface ReviewsApi {
     suspend fun getOtherReviews(
         @Query("first") first: Int,
         @Query("userId") userId: Long
-    ): Response<ReviewsDTO>
+    ): Response<UserlessReviewsDTO>
 }

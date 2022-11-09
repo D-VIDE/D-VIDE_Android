@@ -127,7 +127,7 @@ fun FollowDeleteButton(
             }
             if (isFollowing && isClicked){
                 "팔로잉하는 중".log()
-                viewModel.postFollow(userId.toInt())
+                viewModel.postFollow(userId)
             }
             if (!isFollowing){
                 viewModel.deleteFollow(followId.toInt())

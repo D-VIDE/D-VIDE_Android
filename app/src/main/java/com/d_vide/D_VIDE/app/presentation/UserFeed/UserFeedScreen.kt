@@ -32,6 +32,7 @@ fun UserFeedScreen(
     userId: Long = 0L
 ) {
     val userProfile = viewModel.userProfile.value.userProfile
+    viewModel.getOtherUserInfo(userId)
 
     UserFeedBackground(modifier) {
         UserFeedContent {
@@ -63,12 +64,15 @@ fun ColumnScope.UserFeeds(
     upPress: () -> Unit = {},
     userId: Long,
     userName: String,
-
+    imageUrl: String,
+    userId: Long,
 ) {
     UserFeedTitleText(userName)
     UserFeedList(
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,
+        userName = userName,
+        imageUrl = imageUrl,
         userId = userId,
     )
 }
@@ -77,7 +81,8 @@ fun ColumnScope.UserFeeds(
 fun ColumnScope.UserFeedList(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
-    onUserClick: () -> Unit = {},
+    userName: String,
+    imageUrl: String,
     userId: Long,
     viewModel: UserReviewsViewModel = hiltViewModel()
 ) {
@@ -86,20 +91,20 @@ fun ColumnScope.UserFeedList(
         modifier = Modifier.weight(1f),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        itemsIndexed(viewModel.userReviews.userReviews.reviews){ index, item ->
+        itemsIndexed(viewModel.userReviews.userReviews.reviews) { index, item ->
             ReviewItem(
                 onUserClick = { },
-                onReviewClick = {onReviewSelected(item.review.reviewId.toInt())},
-                onTagClick = {onTagClick(item.review.storeName)},
+                onReviewClick = { onReviewSelected(item.reviewId.toInt()) },
+                onTagClick = { onTagClick(item.storeName) },
 //                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},
                 // 추후 기능 추가 필요
                 onLikeClick = {},
-                isliked = item.review.liked,
-                userImageURL = item.user.profileImgUrl,
-                userName = item.user.nickname,
-                reviewTitle = item.review.storeName,
-                reviewText = item.review.content,
-                reviewImage = item.review.reviewImgUrl
+                isliked = item.liked,
+                userImageURL = imageUrl,
+                userName = userName,
+                reviewTitle = item.storeName,
+                reviewText = item.content,
+                reviewImage = item.reviewImgUrl
             )
         }
     }
@@ -196,6 +201,6 @@ fun BottomSheetUserFeedScreen(
 @Composable
 fun PreviewUserFeedScreen() {
     UserFeedScreen(
-        navController = rememberNavController(),
+        navController = rememberNavController(),userId = 0L
     )
 }

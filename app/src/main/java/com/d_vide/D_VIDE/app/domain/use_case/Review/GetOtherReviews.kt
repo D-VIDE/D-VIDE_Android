@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.domain.use_case.Review
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewsDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.UserlessReviewsDTO
 import com.d_vide.D_VIDE.app.domain.repository.ReviewRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class GetOtherReviews @Inject constructor(
     private val repository: ReviewRepository,
 ) {
-    operator fun invoke(first: Int, userId: Long): Flow<Resource<ReviewsDTO>> = flow {
+    operator fun invoke(first: Int, userId: Long): Flow<Resource<UserlessReviewsDTO>> = flow {
 
         try {
             emit(Resource.Loading())

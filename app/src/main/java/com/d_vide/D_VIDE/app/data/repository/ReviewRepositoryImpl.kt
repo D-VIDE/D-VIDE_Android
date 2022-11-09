@@ -42,7 +42,7 @@ class ReviewRepositoryImpl @Inject constructor(
         return api.getMyReviews(first)
     }
 
-    override suspend fun getMyOtherReviews(first: Int, userId: Long): Response<ReviewsDTO> {
+    override suspend fun getMyOtherReviews(first: Int, userId: Long): Response<UserlessReviewsDTO> {
         return api.getOtherReviews(first, userId)
     }
 }

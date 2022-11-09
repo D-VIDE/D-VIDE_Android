@@ -37,8 +37,9 @@ import com.d_vide.D_VIDE.ui.theme.*
 fun ColumnScope.UserProfile(
     modifier: Modifier = Modifier,
     onFollowingClick: () -> Unit = {},
-    onFollowerClick:  () -> Unit = {},
-    userName: String = "룡룡",
+    onFollowerClick: () -> Unit = {},
+    userName: String,
+    imageUrl: String,
     userBadge: String = "디바이드 공식 돼지",
     following: Int = 6,
     follower: Int = 3,
@@ -48,7 +49,12 @@ fun ColumnScope.UserProfile(
 ){
     Box(modifier = modifier.size(349.dp, 83.dp)) {
         Row {
-            MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
+            MainProfile(
+                Modifier.weight(0.6f),
+                imageUrl = imageUrl,
+                userName = userName,
+                userBadge = userBadge
+            )
 
             Column(
                 Modifier
@@ -71,13 +77,13 @@ fun ColumnScope.UserProfile(
 @Composable
 fun MainProfile(
     modifier: Modifier = Modifier,
-    imageUrl: String = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
-    userName: String = "룡룡",
+    imageUrl: String,
+    userName: String,
     userBadge: String = "디바이드 공식 돼지"
-){
+) {
     Box(
-       modifier = modifier
-    ){
+        modifier = modifier
+    ) {
         Box(
             modifier = Modifier
                 .padding(start = 29.dp)
@@ -90,7 +96,7 @@ fun MainProfile(
                     .height(85.dp)
                     .padding(start = 64.dp),
                 verticalArrangement = Arrangement.Center
-            ){
+            ) {
                 Text(
                     text = userName,
                     style = TextStyles.Point4,
@@ -135,18 +141,18 @@ fun Following(
     onFollowerClick: () -> Unit,
     following: Int = 6,
     follower: Int = 3
-){
+) {
     Box(
         modifier = modifier
             .size(129.dp, 56.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(White)
-    ){
+    ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -177,7 +183,7 @@ fun Following(
                     .weight(1f)
                     .clickable(onClick = onFollowerClick),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Text(
                     text = follower.toString(),
                     textAlign = TextAlign.Center,

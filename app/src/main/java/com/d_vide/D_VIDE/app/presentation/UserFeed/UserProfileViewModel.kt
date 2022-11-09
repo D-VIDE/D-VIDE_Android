@@ -2,13 +2,10 @@ package com.d_vide.D_VIDE.app.presentation.UserFeed
 
 import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.domain.use_case.GetOtherUserInfo
-import com.d_vide.D_VIDE.app.domain.use_case.Review.GetOtherReviews
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,9 +19,9 @@ class UserProfileViewModel @Inject constructor(
     private var _userProfile = mutableStateOf(UserProfileState(isLoading = true))
     var userProfile: State<UserProfileState> = _userProfile
 
-    init {
-        getOtherUserInfo(1L)
-    }
+//    init {
+//        getOtherUserInfo(1L)
+//    }
 
     fun getOtherUserInfo(userId: Long) {
         viewModelScope.launch {
