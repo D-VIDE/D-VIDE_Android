@@ -1,9 +1,7 @@
 package com.d_vide.D_VIDE.app.data.repository
 
-import com.d_vide.D_VIDE.app.data.remote.RecruitingsApi
 import com.d_vide.D_VIDE.app.data.remote.ReviewsApi
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.*
-import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.d_vide.D_VIDE.app.domain.repository.ReviewRepository
 import retrofit2.Response
 import javax.inject.Inject

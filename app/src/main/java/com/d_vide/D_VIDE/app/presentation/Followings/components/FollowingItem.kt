@@ -46,7 +46,9 @@ fun FollowingItem(
     profileUrl: String? = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
     modifier: Modifier = Modifier,
     isFollowing: Boolean = true,
-    userId: Long = 0L
+    userId: Long = 0L,
+    followId: Long = 0L,
+    followed: Boolean = true
 ){
     Row(
           modifier = modifier
@@ -74,7 +76,9 @@ fun FollowingItem(
                     .size(60.dp, 23.dp)
                     .align(CenterEnd),
                 isFollowing = isFollowing,
-                userId = userId
+                userId = userId,
+                followId = followId,
+                followed = followed
             )
         }
     }
@@ -108,23 +112,26 @@ fun FollowerProfileImage(
 fun FollowDeleteButton(
     modifier: Modifier = Modifier,
     isFollowing: Boolean = false,
-    userId: Long = 0L
+    userId: Long = 0L,
+    followId: Long = 0L,
+    followed: Boolean = false
 ){
-    var isClicked by remember { mutableStateOf(isFollowing) }
+    var isClicked by remember { mutableStateOf(followed) }
     val viewModel = hiltViewModel<FollowViewModel>()
-
     Button(
         onClick = {
             isClicked = !isClicked
-            if (isFollowing && isClicked) {
+            if (isFollowing && !isClicked) {
                 "언팔하는 중".log()
-                viewModel.deleteFollow(userId.toInt())
+                viewModel.deleteFollow(followId.toInt())
             }
-            if (isFollowing && !isClicked){
+            if (isFollowing && isClicked){
                 "팔로잉하는 중".log()
                 viewModel.postFollow(userId.toInt())
             }
-            // 나를 팔로우 하는 사람 삭제 api 없음.
+            if (!isFollowing){
+                viewModel.deleteFollow(followId.toInt())
+            }
         },
         shape = RoundedCornerShape(11.dp),
         modifier = modifier.size(60.dp, 23.dp),

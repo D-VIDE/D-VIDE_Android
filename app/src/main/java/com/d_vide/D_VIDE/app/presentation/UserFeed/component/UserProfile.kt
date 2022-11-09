@@ -10,7 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -25,9 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
@@ -39,14 +42,18 @@ fun ColumnScope.UserProfile(
     userBadge: String = "디바이드 공식 돼지",
     following: Int = 6,
     follower: Int = 3,
-    FollowingButton: () -> Unit = {}
+    followed: Boolean = false,
+    FollowingButton: () -> Unit = {},
+    userId: Long = 0
 ){
     Box(modifier = modifier.size(349.dp, 83.dp)) {
         Row {
             MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
 
             Column(
-                Modifier.padding(start = 7.dp).weight(0.4f)
+                Modifier
+                    .padding(start = 7.dp)
+                    .weight(0.4f)
             ){
                 Following(
                     Modifier.padding(bottom = 9.dp),
@@ -55,7 +62,7 @@ fun ColumnScope.UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton(Modifier.fillMaxWidth(), FollowingButton)
+                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed, userId)
             }
         }
     }
@@ -141,7 +148,9 @@ fun Following(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(
-                modifier = Modifier.weight(1f).clickable(onClick = onFollowingClick),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onFollowingClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -164,7 +173,9 @@ fun Following(
                 color = main_gray1,
             )
             Column(
-                modifier = Modifier.weight(1f).clickable(onClick = onFollowerClick),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onFollowerClick),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(
@@ -189,18 +200,31 @@ fun Following(
 @Composable
 fun FollowingButton(
     modifier: Modifier = Modifier,
-    FollowingButton: () -> Unit = {}
+    FollowingButton: () -> Unit = {},
+    followed: Boolean = false,
+    userId: Long = 0
 ){
+    var isClicked by remember { mutableStateOf(followed) }
+    val viewModel = hiltViewModel<FollowViewModel>()
+    val isSelf = (viewModel.followIdDTO.value.followId == userId)
+    isSelf.toString().log()
     Button(
-        onClick = FollowingButton,
-        colors = ButtonDefaults.buttonColors(backgroundColor = mainOrange),
+        onClick = {
+            isClicked = !isClicked
+            if (isClicked){
+                "팔로잉하는 중".log()
+                viewModel.postFollow(userId.toInt())
+            }
+        },
+        colors = ButtonDefaults.buttonColors(backgroundColor = if (isClicked || isSelf) gray2 else mainOrange),
         shape = RoundedCornerShape(11.dp),
         modifier = modifier.size(129.dp, 22.dp),
+        enabled = !isClicked && !isSelf,
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
             text = "팔로우",
-            color = Color.White,
+            color = White,
             textAlign = TextAlign.Center,
             style = TextStyles.Small3,
             modifier = Modifier.align(CenterVertically)

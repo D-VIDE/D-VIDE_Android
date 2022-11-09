@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -33,13 +36,16 @@ fun MyFollowScreen(
     val follows = viewModel.state.value.follows
     val userViewModel = hiltViewModel<UserProfileViewModel>()
     val coroutine = rememberCoroutineScope()
+    val userId = rememberSaveable{ mutableStateOf(0L) }
+
     coroutine.launch {
         viewModel.getFollowInfo(relation = if(isFollowing) "FOLLOWING" else "FOLLOWER")
     }
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
-        onTagClick = onTagClick
+        onTagClick = onTagClick,
+        userId = userId.value
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar(if (isFollowing) "팔로잉" else "팔로우", onClick = upPress) }
@@ -59,6 +65,7 @@ fun MyFollowScreen(
                                 profileUrl = item.profileImageUrl,
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
+                                    userId.value = item.userId
                                     scope.launch {
                                         userViewModel.getOtherUserInfo(item.userId)
                                         state.animateTo(
@@ -68,7 +75,8 @@ fun MyFollowScreen(
                                     }
                                 },
                                 isFollowing = isFollowing,
-                                userId = item.userId
+                                userId = item.userId,
+                                followId = item.followId,
                             )
                         }
                     }

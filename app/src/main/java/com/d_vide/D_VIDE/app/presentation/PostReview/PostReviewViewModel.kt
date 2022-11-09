@@ -29,10 +29,10 @@ import javax.inject.Inject
 class PostReviewViewModel @Inject constructor(
     val postReviewUseCase: PostReview,
     @ApplicationContext val context: Context
-): ViewModel() {
+) : ViewModel() {
     private var _imageUris = mutableStateListOf<Uri>()
     val imageUris: SnapshotStateList<Uri> = _imageUris
-    
+
     private var _reviewId = mutableStateOf(1L)
     val reviewId: State<Long> = _reviewId
 
@@ -61,9 +61,9 @@ class PostReviewViewModel @Inject constructor(
             }
 
             is PostReviewEvent.EnteredImage -> {
-                if(event.index >= 0)
+                if (event.index >= 0)
                     _imageUris[event.index] = event.value!!
-                else if(_imageUris.size < 3)
+                else if (_imageUris.size < 3)
                     _imageUris.add(event.value!!)
             }
             is PostReviewEvent.DeleteImage -> {
@@ -79,7 +79,7 @@ class PostReviewViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         // 모든 빈칸이 채워졌는지 check
-                        if (reviewBodyDTO.value.content.isNullOrBlank()||
+                        if (reviewBodyDTO.value.content.isNullOrBlank() ||
                             reviewBodyDTO.value.storeName.isNullOrBlank()
                         ) {
                             _eventFlow.emit(PostReviewViewModel.UiEvent.ShowSnackbar("모든 칸의 내용을 채워주세요"))
@@ -122,8 +122,8 @@ class PostReviewViewModel @Inject constructor(
             }
         }
     }
-    
-    
+
+
     sealed class UiEvent {
         data class ShowSnackbar(val message: String) : UiEvent()
         object SaveReview : UiEvent()

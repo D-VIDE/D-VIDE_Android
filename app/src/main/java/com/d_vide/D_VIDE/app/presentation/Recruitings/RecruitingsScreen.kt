@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -38,7 +39,7 @@ fun RecruitingsScreen(
     onRecruitingClick: (Int) -> Unit
 ) {
     val userViewModel = hiltViewModel<UserProfileViewModel>()
-    val userId = remember { mutableStateOf(0L) }
+    val userId = rememberSaveable { mutableStateOf(0L) }
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,

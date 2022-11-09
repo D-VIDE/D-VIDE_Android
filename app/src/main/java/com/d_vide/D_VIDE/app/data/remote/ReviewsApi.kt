@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.*
 import retrofit2.Response
 import retrofit2.http.*

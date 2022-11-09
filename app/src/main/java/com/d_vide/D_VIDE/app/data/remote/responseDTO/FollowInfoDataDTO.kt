@@ -4,5 +4,5 @@ data class FollowInfoDataDTO (
     val userId: Long,
     val profileImageUrl: String,
     val nickname: String,
-    val isFFF: Boolean
+    val followId: Long
 )

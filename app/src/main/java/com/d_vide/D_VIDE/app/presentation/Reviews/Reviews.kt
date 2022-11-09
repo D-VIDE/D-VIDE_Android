@@ -12,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
@@ -41,7 +43,7 @@ fun Reviews(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit
 ){
-    val userId = remember{ mutableStateOf(0L) }
+    val userId = rememberSaveable{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
     val userViewModel = hiltViewModel<UserProfileViewModel>()
     val reviews = viewModel.state.value.reviews
@@ -79,7 +81,6 @@ fun Reviews(
                         itemsIndexed(reviews){ index, item ->
                             ReviewItem(
                                 onUserClick = {
-                                    "유저 아이디는 ${item.user.id}".log()
                                     userId.value = item.user.id
                                     userViewModel.getOtherUserInfo(item.user.id)
                                     scope.launch {

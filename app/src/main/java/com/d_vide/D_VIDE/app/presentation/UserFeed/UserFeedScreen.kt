@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.component.UserProfile
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -30,31 +29,28 @@ fun UserFeedScreen(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
     viewModel: UserProfileViewModel = hiltViewModel(),
-    followViewModel: FollowViewModel = hiltViewModel(),
     userId: Long = 0L
 ) {
-    // 넘겨 받은 userId로 UserProfileViewModel 에서 불러와야함
-    val userProfile by viewModel.userProfile
+    val userProfile = viewModel.userProfile.value.userProfile
 
     UserFeedBackground(modifier) {
         UserFeedContent {
             UserProfile(
                 onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
                 onFollowerClick = { navController.navigate("${Screen.OtherFollowScreen.route}/false") },
-                userName = userProfile.userProfile.nickname,
-                userBadge =
-                if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0)
-                else ""
-                ,
-                following = userProfile.userProfile.followingCount,
-                follower = userProfile.userProfile.followerCount,
-                FollowingButton = { followViewModel.postFollow(userId) }
+                userName = userProfile.nickname,
+                userBadge = userProfile.badge.name,
+                following = userProfile.followingCount,
+                follower = userProfile.followerCount,
+                followed = userProfile.followed,
+                userId = userId
             )
             UserFeeds(
                 onReviewSelected = onReviewSelected,
                 onTagClick = onTagClick,
                 upPress = upPress,
-                userName = userProfile.userProfile.nickname
+                userName = userProfile.nickname,
+                userId = userId,
             )
         }
     }
@@ -65,6 +61,7 @@ fun ColumnScope.UserFeeds(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
     upPress: () -> Unit = {},
+    userId: Long,
     userName: String,
 
 ) {
@@ -72,6 +69,7 @@ fun ColumnScope.UserFeeds(
     UserFeedList(
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,
+        userId = userId,
     )
 }
 
@@ -80,17 +78,17 @@ fun ColumnScope.UserFeedList(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
     onUserClick: () -> Unit = {},
+    userId: Long,
     viewModel: UserReviewsViewModel = hiltViewModel()
 ) {
-    var selectedUserId by remember{ mutableStateOf(0L) }
-
+    viewModel.getOtherUserReviews(userId)
     LazyColumn(
         modifier = Modifier.weight(1f),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         itemsIndexed(viewModel.userReviews.userReviews.reviews){ index, item ->
             ReviewItem(
-                onUserClick = { selectedUserId = item.user.id },
+                onUserClick = { },
                 onReviewClick = {onReviewSelected(item.review.reviewId.toInt())},
                 onTagClick = {onTagClick(item.review.storeName)},
 //                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},

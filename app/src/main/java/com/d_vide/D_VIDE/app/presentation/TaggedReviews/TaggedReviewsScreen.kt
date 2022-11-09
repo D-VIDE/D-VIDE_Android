@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -39,11 +41,12 @@ fun TaggedReviewsScreen(
     val userViewModel = hiltViewModel<UserProfileViewModel>()
     val viewModel = hiltViewModel<TaggedReviewsViewModel>()
     val reviews = viewModel.state.value.reviews
-
+    val userId = rememberSaveable{ mutableStateOf(0L) }
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
-        onTagClick = onTagClick
+        onTagClick = onTagClick,
+        userId = userId.value
     ) { state, scope ->
         Scaffold(
             floatingActionButton = {
@@ -67,6 +70,7 @@ fun TaggedReviewsScreen(
                         items(reviews){ review ->
                             ReviewItem(
                                 onUserClick = {
+                                    userId.value = 1 // need to change
                                     scope.launch {
                                         userViewModel.getOtherUserInfo(1) // need to change userId
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
