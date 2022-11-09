@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContaine
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -46,8 +48,8 @@ fun RecruitingsScreen(
     onTagClick: (String) -> Unit,
     onRecruitingClick: (Int) -> Unit
 ) {
-
-    val userId = remember { mutableStateOf(0L) }
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
+    val userId = rememberSaveable { mutableStateOf(0L) }
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -88,6 +90,7 @@ fun RecruitingsScreen(
                                     onUserClick = {
                                         scope.launch {
                                             userId.value = it.user.id
+                                            userViewModel.getOtherUserInfo(it.user.id)
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)
