@@ -3,6 +3,7 @@ package com.d_vide.D_VIDE.app.presentation.UserFeed
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -32,6 +33,7 @@ fun UserFeedScreen(
     followViewModel: FollowViewModel = hiltViewModel(),
     userId: Long = 0L
 ) {
+    // 넘겨 받은 userId로 UserProfileViewModel 에서 불러와야함
     val userProfile by viewModel.userProfile
 
     UserFeedBackground(modifier) {
@@ -41,19 +43,18 @@ fun UserFeedScreen(
                 onFollowerClick = { navController.navigate("${Screen.OtherFollowScreen.route}/false") },
                 userName = userProfile.userProfile.nickname,
                 userBadge =
-                if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(
-                    0
-                )
-                else "",
+                if (!userProfile.userProfile.badges.isNullOrEmpty()) userProfile.userProfile.badges!!.get(0)
+                else ""
+                ,
                 following = userProfile.userProfile.followingCount,
                 follower = userProfile.userProfile.followerCount,
-                FollowingButton = { followViewModel.postFollow(2) }
+                FollowingButton = { followViewModel.postFollow(userId) }
             )
             UserFeeds(
                 onReviewSelected = onReviewSelected,
                 onTagClick = onTagClick,
                 upPress = upPress,
-                userName = "룡룡"
+                userName = userProfile.userProfile.nickname
             )
         }
     }
@@ -78,19 +79,30 @@ fun ColumnScope.UserFeeds(
 fun ColumnScope.UserFeedList(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
+    onUserClick: () -> Unit = {},
+    viewModel: UserReviewsViewModel = hiltViewModel()
 ) {
+    var selectedUserId by remember{ mutableStateOf(0L) }
+
     LazyColumn(
         modifier = Modifier.weight(1f),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        repeat(3) {
-            item {
-                ReviewItem(
-                    onReviewClick = { onReviewSelected(1234) },
-                    onTagClick = { onTagClick("test") },
-                    isliked = false
-                )
-            }
+        itemsIndexed(viewModel.userReviews.userReviews.reviews){ index, item ->
+            ReviewItem(
+                onUserClick = { selectedUserId = item.user.id },
+                onReviewClick = {onReviewSelected(item.review.reviewId.toInt())},
+                onTagClick = {onTagClick(item.review.storeName)},
+//                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},
+                // 추후 기능 추가 필요
+                onLikeClick = {},
+                isliked = item.review.liked,
+                userImageURL = item.user.profileImgUrl,
+                userName = item.user.nickname,
+                reviewTitle = item.review.storeName,
+                reviewText = item.review.content,
+                reviewImage = item.review.reviewImgUrl
+            )
         }
     }
 }
@@ -153,6 +165,7 @@ fun BottomSheetUserFeedScreen(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
+    onUserClick: () -> Unit = {},
     userId: Long = 0L,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
 ) {
