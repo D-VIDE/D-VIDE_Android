@@ -40,9 +40,3 @@ private val initialMessages = listOf(
         "8:03 PM"
     )
 )
-
-val exampleUiState = ConversationUiState(
-    initialMessages = initialMessages,
-    channelName = "#composers",
-    channelMembers = 42
-)

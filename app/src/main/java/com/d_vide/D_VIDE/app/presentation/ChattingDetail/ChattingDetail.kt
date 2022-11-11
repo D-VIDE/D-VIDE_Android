@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.bundleOf
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.d_vide.D_VIDE.R
@@ -20,16 +21,18 @@ import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
 import com.d_vide.D_VIDE.app.domain.model.Message
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.Messages
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.UserInput
+import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopBarChatting
 import kotlinx.coroutines.launch
 
 @Composable
 fun ChattingDetail(
     chattingId: Int,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    viewModel: ChattingDetailViewModel = hiltViewModel()
 ) {
     ConversationContent(
-        uiState = exampleUiState,
+        uiState = viewModel.state.value,
         navigateToProfile = { user ->
         },
         // Add padding so that we are inset from any navigation bars
@@ -37,7 +40,10 @@ fun ChattingDetail(
             WindowInsets
                 .navigationBars
                 .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-        )
+        ),
+        onMessageSent = { content ->
+            viewModel.send(Message("authorMe", content, "time"))
+        }
     )
 }
 
@@ -47,11 +53,9 @@ fun ConversationContent(
     uiState: ConversationUiState,
     navigateToProfile: (String) -> Unit,
     modifier: Modifier = Modifier,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    onMessageSent: (String) -> Unit
 ){
-    val authorMe = "authorMe"
-    val timeNow = "timeNow"
-
     val scrollState = rememberLazyListState()
     //val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior(scrollState) }
     val scope = rememberCoroutineScope()
@@ -70,11 +74,7 @@ fun ConversationContent(
                     scrollState = scrollState
                 )
                 UserInput(
-                    onMessageSent = { content ->
-                        uiState.addMessage(
-                            Message(authorMe, content, timeNow)
-                        )
-                    },
+                    onMessageSent = onMessageSent,
                     resetScroll = {
                         scope.launch {
                             scrollState.scrollToItem(0)
@@ -89,7 +89,7 @@ fun ConversationContent(
             }
             // Channel name bar floats above the messages
             TopBarChatting(
-                "채팅",
+                text = uiState.channelName,
                 upPress = upPress
             )
 

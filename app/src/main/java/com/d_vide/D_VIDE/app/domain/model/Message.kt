@@ -4,25 +4,18 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.mutableStateListOf
 import com.d_vide.D_VIDE.R
 
-class ConversationUiState(
-    val channelName: String,
-    val channelMembers: Int,
-    initialMessages: List<Message>
-) {
-    private val _messages: MutableList<Message> =
-        mutableStateListOf(*initialMessages.toTypedArray())
-    val messages: List<Message> = _messages
-
-    fun addMessage(msg: Message) {
-        _messages.add(0, msg) // Add to the beginning of the list
-    }
-}
+data class ConversationUiState(
+    val channelName: String = "채팅방 이름",
+    val channelMembers: Int = 3,
+    val chatId: String = "",
+    val messages: MutableList<Message> = mutableListOf()
+)
 
 @Immutable
 data class Message(
-    val author: String,
-    val content: String,
-    val timestamp: String,
+    val author: String = "",
+    val content: String = "",
+    val timestamp: String = "",
     val image: Int? = null,
     val authorImage: Int = R.drawable.character_circle
 )

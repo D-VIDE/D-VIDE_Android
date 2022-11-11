@@ -43,11 +43,6 @@ fun UserInput(
     var currentInputSelector by rememberSaveable { mutableStateOf(InputSelector.NONE) }
     val dismissKeyboard = { currentInputSelector = InputSelector.NONE }
 
-    // Intercept back navigation if there's a InputSelector visible
-//    if (currentInputSelector != InputSelector.NONE) {
-//        BackPressHandler(onBackPressed = dismissKeyboard)
-//    }
-
     var textState by remember { mutableStateOf(TextFieldValue()) }
 
     // Used to decide if the keyboard should be shown

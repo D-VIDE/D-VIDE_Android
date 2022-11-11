@@ -36,6 +36,7 @@ class DivideAppState(
         coroutineScope.launch {}
     }
 
+
     val currentDestination: NavDestination?
         get() = navController.currentDestination
 
