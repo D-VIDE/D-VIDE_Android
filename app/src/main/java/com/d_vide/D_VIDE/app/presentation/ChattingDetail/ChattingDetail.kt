@@ -17,7 +17,9 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
+import com.d_vide.D_VIDE.app.domain.model.Message
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.Messages
+import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.UserInput
 import com.d_vide.D_VIDE.app.presentation.component.TopBarChatting
 import kotlinx.coroutines.launch
 
@@ -67,23 +69,23 @@ fun ConversationContent(
                     modifier = Modifier.weight(1f),
                     scrollState = scrollState
                 )
-//                UserInput(
-//                    onMessageSent = { content ->
-//                        uiState.addMessage(
-//                            Message(authorMe, content, timeNow)
-//                        )
-//                    },
-//                    resetScroll = {
-//                        scope.launch {
-//                            scrollState.scrollToItem(0)
-//                        }
-//                    },
-//                    // Use navigationBarsPadding() imePadding() and , to move the input panel above both the
-//                    // navigation bar, and on-screen keyboard (IME)
-//                    modifier = Modifier
-//                        .navigationBarsPadding()
-//                        .imePadding(),
-//                )
+                UserInput(
+                    onMessageSent = { content ->
+                        uiState.addMessage(
+                            Message(authorMe, content, timeNow)
+                        )
+                    },
+                    resetScroll = {
+                        scope.launch {
+                            scrollState.scrollToItem(0)
+                        }
+                    },
+                    // Use navigationBarsPadding() imePadding() and , to move the input panel above both the
+                    // navigation bar, and on-screen keyboard (IME)
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .imePadding(),
+                )
             }
             // Channel name bar floats above the messages
             TopBarChatting(
