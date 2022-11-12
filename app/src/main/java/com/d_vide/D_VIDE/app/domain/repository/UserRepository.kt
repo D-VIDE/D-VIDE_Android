@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.domain.repository
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.domain.model.Token
 import retrofit2.Response
@@ -21,4 +22,7 @@ interface UserRepository {
 
     suspend fun postFollow(userIdDTO: UserIdDTO): Response<FollowIdDTO>
     suspend fun deleteFollow(followIdDTO: FollowIdDTO): Response<FollowIdDTO>
+    fun getFCMToken(): FcmTokenDTO
+    fun setFCMToken(fcmTokenDTO: FcmTokenDTO)
+    suspend fun postFCMToken(fcmTokenDTO: FcmTokenDTO)
 }

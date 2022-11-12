@@ -15,5 +15,8 @@ data class UserUseCases @Inject constructor(
     val getFollowInformation: GetFollowInformation,
     val getOtherFollow: GetOtherFollow,
     val postFollow: PostFollow,
-    val deleteFollow: DeleteFollow
+    val deleteFollow: DeleteFollow,
+    val postFCMToken: PostFCMToken,
+    val getFCMToken: GetFCMToken,
+    val setFCMToken: SetFCMToken
 )
