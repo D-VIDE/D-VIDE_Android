@@ -40,6 +40,7 @@ fun UserFeedScreen(
                 onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
                 onFollowerClick = { navController.navigate("${Screen.OtherFollowScreen.route}/false") },
                 userName = userProfile.nickname,
+                imageUrl = userProfile.profileImgUrl,
                 userBadge = userProfile.badge.name,
                 following = userProfile.followingCount,
                 follower = userProfile.followerCount,
@@ -51,6 +52,7 @@ fun UserFeedScreen(
                 onTagClick = onTagClick,
                 upPress = upPress,
                 userName = userProfile.nickname,
+                imageUrl = userProfile.profileImgUrl,
                 userId = userId,
             )
         }
@@ -62,7 +64,6 @@ fun ColumnScope.UserFeeds(
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
     upPress: () -> Unit = {},
-    userId: Long,
     userName: String,
     imageUrl: String,
     userId: Long,

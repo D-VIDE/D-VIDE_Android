@@ -82,7 +82,7 @@ class FollowViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
-    fun postFollow(userId: Int){
+    fun postFollow(userId: Long){
         _userIdDTO.value = userIdDTO.value.copy(
             userId = userId.toLong()
         )

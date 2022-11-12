@@ -68,7 +68,7 @@ fun ColumnScope.UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed, userId)
+                FollowingButton()
             }
         }
     }
@@ -206,7 +206,6 @@ fun Following(
 @Composable
 fun FollowingButton(
     modifier: Modifier = Modifier,
-    FollowingButton: () -> Unit = {},
     followed: Boolean = false,
     userId: Long = 0
 ){
@@ -219,7 +218,7 @@ fun FollowingButton(
             isClicked = !isClicked
             if (isClicked){
                 "팔로잉하는 중".log()
-                viewModel.postFollow(userId.toInt())
+                viewModel.postFollow(userId)
             }
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = if (isClicked || isSelf) gray2 else mainOrange),
