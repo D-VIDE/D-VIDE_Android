@@ -24,11 +24,18 @@ interface UserApi {
         @Path("userId") userId: Long,
     ): Response<OtherUserInfoDTO>
 
-    @GET("/api/v1/follow")
+    @GET("/api/v3/follow")
     suspend fun getFollowInformation(
         @Query("relation") relation: String,
         @Query("first") offset: Int,
     ): Response<FollowInfoDTO>
+
+    @GET("/api/v2/follow/other")
+    suspend fun getFollowOther(
+        @Query("relation") relation: String,
+        @Query("first") offset: Int,
+        @Query("userId") userId: Long
+    ): Response<List<OtherFollowDataDTO>>
 
     @POST("/api/v1/follow")
     suspend fun postFollow(
@@ -37,7 +44,7 @@ interface UserApi {
 
     @HTTP(method = "DELETE", path="api/v1/follow", hasBody = true)
     suspend fun deleteFollow(
-        @Body userIdDTO: UserIdDTO
+        @Body followIdDTO: FollowIdDTO
     ): Response<FollowIdDTO>
 
 }

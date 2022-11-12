@@ -23,7 +23,7 @@ class UserProfileViewModel @Inject constructor(
         getOtherUserInfo(1L)
     }
 
-    private fun getOtherUserInfo(userId: Long) {
+    fun getOtherUserInfo(userId: Long) {
         viewModelScope.launch {
             getOtherUserInfoUse(userId).collect { result ->
 

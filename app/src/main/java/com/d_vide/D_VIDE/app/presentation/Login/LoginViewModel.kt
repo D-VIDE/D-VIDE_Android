@@ -42,7 +42,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             getUserToken()
             "LoginViewModel init 에서 확인한 토큰값 : ${identification.value.token}".log()
-            "LoginViewModel init 에서 확인한 ID 값 : ${identification.value.userId}".log()
             if (!identification.value.token.isNullOrBlank()) {
                 loginUseCases.setToken(identification.value.token)
                 _eventFlow.emit(UiEvent.Login)
@@ -58,7 +57,6 @@ class LoginViewModel @Inject constructor(
 
                     "LoginViewModel에서 확인한 토큰값 : ${identification.value.token}".log()
                     "LoginViewModel에서 확인한 ID 값 : ${identification.value.userId}".log()
-                    loginUseCases.setToken(identification.value.token)
                     loginUseCases.setUserID(identification.value.userId)
                     _eventFlow.emit(UiEvent.Login)
                 }

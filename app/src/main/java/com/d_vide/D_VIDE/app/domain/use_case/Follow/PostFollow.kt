@@ -1,4 +1,4 @@
-package com.d_vide.D_VIDE.app.domain.use_case
+package com.d_vide.D_VIDE.app.domain.use_case.Follow
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO

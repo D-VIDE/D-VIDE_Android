@@ -1,4 +1,4 @@
-package com.d_vide.D_VIDE.app.domain.use_case.User
+package com.d_vide.D_VIDE.app.domain.use_case.Follow
 
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowInfoDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository

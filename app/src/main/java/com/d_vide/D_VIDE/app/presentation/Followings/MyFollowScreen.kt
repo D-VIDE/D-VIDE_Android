@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -25,6 +27,7 @@ import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.ui.theme.TextStyles
@@ -42,15 +45,18 @@ fun MyFollowScreen(
 ) {
     val viewModel = hiltViewModel<FollowViewModel>()
     val follows = viewModel.state.value.follows
-
+    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val coroutine = rememberCoroutineScope()
+    val userId = rememberSaveable{ mutableStateOf(0L) }
+
     coroutine.launch {
         viewModel.getFollowInfo(relation = if(isFollowing) "FOLLOWING" else "FOLLOWER")
     }
     BottomSheetUserFeedSreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
-        onTagClick = onTagClick
+        onTagClick = onTagClick,
+        userId = userId.value
     ) { state, scope ->
         Scaffold(
             topBar = { TopRoundBar(if (isFollowing) "팔로잉" else "팔로우", onClick = upPress) }
@@ -70,7 +76,9 @@ fun MyFollowScreen(
                                 profileUrl = item.profileImageUrl,
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
+                                    userId.value = item.userId
                                     scope.launch {
+                                        userViewModel.getOtherUserInfo(item.userId)
                                         state.animateTo(
                                             ModalBottomSheetValue.Expanded,
                                             tween(500)
@@ -78,7 +86,8 @@ fun MyFollowScreen(
                                     }
                                 },
                                 isFollowing = isFollowing,
-                                userId = item.userId
+                                userId = item.userId,
+                                followId = item.followId,
                             )
                         }
                     }
