@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
@@ -94,5 +95,13 @@ class UserRepositoryImpl @Inject constructor(
         followIdDTO: FollowIdDTO
     ): Response<FollowIdDTO> {
         return api.deleteFollow(followIdDTO)
+    }
+
+    override suspend fun getBadges(): Response<BadgesDTO>{
+        return api.getBadges()
+    }
+    override suspend fun postBadge(badgeRequestDTO: BadgeRequestDTO)
+    : Response<BadgeRequestDTO> {
+        return api.postBadge(badgeRequestDTO)
     }
 }

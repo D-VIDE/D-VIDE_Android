@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.domain.repository
 
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
@@ -27,4 +28,6 @@ interface UserRepository {
 
     suspend fun postFollow(userIdDTO: UserIdDTO): Response<FollowIdDTO>
     suspend fun deleteFollow(followIdDTO: FollowIdDTO): Response<FollowIdDTO>
+    suspend fun getBadges(): Response<BadgesDTO>
+    suspend fun postBadge(badgeRequestDTO: BadgeRequestDTO): Response<BadgeRequestDTO>
 }
