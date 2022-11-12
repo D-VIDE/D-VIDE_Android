@@ -1,9 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.MyPage
 
-import androidx.compose.runtime.SnapshotMutationPolicy
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
@@ -26,14 +23,14 @@ class MyPageViewModel @Inject constructor(
     val getUserInfoUseCase: GetUserInfo,
 ) : ViewModel() {
 
-    val state by mutableStateOf(MyPageState())
+    var state by mutableStateOf(MyPageState())
+    var badge by mutableStateOf("")
 
     init {
         getUserInfo()
         getBadges()
     }
 
-    /*
     private fun counterPolicy(): SnapshotMutationPolicy<MyPageState?> =
         object : SnapshotMutationPolicy<MyPageState?> {
             override fun equivalent(a: MyPageState?, b: MyPageState?): Boolean {
@@ -46,17 +43,17 @@ class MyPageViewModel @Inject constructor(
                 applied: MyPageState?
             ): MyPageState? = previous
         }
-    */
 
     private fun getUserInfo() {
 
         getUserInfoUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-
                     state.userDTO = result.data!!
+                    badge = result.data.badge.name
 
                     "내 정보 가져오기 성공".log()
+                    "뱃지 이름 : ${badge}, ${result.data.badge.name}"
                 }
                 is Resource.Error -> "내 정보 가져오기 실패".log()
                 is Resource.Loading -> "내 정보 가져오는 중".log()
@@ -64,18 +61,13 @@ class MyPageViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getBadges() {
+    fun getBadges() {
 
         getBadgesUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-
-                    state.badgesDTO = result.data!!.badges
-
-//                    _state.update {
-//                        it.copy(badgesDTO = result.data?.badges!!.plus(BadgeDTO("")))
-//                    }
-
+                    state = state?.copy(badgesDTO = result.data!!.badges)
+                    "${state!!.badgesDTO}".log()
                     "뱃지 가져오기 성공".log()
                 }
                 is Resource.Error -> "뱃지 가져오기 실패".log()
@@ -90,10 +82,13 @@ class MyPageViewModel @Inject constructor(
         postBadgeUseCase(badgeRequestDTO).onEach {
             when (it) {
                 is Resource.Success -> {
-                    state.badgeRequestDTO = it.data!!
+                    getUserInfo()
                     "뱃지 등록하기 성공".log()
                 }
-                is Resource.Error -> "뱃지 등록하기 실패".log()
+                is Resource.Error -> {
+                    getUserInfo()
+                    "뱃지 등록하기 실패".log()
+                }
                 is Resource.Loading -> "뱃지 등록하는 중".log()
             }
         }.launchIn(viewModelScope)
