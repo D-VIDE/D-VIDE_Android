@@ -1,6 +1,6 @@
-package com.d_vide.D_VIDE.app.domain.use_case
+package com.d_vide.D_VIDE.app.domain.use_case.User
 
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.OtherUserInfoDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
@@ -10,18 +10,18 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetUserInfo @Inject constructor(
+class GetOtherUserInfo @Inject constructor(
     private val repository: UserRepository,
 ) {
-    operator fun invoke(): Flow<Resource<UserDTO>> = flow {
-
+    operator fun invoke(userId: Long): Flow<Resource<OtherUserInfoDTO>> = flow {
         try {
             emit(Resource.Loading())
-            val r = repository.getUserInfo()
+            val r = repository.getOtherUserInfo(userId)
             when(r.code()) {
                 200 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {
-                    "usecase ERROR ${r.code()}: ${r.errorBody().toString()}".log()
+                    emit(Resource.Error("getOtherUserInfo failed"))
+                    "getOtherUserInfo usecase ERROR ${r.code()}: ${r.errorBody().toString()}".log()
                 }
             }
 

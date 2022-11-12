@@ -8,8 +8,8 @@ import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.BadgeDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.domain.use_case.GetBadges
-import com.d_vide.D_VIDE.app.domain.use_case.GetUserInfo
 import com.d_vide.D_VIDE.app.domain.use_case.PostBadge
+import com.d_vide.D_VIDE.app.domain.use_case.User.GetUserInfo
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,21 +17,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    val getuserInfoUseCase: GetUserInfo,
     val getBadgesUseCase: GetBadges,
-    val postBadgeUseCase: PostBadge
+    val postBadgeUseCase: PostBadge,
+    val getUserInfoUseCase: GetUserInfo,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MyPageState())
     val state = _state
-
-    private val _userInfo = mutableStateOf(UserDTO())
-    var userInfo: State<UserDTO> = _userInfo
 
     init {
         getUserInfo()
@@ -40,7 +36,7 @@ class MyPageViewModel @Inject constructor(
 
     private fun getUserInfo() {
 
-        getuserInfoUseCase().onEach { result ->
+        getUserInfoUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.update {

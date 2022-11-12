@@ -5,9 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
-import com.d_vide.D_VIDE.app.domain.model.Token
-import com.d_vide.D_VIDE.app.domain.use_case.UserUseCases
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.IdentificationDTO
+import com.d_vide.D_VIDE.app.domain.use_case.Login.LoginUseCases
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,12 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userUseCases: UserUseCases
-
+    private val loginUseCases: LoginUseCases,
 ) : ViewModel() {
 
-    private var _user = mutableStateOf(UserDTO())
-    val user: State<UserDTO> = _user
+    private var _user = mutableStateOf(IdentificationDTO())
+    val user: State<IdentificationDTO> = _user
 
     private var _emailPw = mutableStateOf(
         EmailPasswordDTO(
@@ -35,7 +33,7 @@ class LoginViewModel @Inject constructor(
     )
     val emailPw: State<EmailPasswordDTO> = _emailPw
 
-    private var token = mutableStateOf(Token())
+    private var identification = mutableStateOf(IdentificationDTO())
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -43,21 +41,23 @@ class LoginViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getUserToken()
-            "LoginViewModel init에서 확인한 토큰값 : ${token.value.value}".log()
-            if (!token.value.value.isNullOrBlank()) {
-                userUseCases.setToken(token.value)
+            "LoginViewModel init 에서 확인한 토큰값 : ${identification.value.token}".log()
+            if (!identification.value.token.isNullOrBlank()) {
+                loginUseCases.setToken(identification.value.token)
                 _eventFlow.emit(UiEvent.Login)
             }
         }
     }
 
     private suspend fun login() {
-        userUseCases.doLogin(_emailPw.value).collectLatest {
+        loginUseCases.doLogin(_emailPw.value).collectLatest {
             when (it) {
                 is Resource.Success -> {
-                    token.value = it.data!!
-                    userUseCases.setToken(token.value)
-                    "LoginViewModel에서 확인한 토큰값 : ${token.value.value}".log()
+                    identification.value = it.data!!
+
+                    "LoginViewModel에서 확인한 토큰값 : ${identification.value.token}".log()
+                    "LoginViewModel에서 확인한 ID 값 : ${identification.value.userId}".log()
+                    loginUseCases.setUserID(identification.value.userId)
                     _eventFlow.emit(UiEvent.Login)
                 }
                 is Resource.Error -> {
@@ -71,25 +71,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    suspend fun getUserInfo() {
-        userUseCases.getUserInfo().collect() {
-            when (it) {
-                is Resource.Success -> {
-                    _user.value = it.data!!
-                }
-                is Resource.Error -> {
-                    "유저 정보 가져오는 중 에러 발생".log()
-                }
-                is Resource.Loading -> {
-                    "유저 정보 가져오는 중...".log()
-                }
-            }
-        }
-    }
-
     private suspend fun getUserToken() {
-        userUseCases.getToken().collect() {
-            token.value.value = it.value
+        loginUseCases.getToken().collect() {
+            identification.value.token = it
         }
     }
 
@@ -128,7 +112,7 @@ class LoginViewModel @Inject constructor(
 
     suspend fun isLoggedIn(): Boolean {
         getUserToken()
-        return !token.value.value.isNullOrBlank()
+        return !identification.value.token.isNullOrBlank()
     }
 
     sealed class UiEvent {

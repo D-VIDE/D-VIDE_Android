@@ -2,8 +2,8 @@ package com.d_vide.D_VIDE.app.data.remote
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
-import com.d_vide.D_VIDE.app.domain.model.Token
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -12,7 +12,7 @@ interface UserApi {
     @POST("/api/v1/auth/login")
     suspend fun login(
         @Body emailPw: EmailPasswordDTO
-    ): Response<Token>
+    ): Response<IdentificationDTO>
 
     @GET("/api/v1/user")
     suspend fun getUserInfo(): Response<UserDTO>
