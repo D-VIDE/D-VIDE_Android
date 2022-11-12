@@ -68,7 +68,6 @@ fun Chattings(
                     }
 
                     item{
-
                         Spacer(modifier = Modifier.height(60.dp))
                     }
                 }

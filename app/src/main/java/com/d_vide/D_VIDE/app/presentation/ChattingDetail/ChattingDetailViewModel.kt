@@ -2,11 +2,13 @@ package com.d_vide.D_VIDE.app.presentation.ChattingDetail
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
 import com.d_vide.D_VIDE.app.domain.model.Message
+import com.d_vide.D_VIDE.app.presentation.navigation.DetailDestinationKey
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +23,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ChattingDetailViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -31,7 +34,8 @@ class ChattingDetailViewModel @Inject constructor(
     val state = _state
 
     private var userId = "ascdf"
-    private var chatId = 1
+    private var chatId = savedStateHandle.get<Int>(DetailDestinationKey.CHATTING)!!
+
 
     init {
         getChattingInfo()
