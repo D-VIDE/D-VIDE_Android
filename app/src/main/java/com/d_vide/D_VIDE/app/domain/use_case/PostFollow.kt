@@ -2,7 +2,7 @@ package com.d_vide.D_VIDE.app.domain.use_case
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserIdDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow

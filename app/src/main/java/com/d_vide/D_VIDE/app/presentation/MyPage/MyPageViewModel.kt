@@ -5,17 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
-import com.d_vide.D_VIDE.app.domain.use_case.GetUserInfo
+import com.d_vide.D_VIDE.app.domain.use_case.Login.GetUserID
+import com.d_vide.D_VIDE.app.domain.use_case.User.GetUserInfo
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    val getuserInfoUseCase: GetUserInfo,
+    val getUserInfoUseCase: GetUserInfo,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(MyPageState())
@@ -30,7 +30,7 @@ class MyPageViewModel @Inject constructor(
 
     fun getUserInfo() {
         viewModelScope.launch {
-            getuserInfoUseCase().collect() {
+            getUserInfoUseCase().collect() {
                 when (it) {
                     is Resource.Success -> {
                         _state.value =
