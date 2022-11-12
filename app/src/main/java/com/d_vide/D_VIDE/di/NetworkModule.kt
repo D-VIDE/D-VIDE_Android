@@ -9,6 +9,7 @@ import com.d_vide.D_VIDE.app.data.remote.UserApi
 import com.d_vide.D_VIDE.app.data.repository.RecruitingRepositoryImpl
 import com.d_vide.D_VIDE.app.data.repository.ReviewRepositoryImpl
 import com.d_vide.D_VIDE.app.data.repository.UserRepositoryImpl
+import com.d_vide.D_VIDE.app.data.storage.FCMTokenStore
 import com.d_vide.D_VIDE.app.data.storage.TokenStore
 import com.d_vide.D_VIDE.app.data.storage.dataStore
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
@@ -116,8 +117,8 @@ object NetworkModule {
     // recruitings repository 제공
     @Provides
     @Singleton
-    fun provideUserRepository(store: TokenStore, api: UserApi): UserRepository {
-        return UserRepositoryImpl(store, api)
+    fun provideUserRepository(store: TokenStore, fcmStore: FCMTokenStore, api: UserApi): UserRepository {
+        return UserRepositoryImpl(store, fcmStore, api)
     }
 
     // recruitings repository 제공
