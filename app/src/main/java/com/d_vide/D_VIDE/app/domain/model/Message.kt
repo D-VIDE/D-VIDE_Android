@@ -15,7 +15,7 @@ data class ConversationUiState(
 data class Message(
     val author: String = "",
     val content: String = "",
-    val timestamp: String = "",
+    val timestamp: Long = 0L,
     val image: Int? = null,
     val authorImage: Int = R.drawable.character_circle,
     val msgType: Int = 1

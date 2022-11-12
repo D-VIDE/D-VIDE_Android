@@ -39,6 +39,7 @@ class ChattingsViewModel @Inject constructor(
                         for (c in snapshot.children) {
                             chatList.add(0, Pair(c.key?.toInt() ?: -1, c.getValue(Chat::class.java) ?: Chat()))
                         }
+                        chatList.sortByDescending { it.second.lastMessage.timestamp }
 
                     }
 

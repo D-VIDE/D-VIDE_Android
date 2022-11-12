@@ -42,7 +42,7 @@ fun ChattingDetail(
                 .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
         ),
         onMessageSent = { content ->
-            viewModel.send(Message("authorMe", content, "time"))
+            viewModel.send(Message("authorMe", content, System.currentTimeMillis()))
         }
     )
 }

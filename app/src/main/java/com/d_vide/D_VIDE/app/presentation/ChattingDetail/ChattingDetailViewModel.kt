@@ -48,7 +48,7 @@ class ChattingDetailViewModel @Inject constructor(
                     viewModelScope.launch {
                         var mList = mutableListOf<Message>()
                         for (c in snapshot.children) {
-                            mList.add(0, c.getValue(Message::class.java) ?: Message("", "", ""))
+                            mList.add(0, c.getValue(Message::class.java) ?: Message("", ""))
                         }
                         _state.value = ConversationUiState(messages = mList)
                         //메세지 읽음(false로 수정)
