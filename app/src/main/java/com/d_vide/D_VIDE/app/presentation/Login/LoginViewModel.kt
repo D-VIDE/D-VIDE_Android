@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 import com.d_vide.D_VIDE.app.domain.model.Token
 import com.d_vide.D_VIDE.app.domain.use_case.UserUseCases
@@ -36,6 +37,7 @@ class LoginViewModel @Inject constructor(
     val emailPw: State<EmailPasswordDTO> = _emailPw
 
     private var token = mutableStateOf(Token())
+    private var fcm = mutableStateOf(FcmTokenDTO())
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -43,10 +45,16 @@ class LoginViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getUserToken()
+            getFCMToken()
             "LoginViewModel init에서 확인한 토큰값 : ${token.value.value}".log()
             if (!token.value.value.isNullOrBlank()) {
                 userUseCases.setToken(token.value)
                 _eventFlow.emit(UiEvent.Login)
+            }
+            "FCM 값은 ${fcm.value.fcmToken}".log()
+            if (fcm.value.fcmToken.isNotBlank()){
+                "FCM in 로그인 화면 ${fcm.value}".log()
+                userUseCases.postFCMToken(fcm.value)
             }
         }
     }
@@ -90,6 +98,11 @@ class LoginViewModel @Inject constructor(
     private suspend fun getUserToken() {
         userUseCases.getToken().collect() {
             token.value.value = it.value
+        }
+    }
+    private suspend fun getFCMToken(){
+        userUseCases.getFCMToken().collect() {
+            fcm.value.fcmToken = it.fcmToken
         }
     }
 
