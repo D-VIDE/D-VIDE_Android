@@ -6,9 +6,9 @@ import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserDTO
 
 
 data class MyPageState(
-    val isLoading: Boolean = false,
-    val userDTO: UserDTO = UserDTO(),
-    val badgesDTO: List<BadgeDTO> = emptyList(),
-    val badgeRequestDTO: BadgeRequestDTO = BadgeRequestDTO(),
-    val error: String = ""
+    var isLoading: Boolean = false,
+    var userDTO: UserDTO = UserDTO(),
+    var badgesDTO: List<BadgeDTO> = emptyList(),
+    var badgeRequestDTO: BadgeRequestDTO = BadgeRequestDTO(),
+    var error: String = ""
 )

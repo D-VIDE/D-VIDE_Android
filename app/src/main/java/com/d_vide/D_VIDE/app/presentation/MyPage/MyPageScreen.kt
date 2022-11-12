@@ -55,7 +55,7 @@ fun MyPageScreen(
     navController: NavController,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
-    val viewModelState = viewModel.state.value.userDTO
+    val viewModelState = viewModel.state.userDTO
     val scrollState = rememberScrollState()
 
     Box(modifier = Modifier.background(background)) {
@@ -77,7 +77,7 @@ fun MyPageScreen(
                 image = viewModelState.profileImgUrl,
                 onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
                 onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")},
-                allBadges = viewModel.state.value.badgesDTO,
+                allBadges = viewModel.state.badgesDTO,
             )
             MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
