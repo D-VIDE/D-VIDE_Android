@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.data.remote
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.domain.model.Token
 import retrofit2.Response
@@ -47,4 +48,8 @@ interface UserApi {
         @Body followIdDTO: FollowIdDTO
     ): Response<FollowIdDTO>
 
+    @POST("/api/v1/user/fcm-token")
+    suspend fun postFCMToken(
+        @Body fcmTokenDTO: FcmTokenDTO
+    )
 }
