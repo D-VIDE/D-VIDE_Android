@@ -54,6 +54,12 @@ class ChattingDetailViewModel @Inject constructor(
                 }
 
             })
+
+        //메세지 읽음(false로 수정)
+        val taskMap: MutableMap<String, Any> = HashMap()
+        taskMap["/users/$userId/unRead"] = false
+        databaseReference.child("chatrooms")
+            .child("-NG_wHc2EcSU-dt0g4Zg").updateChildren(taskMap)
     }
 
     fun makeChat() {
@@ -71,7 +77,7 @@ class ChattingDetailViewModel @Inject constructor(
             .child("-NG_wHc2EcSU-dt0g4Zg")
             .child("message").push().setValue(msg)
 
-        //메세지 안읽음 개수 올리기
+        //메세지 안읽음(true)로 수정
         val taskMap: MutableMap<String, Any> = HashMap()
         taskMap["/users/$userId/unRead"] = true
         databaseReference.child("chatrooms")
