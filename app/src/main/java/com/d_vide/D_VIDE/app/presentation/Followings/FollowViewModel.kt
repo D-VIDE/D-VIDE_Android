@@ -3,16 +3,14 @@ package com.d_vide.D_VIDE.app.presentation.Followings
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.domain.use_case.Follow.DeleteFollow
 import com.d_vide.D_VIDE.app.domain.use_case.Follow.GetFollowInformation
 import com.d_vide.D_VIDE.app.domain.use_case.Follow.GetOtherFollow
 import com.d_vide.D_VIDE.app.domain.use_case.Follow.PostFollow
-import com.d_vide.D_VIDE.app.domain.use_case.GetOtherUserInfo
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel

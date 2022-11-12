@@ -1,17 +1,24 @@
 package com.d_vide.D_VIDE.app.domain.repository
 
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
-import com.d_vide.D_VIDE.app.domain.model.Token
 import retrofit2.Response
 
 interface UserRepository {
 
-    suspend fun doLogin(emailPw: EmailPasswordDTO): Response<Token>
+    suspend fun doLogin(emailPw: EmailPasswordDTO): Response<IdentificationDTO>
     suspend fun getUserInfo(): Response<UserDTO>
 
-    fun getUserToken(): Token
-    fun setUserToken(token: Token)
+    fun getUserToken(): String
+    fun setUserToken(token: String)
+
+    fun getUserID(): Long
+    fun setUserID(ID: Long)
+
+    fun getFCMToken(): String
+    fun setFCMToken(token: String)
 
     suspend fun getMyOrders(): Response<RecruitingsDTO>
     suspend fun getOtherUserInfo(userId: Long): Response<OtherUserInfoDTO>
@@ -21,4 +28,6 @@ interface UserRepository {
 
     suspend fun postFollow(userIdDTO: UserIdDTO): Response<FollowIdDTO>
     suspend fun deleteFollow(followIdDTO: FollowIdDTO): Response<FollowIdDTO>
+    suspend fun getBadges(): Response<BadgesDTO>
+    suspend fun postBadge(badgeRequestDTO: BadgeRequestDTO): Response<BadgeRequestDTO>
 }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d_vide.D_VIDE.app.domain.use_case.GetOtherUserInfo
+import com.d_vide.D_VIDE.app.domain.use_case.User.GetOtherUserInfo
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
