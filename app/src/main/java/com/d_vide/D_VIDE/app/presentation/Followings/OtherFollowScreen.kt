@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Followings.components.FollowingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedViewModel
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
@@ -32,10 +33,10 @@ fun OtherFollowScreen(
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
     isFollowing: Boolean = false,
-    userId: Long = 0
+    userId: Long = 0,
+    userViewModel: UserFeedViewModel = hiltViewModel(),
+    followViewModel: FollowViewModel = hiltViewModel(),
 ) {
-    val userViewModel = hiltViewModel<UserProfileViewModel>()
-    val followViewModel = hiltViewModel<FollowViewModel>()
     val otherFollows = followViewModel.state.value.otherFollows
     val coroutine = rememberCoroutineScope()
     val userRememberId = rememberSaveable{ mutableStateOf(0L) }

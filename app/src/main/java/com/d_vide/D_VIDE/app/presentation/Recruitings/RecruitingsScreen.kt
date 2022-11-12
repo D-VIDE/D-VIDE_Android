@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedViewModel
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
@@ -34,12 +35,13 @@ import kotlinx.coroutines.launch
 fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel(),
+    userFeedViewModel: UserFeedViewModel = hiltViewModel(),
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
     onRecruitingClick: (Int) -> Unit
 ) {
-    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val userId = rememberSaveable { mutableStateOf(0L) }
+
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -80,7 +82,8 @@ fun RecruitingsScreen(
                                     onUserClick = {
                                         scope.launch {
                                             userId.value = it.user.id
-                                            userViewModel.getOtherUserInfo(it.user.id)
+                                            userFeedViewModel.getOtherUserInfo(userId.value)
+                                            userFeedViewModel.getOtherUserReviews(userId.value)
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)

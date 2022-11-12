@@ -28,11 +28,10 @@ fun UserFeedScreen(
     modifier: Modifier = Modifier,
     onReviewSelected: (Int) -> Unit = {},
     onTagClick: (String) -> Unit = {},
-    viewModel: UserProfileViewModel = hiltViewModel(),
+    viewModel: UserFeedViewModel = hiltViewModel(),
     userId: Long = 0L
 ) {
-    val userProfile = viewModel.userProfile.value.userProfile
-    viewModel.getOtherUserInfo(userId)
+    val userProfile = viewModel.userProfile.userProfile
 
     UserFeedBackground(modifier) {
         UserFeedContent {
@@ -160,40 +159,6 @@ fun UserFeedBackground(
     ) {
         content()
         GradientCompponent(Modifier.align(Alignment.BottomCenter))
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun BottomSheetUserFeedScreen(
-    navController: NavController,
-    onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit,
-    onUserClick: () -> Unit = {},
-    userId: Long = 0L,
-    activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
-) {
-    val state = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = true
-    )
-    val scope = rememberCoroutineScope()
-
-    ModalBottomSheetLayout(
-        sheetElevation = 5.dp,
-        sheetShape = RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp),
-        sheetState = state,
-        sheetContent = {
-            UserFeedScreen(
-                navController = navController,
-                modifier = Modifier.fillMaxHeight(0.945f),
-                onReviewSelected = onReviewSelected,
-                onTagClick = onTagClick,
-                userId = userId
-            )
-        }
-    ) {
-        activityContentScope(state, scope)
     }
 }
 
