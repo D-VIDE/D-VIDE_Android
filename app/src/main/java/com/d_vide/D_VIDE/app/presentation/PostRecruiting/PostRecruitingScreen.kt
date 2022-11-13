@@ -1,17 +1,18 @@
 package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,11 +25,13 @@ import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableField
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.PostPopUp
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.NumberFormatting
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -41,7 +44,7 @@ fun PostRecruitingScreen(
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
     val scaffoldState = rememberScaffoldState()
-
+    var isDialogOpen by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
@@ -50,13 +53,15 @@ fun PostRecruitingScreen(
                 }
                 is PostRecruitingViewModel.UiEvent.SaveRecruiting -> {
                     "post 성공".log()
+                    isDialogOpen = !isDialogOpen
+                    delay(2000L)
                     navController.navigateUp()
                     navController.navigate("${Screen.ChattingDetailScreen.route}/${event.postId}")
                 }
             }
         }
     }
-
+    if (isDialogOpen) PostPopUp(onDismiss = { isDialogOpen = !isDialogOpen })
     Scaffold(
         topBar = { TopRoundBar("D/VIDE 모집글 작성", onClick = upPress) },
         floatingActionButton = {

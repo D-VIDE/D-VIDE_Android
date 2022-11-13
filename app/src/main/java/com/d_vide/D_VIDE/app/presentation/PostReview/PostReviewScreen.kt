@@ -23,23 +23,27 @@ import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableField
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.component.EditableTextField
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.*
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
+import com.d_vide.D_VIDE.app.presentation.component.PostPopUp
 import com.d_vide.D_VIDE.app.presentation.component.StarRating
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBar
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.addFocusCleaner
 import com.d_vide.D_VIDE.ui.theme.background
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PostReviewScreen(
     navController: NavController,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    onReviewClick: (Int) -> Unit,
 ){
 
     val viewModel = hiltViewModel<PostReviewViewModel>()
     val reviewId = viewModel.reviewId.value
     val scrollState = rememberScrollState()
+    var isDialogOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -49,15 +53,15 @@ fun PostReviewScreen(
                     navController.navigateUp()
                 }
                 is PostReviewViewModel.UiEvent.SaveReview -> {
-                    navController.navigate(NavGraph.MYREVIEW){
-                        popUpTo(NavGraph.MYREVIEW)
-                    }
+                    isDialogOpen = !isDialogOpen
+                    delay(2000L)
+                    onReviewClick(reviewId.toInt())
                     Log.d("test", "성공 & 뒤로가자")
                 }
             }
         }
     }
-
+    if (isDialogOpen) PostPopUp(onDismiss = { isDialogOpen = !isDialogOpen })
 
     Scaffold(
         topBar = { TopRoundBar("후기작성", onClick = upPress) },
