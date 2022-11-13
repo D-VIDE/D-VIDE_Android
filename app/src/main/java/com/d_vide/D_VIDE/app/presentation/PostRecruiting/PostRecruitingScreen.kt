@@ -46,10 +46,13 @@ fun PostRecruitingScreen(
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is PostRecruitingViewModel.UiEvent.ShowSnackbar -> {
+                    "post 실패".log()
+                }
+                is PostRecruitingViewModel.UiEvent.SaveRecruiting -> {
                     "post 성공".log()
                     navController.navigateUp()
+                    navController.navigate("${Screen.ChattingDetailScreen.route}/${event.postId}")
                 }
-                is PostRecruitingViewModel.UiEvent.SaveRecruiting -> "post 과정에서 error 발생".log()
             }
         }
     }
@@ -61,7 +64,6 @@ fun PostRecruitingScreen(
                 text = "업로드 하기",
                 onClick = {
                     viewModel.onEvent(PostRecruitingsEvent.SaveRecruiting)
-                    navController.navigate(Screen.RecruitingsScreen.route)
                 },
                 shouldShowBottomBar = false
             )

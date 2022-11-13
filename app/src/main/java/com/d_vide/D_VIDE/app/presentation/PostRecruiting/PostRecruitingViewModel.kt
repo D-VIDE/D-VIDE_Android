@@ -2,17 +2,21 @@ package com.d_vide.D_VIDE.app.presentation.PostRecruiting
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingBodyDTO
+import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruiting
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.UriUtil.toFile
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.PostRecruitingOrderViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.FirebaseDatabase
 import com.google.maps.android.compose.CameraPositionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,6 +24,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * userId수정해야함
+ */
 @HiltViewModel
 class PostRecruitingViewModel @Inject constructor(
     val postRecruitingUseCase: PostRecruiting,
@@ -35,9 +42,13 @@ class PostRecruitingViewModel @Inject constructor(
     private var _postId = mutableStateOf(0)
     val postId: State<Int> = _postId
 
+    private var userId = "ascdf"
+
     private var _recruitingBody = mutableStateOf(RecruitingBodyDTO())
     val recruitingBodyDTO: State<RecruitingBodyDTO> = _recruitingBody
 
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val databaseReference = firebaseDatabase.reference
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -89,6 +100,9 @@ class PostRecruitingViewModel @Inject constructor(
                 )
 
             }
+            /**
+             * 모집글 올린 후 바로 채팅방생성
+             */
             is PostRecruitingsEvent.SaveRecruiting -> {
                 viewModelScope.launch {
                     try {
@@ -123,14 +137,23 @@ class PostRecruitingViewModel @Inject constructor(
                             when (it) {
                                 is Resource.Success -> {
                                     it.data!!.postId.also { _postId.value = it }
-                                    "모집글 올리기 성공 postId: ${it.data!!.postId}"
+                                    Log.d("가희", "모집글 올리기 성공 postId: ${it.data!!.postId}")
+                                    _eventFlow.emit(UiEvent.SaveRecruiting(it.data.postId.toLong()))
+
+                                    //채팅방 생성
+                                    databaseReference.child("chatrooms")
+                                        .child("${it.data.postId}")
+                                        .child("users/$userId").setValue(ChatUserInfo(userId,"nickname",false))
+
+                                    databaseReference.child("chatrooms")
+                                        .child("${it.data.postId}")
+                                        .child("title").setValue(recruitingBodyDTO.value.title)
+
                                 }
                                 is Resource.Error -> "모집글 올리기 실패".log()
                                 is Resource.Loading -> "모집글 올리는 중".log()
                             }
                         }
-                        _eventFlow.emit(UiEvent.SaveRecruiting)
-
                     } catch (e: Exception) {
                         e.printStackTrace()
                         _eventFlow.emit(
@@ -145,7 +168,7 @@ class PostRecruitingViewModel @Inject constructor(
     }
     sealed class UiEvent {
         data class ShowSnackbar(val message: String) : UiEvent()
-        object SaveRecruiting : UiEvent()
+        data class SaveRecruiting(val postId: Long) : UiEvent()
     }
 }
 
