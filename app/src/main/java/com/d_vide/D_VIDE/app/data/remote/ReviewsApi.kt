@@ -38,10 +38,11 @@ interface ReviewsApi {
     ): Response<RecommendStores>
 
     //식당 리뷰 검색시 조회
-    @GET("/api/v1/reviews")
+    @GET("/api/v1/reviews/search")
     suspend fun getStoreReviews(
+        @Query("first") first: Int,
         @Query("storeName") storeName: String
-    ): Response<StoreReviewsDTO>
+    ): Response<ReviewsDTO>
 
     //내가 쓴 리뷰 조회
     @GET("/api/v1/reviews/myself")

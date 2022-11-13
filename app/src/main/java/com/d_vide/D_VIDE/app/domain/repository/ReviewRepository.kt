@@ -15,7 +15,7 @@ interface ReviewRepository {
     suspend fun postUnlike( reviewId: Long): Response<ReviewLikeDTO>
     suspend fun getReviewDetail( reviewId: Long): Response<ReviewDetailDTO>
     suspend fun getRecommend(): Response<RecommendStores>
-    suspend fun getStoreReview( storeName: String): Response<StoreReviewsDTO>
+    suspend fun getStoreReview(first: Int, storeName: String): Response<ReviewsDTO>
     suspend fun getMyReviews(first: Int): Response<ReviewsDTO>
     suspend fun getMyOtherReviews(first: Int, userId: Long): Response<UserlessReviewsDTO>
 }
