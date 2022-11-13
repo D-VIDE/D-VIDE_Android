@@ -11,7 +11,7 @@ class GetFCMToken @Inject constructor(
 ) {
     operator fun invoke(): Flow<String> = flow {
         try {
-            emit(repository.getUserToken())
+            emit(repository.getFCMToken())
         } catch(e: Exception) {
             "ERROR: use case GetFCMToken form dataStore".log()
             emit("")

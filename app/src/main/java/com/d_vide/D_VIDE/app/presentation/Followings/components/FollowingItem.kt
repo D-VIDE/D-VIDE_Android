@@ -1,11 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Followings.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,11 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
@@ -36,8 +28,6 @@ import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.ui.theme.TextStyles
 import com.d_vide.D_VIDE.ui.theme.gray4
 import com.d_vide.D_VIDE.ui.theme.main1
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun FollowingItem(
@@ -127,7 +117,7 @@ fun FollowDeleteButton(
             }
             if (isFollowing && isClicked){
                 "팔로잉하는 중".log()
-                viewModel.postFollow(userId.toInt())
+                viewModel.postFollow(userId)
             }
             if (!isFollowing){
                 viewModel.deleteFollow(followId.toInt())

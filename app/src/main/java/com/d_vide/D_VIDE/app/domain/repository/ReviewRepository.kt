@@ -17,4 +17,5 @@ interface ReviewRepository {
     suspend fun getRecommend(): Response<RecommendStores>
     suspend fun getStoreReview( storeName: String): Response<StoreReviewsDTO>
     suspend fun getMyReviews(first: Int): Response<ReviewsDTO>
+    suspend fun getMyOtherReviews(first: Int, userId: Long): Response<UserlessReviewsDTO>
 }
