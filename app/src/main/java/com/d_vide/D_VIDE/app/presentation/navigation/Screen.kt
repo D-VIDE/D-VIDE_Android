@@ -40,5 +40,6 @@ val shouldNotShowBottomScreen = listOf(
     Screen.PostRecruitingScreen.route,
     Screen.SplashScreen.route,
     Screen.LoginScreen.route,
+    Screen.SocialLoginScreen.route,
     Screen.ChattingDetailScreen.route+"/{${DetailDestinationKey.CHATTING}}"
 )

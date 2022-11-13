@@ -20,7 +20,6 @@ import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
 import com.d_vide.D_VIDE.app.presentation.SplashScreen
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
-import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
 
 fun NavGraphBuilder.divideGraph(

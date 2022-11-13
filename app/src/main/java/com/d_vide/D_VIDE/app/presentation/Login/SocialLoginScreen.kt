@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -22,13 +23,30 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.*
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SocialLoginScreen(
     navController: NavController,
     kakaoViewModel: KakaoLoginViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(key1 = true) {
+        kakaoViewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is KakaoLoginViewModel.UiEvent.ERROR -> {
+                    "LOGIN ERROR!!".log()
+                }
+                is KakaoLoginViewModel.UiEvent.Login -> {
+                    "LOGIN SUCCESS!!".log()
+                    navController.navigate(Screen.HomeScreen.route)
+                }
+            }
+        }
+    }
+
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -42,7 +60,7 @@ fun SocialLoginScreen(
         ) {
             LoginImage()
             LoginButton(
-                onClick = { kakaoViewModel.handleKakaoLogin() },
+                onClick = { kakaoViewModel.onEvent(LoginEvent.LoginByKakao) },
                 text = "카카오 로그인",
                 resId = R.drawable.kakao_logo,
                 color = Color(0xFFFEE500),

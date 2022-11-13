@@ -1,7 +1,13 @@
 package com.d_vide.D_VIDE.app.presentation.Login
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.IdentificationDTO
+import com.d_vide.D_VIDE.app.domain.use_case.Login.DoKakaoLogin
+import com.d_vide.D_VIDE.app.domain.use_case.Login.LoginUseCases
+import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -9,13 +15,60 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class KakaoLoginViewModel @Inject constructor(
-    @ApplicationContext context: Context
+    private val loginUseCases: LoginUseCases,
+    @ApplicationContext context: Context,
 ) : ViewModel() {
     private val context = context
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    private var identification = mutableStateOf(IdentificationDTO())
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            getUserToken()
+            "LoginViewModel init 에서 확인한 토큰값 : ${identification.value.token}".log()
+            if (identification.value.token.isNotBlank()) {
+                loginUseCases.setToken(identification.value.token)
+                _eventFlow.emit(UiEvent.Login)
+            }
+        }
+    }
+
+    private suspend fun loginWithKakao(token: String) {
+        loginUseCases.doKakaoLogin(token).collect() { it ->
+            when (it) {
+                is Resource.Success -> {
+                    "userID: ${it.data!!.userId}, token: ${it.data!!.token}".log()
+                    loginUseCases.setUserID(it.data!!.userId)
+                    loginUseCases.setToken(it.data!!.token)
+                    _eventFlow.emit(UiEvent.Login)
+                }
+                is Resource.Error -> {
+                    "카카오 로그인 실패".log()
+                    _eventFlow.emit(UiEvent.ERROR("로그인에 실패였습니다."))
+                }
+                is Resource.Loading -> "카카오 로그인 중".log()
+            }
+        }
+    }
+
+    private suspend fun getUserToken() {
+        loginUseCases.getToken().collect() {
+            identification.value.token = it
+        }
+    }
+
+    suspend fun isLoggedIn(): Boolean {
+        getUserToken()
+        return !identification.value.token.isNullOrBlank()
+    }
 
     fun handleKakaoLogin() {
         // 카카오계정으로 로그인 공통 callback 구성
@@ -25,6 +78,7 @@ class KakaoLoginViewModel @Inject constructor(
                 "카카오계정으로 로그인 실패".log()
             } else if (token != null) {
                 "카카오계정으로 로그인 성공 ${token.accessToken}".log()
+                viewModelScope.launch {loginWithKakao(token.accessToken)}
             }
         }
 
@@ -44,10 +98,32 @@ class KakaoLoginViewModel @Inject constructor(
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                 } else if (token != null) {
                     "카카오톡으로 로그인 성공 ${token.accessToken}".log()
+                    viewModelScope.launch {loginWithKakao(token.accessToken)}
                 }
             }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
         }
+    }
+
+
+    public fun onEvent(event: LoginEvent) {
+        when (event) {
+            is LoginEvent.LoginByKakao -> {
+                viewModelScope.launch {
+                    try {
+                        handleKakaoLogin()
+                    } catch (e: Exception) {
+                        "로그인 중 에러 발생".log()
+                        _eventFlow.emit(UiEvent.ERROR(message = "로그인 중 에러 발생"))
+                    }
+                }
+            }
+        }
+    }
+
+    sealed class UiEvent {
+        data class ERROR(val message: String) : UiEvent()
+        object Login : UiEvent()
     }
 }
