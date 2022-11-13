@@ -307,7 +307,8 @@ fun ChatItemBubble(
         Surface(
             color = backgroundBubbleColor,
             shape = backgroundShape,
-            border = BorderStroke(if (isUserMe) 0.dp else 2.dp, main0)
+            border = BorderStroke(if (isUserMe) 0.dp else 2.dp, main0),
+            shadowElevation = 3.dp
         ) {
             ClickableMessage(
                 message = message,
