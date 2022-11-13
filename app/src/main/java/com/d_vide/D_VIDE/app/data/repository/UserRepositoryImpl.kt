@@ -1,6 +1,7 @@
 package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.AccessToken
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
@@ -21,6 +22,10 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     override suspend fun doLogin(emailPw: EmailPasswordDTO): Response<IdentificationDTO> {
         return api.login(emailPw)
+    }
+
+    override suspend fun doKakaoLogin(token: String): Response<IdentificationDTO> {
+        return api.kakaoLogin(AccessToken(token))
     }
 
     override suspend fun getUserInfo(): Response<UserDTO> {

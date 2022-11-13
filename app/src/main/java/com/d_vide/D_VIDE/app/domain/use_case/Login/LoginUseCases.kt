@@ -4,6 +4,7 @@ import javax.inject.Inject
 
 data class LoginUseCases @Inject constructor(
     val doLogin: DoLogin,
+    val doKakaoLogin: DoKakaoLogin,
     val getToken: GetToken,
     val getUserID: GetUserID,
     val getFCMToken: GetFCMToken,

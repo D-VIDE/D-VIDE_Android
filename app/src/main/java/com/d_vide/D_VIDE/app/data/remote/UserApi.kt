@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.data.remote
 
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.AccessToken
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
@@ -12,6 +13,11 @@ interface UserApi {
     @POST("/api/v1/auth/login")
     suspend fun login(
         @Body emailPw: EmailPasswordDTO
+    ): Response<IdentificationDTO>
+
+    @POST("/api/v1/auth/kakao")
+    suspend fun kakaoLogin(
+        @Body accessToken: AccessToken
     ): Response<IdentificationDTO>
 
     @GET("/api/v1/user")
