@@ -25,6 +25,7 @@ android {
             useSupportLibrary true
         }
         manifestPlaceholders = [ MAPS_API_KEY:"${properties.getProperty('MAPS_API_KEY')}"]
+        buildConfigField "String", "KAKAO_NATIVE_APPKEY", properties['KAKAO_NATIVE_APPKEY']
     }
 
     buildTypes {
