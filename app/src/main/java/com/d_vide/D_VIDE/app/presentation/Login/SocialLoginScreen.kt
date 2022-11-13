@@ -1,5 +1,6 @@
 package com.d_vide.D_VIDE.app.presentation.Login
 
+import android.app.Activity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.d_vide.D_VIDE.R
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +55,7 @@ fun SocialLoginScreen(
             .fillMaxSize()
             .background(White)
     ) {
+        val context = LocalContext.current as Activity
         Column(
             modifier = Modifier
                 .padding(top = 47.dp, start = 39.dp, end = 31.dp)
@@ -60,7 +63,7 @@ fun SocialLoginScreen(
         ) {
             LoginImage()
             LoginButton(
-                onClick = { kakaoViewModel.onEvent(LoginEvent.LoginByKakao) },
+                onClick = { kakaoViewModel.onEvent(LoginEvent.LoginByKakao(context)) },
                 text = "카카오 로그인",
                 resId = R.drawable.kakao_logo,
                 color = Color(0xFFFEE500),
