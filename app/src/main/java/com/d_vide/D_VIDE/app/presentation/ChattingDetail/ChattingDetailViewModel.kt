@@ -40,6 +40,7 @@ class ChattingDetailViewModel @Inject constructor(
     init {
         getChattingInfo()
         getUsersInfo()
+        getTitle()
     }
 
     //채팅 불러오기 user.id
@@ -97,9 +98,24 @@ class ChattingDetailViewModel @Inject constructor(
             })
     }
 
-    fun makeChat() {
-        //var a = Chat(title ="채팅방1", users = ,)
-        //databaseReference.child("chatrooms").push().setValue(a)
+    //채팅방 타이틀을 얻어오기
+    private fun getTitle() {
+        databaseReference.child("chatrooms")
+            .child("$chatId").child("title")
+            .addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    viewModelScope.launch {
+                        _state.value.channelName = snapshot.getValue<String>() ?: "title"
+                        Log.d("가희1", _state.value.users.toString())
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
     /**
