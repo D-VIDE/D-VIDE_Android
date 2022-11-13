@@ -37,8 +37,10 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = true) {
         val nextScreen = when (loginViewModel.isLoggedIn()) {
-            true -> Screen.HomeScreen
-            false -> Screen.LoginScreen
+//            true -> Screen.HomeScreen
+//            false -> Screen.LoginScreen
+            true -> Screen.SocialLoginScreen
+            false -> Screen.SocialLoginScreen
         }
         startAnimation = true
 
