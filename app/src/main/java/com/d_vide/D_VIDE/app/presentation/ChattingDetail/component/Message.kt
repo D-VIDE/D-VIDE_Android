@@ -122,7 +122,7 @@ fun Messages(
                     scrollState.animateScrollToItem(0)
                 }
             },
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomEnd)
         )
     }
 }

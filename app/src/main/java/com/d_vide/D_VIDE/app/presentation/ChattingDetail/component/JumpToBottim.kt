@@ -2,20 +2,24 @@ package com.d_vide.D_VIDE.app.presentation.ChattingDetail.component
 
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.ui.theme.*
 
 private enum class Visibility {
     VISIBLE,
@@ -41,24 +45,22 @@ fun JumpToBottom(
         }
     }
     if (bottomOffset > 0.dp) {
-        ExtendedFloatingActionButton(
-            icon = {
+        FloatingActionButton(
+            onClick = onClicked,
+            containerColor = main0,
+            contentColor = gray7,
+            modifier = modifier
+                .offset(x = -16.dp, y = -bottomOffset),
+            shape = CircleShape,
+            content = {
                 Icon(
                     imageVector = Icons.Filled.ArrowDownward,
                     modifier = Modifier.height(18.dp),
                     contentDescription = null
                 )
-            },
-            text = {
-                Text(text = "내려가기")
-            },
-            onClick = onClicked,
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.primary,
-            modifier = modifier
-                .offset(x = 0.dp, y = -bottomOffset)
-                .height(36.dp)
+            }
         )
+
     }
 }
 
