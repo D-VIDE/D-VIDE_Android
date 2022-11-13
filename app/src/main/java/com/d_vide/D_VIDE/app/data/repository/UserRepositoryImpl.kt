@@ -3,6 +3,7 @@ package com.d_vide.D_VIDE.app.data.repository
 import com.d_vide.D_VIDE.app.data.remote.UserApi
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.data.storage.UserStore
@@ -13,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.first
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
@@ -57,9 +59,9 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun setFCMToken(token: String) {
+    override fun setFCMToken(FCMToken: String) {
         runBlocking(Dispatchers.IO) {
-            store.setFCMToken(token)
+            store.setFCMToken(FCMToken)
         }
     }
 
@@ -96,12 +98,16 @@ class UserRepositoryImpl @Inject constructor(
     ): Response<FollowIdDTO> {
         return api.deleteFollow(followIdDTO)
     }
-
+    override suspend fun postFCMToken(
+        fcmTokenDTO: FcmTokenDTO
+    ) {
+        return api.postFCMToken(fcmTokenDTO)
+    }
     override suspend fun getBadges(): Response<BadgesDTO>{
         return api.getBadges()
     }
     override suspend fun postBadge(badgeRequestDTO: BadgeRequestDTO)
-    : Response<BadgeRequestDTO> {
+            : Response<BadgeRequestDTO> {
         return api.postBadge(badgeRequestDTO)
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.IdentificationDTO
 import com.d_vide.D_VIDE.app.domain.use_case.Login.LoginUseCases
 import com.d_vide.D_VIDE.app.domain.util.Resource
@@ -21,8 +22,8 @@ class LoginViewModel @Inject constructor(
     private val loginUseCases: LoginUseCases,
 ) : ViewModel() {
 
-    private var _user = mutableStateOf(IdentificationDTO())
-    val user: State<IdentificationDTO> = _user
+    var identification = mutableStateOf(IdentificationDTO())
+    private var fcm = mutableStateOf(FcmTokenDTO())
 
     private var _emailPw = mutableStateOf(
         EmailPasswordDTO(
@@ -33,18 +34,20 @@ class LoginViewModel @Inject constructor(
     )
     val emailPw: State<EmailPasswordDTO> = _emailPw
 
-    private var identification = mutableStateOf(IdentificationDTO())
-
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         viewModelScope.launch {
             getUserToken()
-            "LoginViewModel init 에서 확인한 토큰값 : ${identification.value.token}".log()
+            getFCMToken()
             if (identification.value.token.isNotBlank()) {
                 loginUseCases.setToken(identification.value.token)
                 _eventFlow.emit(UiEvent.Login)
+            }
+            if (fcm.value.fcmToken.isNotBlank()){
+                "FCM in 로그인 화면 ${fcm.value}".log()
+                loginUseCases.postFCMToken(fcm.value)
             }
         }
     }
@@ -54,7 +57,6 @@ class LoginViewModel @Inject constructor(
             when (it) {
                 is Resource.Success -> {
                     identification.value = it.data!!
-
                     "LoginViewModel에서 확인한 토큰값 : ${identification.value.token}".log()
                     "LoginViewModel에서 확인한 ID 값 : ${identification.value.userId}".log()
                     loginUseCases.setUserID(identification.value.userId)
@@ -75,6 +77,11 @@ class LoginViewModel @Inject constructor(
     private suspend fun getUserToken() {
         loginUseCases.getToken().collect() {
             identification.value.token = it
+        }
+    }
+    private suspend fun getFCMToken(){
+        loginUseCases.getFCMToken().collect() {
+            fcm.value.fcmToken = it
         }
     }
 

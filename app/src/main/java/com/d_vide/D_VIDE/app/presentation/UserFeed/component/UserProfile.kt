@@ -44,7 +44,6 @@ fun ColumnScope.UserProfile(
     following: Int = 6,
     follower: Int = 3,
     followed: Boolean = false,
-    FollowingButton: () -> Unit = {},
     userId: Long = 0
 ){
     Box(modifier = modifier.size(349.dp, 83.dp)) {
@@ -68,7 +67,7 @@ fun ColumnScope.UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton()
+                FollowingButton(Modifier.fillMaxWidth(), followed, userId)
             }
         }
     }
@@ -216,7 +215,7 @@ fun FollowingButton(
     Button(
         onClick = {
             isClicked = !isClicked
-            if (isClicked){
+            if (isClicked) {
                 "팔로잉하는 중".log()
                 viewModel.postFollow(userId)
             }

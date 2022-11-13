@@ -24,6 +24,7 @@ import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedViewModel
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
@@ -41,7 +42,8 @@ import kotlinx.coroutines.launch
 fun Reviews(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    userFeedViewModel: UserFeedViewModel = hiltViewModel(),
 ){
     val userId = rememberSaveable{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
@@ -82,8 +84,8 @@ fun Reviews(
                             ReviewItem(
                                 onUserClick = {
                                     userId.value = item.user.id
-                                    userViewModel.getOtherUserInfo(item.user.id)
                                     scope.launch {
+                                        userFeedViewModel.getOtherUserInfo(item.user.id)
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },

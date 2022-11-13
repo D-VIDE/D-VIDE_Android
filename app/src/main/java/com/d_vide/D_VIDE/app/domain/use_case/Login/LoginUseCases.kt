@@ -10,4 +10,5 @@ data class LoginUseCases @Inject constructor(
     val setToken: SetToken,
     val setUserID: SetUserID,
     val setFCMToken: SetFCMToken,
+    val postFCMToken: PostFCMToken
 )

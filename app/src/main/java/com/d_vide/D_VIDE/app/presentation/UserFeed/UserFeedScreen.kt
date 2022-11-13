@@ -36,8 +36,12 @@ fun UserFeedScreen(
     UserFeedBackground(modifier) {
         UserFeedContent {
             UserProfile(
-                onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
-                onFollowerClick = { navController.navigate("${Screen.OtherFollowScreen.route}/false") },
+                onFollowingClick = {
+                    navController.navigate("${Screen.OtherFollowScreen.route}/true/$userId")
+                },
+                onFollowerClick  ={
+                    navController.navigate("${Screen.OtherFollowScreen.route}/false/$userId")
+                },
                 userName = userProfile.nickname,
                 imageUrl = userProfile.profileImgUrl,
                 userBadge = userProfile.badge.name,
