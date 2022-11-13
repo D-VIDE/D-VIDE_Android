@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.data.remote
 
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.RecruitingsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -49,4 +48,11 @@ interface ReviewsApi {
     suspend fun getMyReviews(
         @Query("first") first: Int
     ): Response<ReviewsDTO>
+
+    // 타인이 쓴 리뷰 조회
+    @GET("/api/v1/reviews/others")
+    suspend fun getOtherReviews(
+        @Query("first") first: Int,
+        @Query("userId") userId: Long
+    ): Response<UserlessReviewsDTO>
 }

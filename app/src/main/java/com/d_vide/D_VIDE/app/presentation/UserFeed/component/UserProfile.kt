@@ -1,6 +1,5 @@
 package com.d_vide.D_VIDE.app.presentation.UserFeed.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,21 +12,16 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -37,28 +31,30 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
-import com.d_vide.D_VIDE.app.presentation.Recruitings.BlankIndicator
-import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
-fun UserProfile(
+fun ColumnScope.UserProfile(
     modifier: Modifier = Modifier,
     onFollowingClick: () -> Unit = {},
-    onFollowerClick:  () -> Unit = {},
-    userName: String = "룡룡",
+    onFollowerClick: () -> Unit = {},
+    userName: String,
+    imageUrl: String,
     userBadge: String = "디바이드 공식 돼지",
     following: Int = 6,
     follower: Int = 3,
     followed: Boolean = false,
-    FollowingButton: () -> Unit = {},
     userId: Long = 0
 ){
-    Box(
-        modifier = modifier.size(349.dp, 83.dp)
-    ){
-        Row{
-            MainProfile(Modifier.weight(0.6f), userName =userName, userBadge = userBadge)
+    Box(modifier = modifier.size(349.dp, 83.dp)) {
+        Row {
+            MainProfile(
+                Modifier.weight(0.6f),
+                imageUrl = imageUrl,
+                userName = userName,
+                userBadge = userBadge
+            )
+
             Column(
                 Modifier
                     .padding(start = 7.dp)
@@ -71,24 +67,22 @@ fun UserProfile(
                     following = following,
                     follower = follower
                 )
-                FollowingButton(Modifier.fillMaxWidth(), FollowingButton, followed, userId)
+                FollowingButton(Modifier.fillMaxWidth(), followed, userId)
             }
         }
-
     }
-
 }
 
 @Composable
 fun MainProfile(
     modifier: Modifier = Modifier,
-    imageUrl: String = "https://image-notepet.akamaized.net/resize/620x-/seimage/20200320%2Fc69c31e9dde661c286a3c17201c79d35.jpg",
-    userName: String = "룡룡",
+    imageUrl: String,
+    userName: String,
     userBadge: String = "디바이드 공식 돼지"
-){
+) {
     Box(
-       modifier = modifier
-    ){
+        modifier = modifier
+    ) {
         Box(
             modifier = Modifier
                 .padding(start = 29.dp)
@@ -101,7 +95,7 @@ fun MainProfile(
                     .height(85.dp)
                     .padding(start = 64.dp),
                 verticalArrangement = Arrangement.Center
-            ){
+            ) {
                 Text(
                     text = userName,
                     style = TextStyles.Point4,
@@ -146,18 +140,18 @@ fun Following(
     onFollowerClick: () -> Unit,
     following: Int = 6,
     follower: Int = 3
-){
+) {
     Box(
         modifier = modifier
             .size(129.dp, 56.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(White)
-    ){
+    ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -188,7 +182,7 @@ fun Following(
                     .weight(1f)
                     .clickable(onClick = onFollowerClick),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Text(
                     text = follower.toString(),
                     textAlign = TextAlign.Center,
@@ -211,7 +205,6 @@ fun Following(
 @Composable
 fun FollowingButton(
     modifier: Modifier = Modifier,
-    FollowingButton: () -> Unit = {},
     followed: Boolean = false,
     userId: Long = 0
 ){
@@ -222,9 +215,9 @@ fun FollowingButton(
     Button(
         onClick = {
             isClicked = !isClicked
-            if (isClicked){
+            if (isClicked) {
                 "팔로잉하는 중".log()
-                viewModel.postFollow(userId.toInt())
+                viewModel.postFollow(userId)
             }
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = if (isClicked || isSelf) gray2 else mainOrange),

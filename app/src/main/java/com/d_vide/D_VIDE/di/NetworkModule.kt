@@ -9,8 +9,7 @@ import com.d_vide.D_VIDE.app.data.remote.UserApi
 import com.d_vide.D_VIDE.app.data.repository.RecruitingRepositoryImpl
 import com.d_vide.D_VIDE.app.data.repository.ReviewRepositoryImpl
 import com.d_vide.D_VIDE.app.data.repository.UserRepositoryImpl
-import com.d_vide.D_VIDE.app.data.storage.FCMTokenStore
-import com.d_vide.D_VIDE.app.data.storage.TokenStore
+import com.d_vide.D_VIDE.app.data.storage.UserStore
 import com.d_vide.D_VIDE.app.data.storage.dataStore
 import com.d_vide.D_VIDE.app.domain.repository.RecruitingRepository
 import com.d_vide.D_VIDE.app.domain.repository.ReviewRepository
@@ -47,7 +46,7 @@ object NetworkModule {
                 "Authorization",
                 "Bearer ${
                     runBlocking { 
-                        appContext.dataStore.data.map {it[stringPreferencesKey("user")]}.first() 
+                        appContext.dataStore.data.map {it[stringPreferencesKey("token")]}.first() 
                     }
                 }"
             )
@@ -117,8 +116,8 @@ object NetworkModule {
     // recruitings repository 제공
     @Provides
     @Singleton
-    fun provideUserRepository(store: TokenStore, fcmStore: FCMTokenStore, api: UserApi): UserRepository {
-        return UserRepositoryImpl(store, fcmStore, api)
+    fun provideUserRepository(store: UserStore, api: UserApi): UserRepository {
+        return UserRepositoryImpl(store, api)
     }
 
     // recruitings repository 제공

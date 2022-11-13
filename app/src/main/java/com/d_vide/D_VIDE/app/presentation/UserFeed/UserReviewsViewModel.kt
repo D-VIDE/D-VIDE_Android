@@ -1,44 +1,43 @@
 package com.d_vide.D_VIDE.app.presentation.UserFeed
 
 import android.util.Log
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d_vide.D_VIDE.app.domain.use_case.User.GetOtherUserInfo
+import com.d_vide.D_VIDE.app.domain.use_case.Review.GetOtherReviews
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(
-    private val getOtherUserInfoUseCase: GetOtherUserInfo,
+class UserReviewsViewModel @Inject constructor(
+    private val getOtherReviewUseCase: GetOtherReviews,
 ): ViewModel() {
-
-    private var _userProfile = mutableStateOf(UserProfileState(isLoading = true))
-    var userProfile: State<UserProfileState> = _userProfile
+    var userReviews by mutableStateOf(UserReviewsState())
 
 //    init {
-//        getOtherUserInfo(1L)
+//        getOtherUserReviews(1L)
 //    }
 
-    fun getOtherUserInfo(userId: Long) {
+    fun getOtherUserReviews(userId: Long) {
         viewModelScope.launch {
-            getOtherUserInfoUseCase(userId).collect { result ->
+            getOtherReviewUseCase(0, userId).collect { result ->
 
                 when (result) {
                     is Resource.Success -> {
-                        _userProfile.value = result.data?.let {
-                            UserProfileState(userProfile = it, isLoading = false)
+                        userReviews = result.data?.let {
+                            UserReviewsState(userReviews = it, isLoading = false)
                         }!!
                     }
                     is Resource.Error -> {
-                        _userProfile.value = UserProfileState(error = result.message!!)
+                        userReviews = UserReviewsState(error = result.message!!)
                         Log.d("test", "error")
                     }
                     is Resource.Loading -> {
-                        _userProfile.value = UserProfileState(isLoading = true)
+                        userReviews = UserReviewsState(isLoading = true)
                         Log.d("test", "loading")
                     }
                 }

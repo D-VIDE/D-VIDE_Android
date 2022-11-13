@@ -1,12 +1,12 @@
 package com.d_vide.D_VIDE.app.data.repository
 
 import com.d_vide.D_VIDE.app.data.remote.UserApi
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
+import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
-import com.d_vide.D_VIDE.app.data.storage.FCMTokenStore
-import com.d_vide.D_VIDE.app.data.storage.TokenStore
-import com.d_vide.D_VIDE.app.domain.model.Token
+import com.d_vide.D_VIDE.app.data.storage.UserStore
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -14,14 +14,14 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.first
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
-    private val store: TokenStore,
-    private val fcmStore: FCMTokenStore,
+    private val store: UserStore,
     private val api: UserApi
 ) : UserRepository {
-    override suspend fun doLogin(emailPw: EmailPasswordDTO): Response<Token> {
+    override suspend fun doLogin(emailPw: EmailPasswordDTO): Response<IdentificationDTO> {
         return api.login(emailPw)
     }
 
@@ -29,15 +29,39 @@ class UserRepositoryImpl @Inject constructor(
         return api.getUserInfo()
     }
 
-    override fun getUserToken(): Token {
+    override fun getUserToken(): String {
         return runBlocking(Dispatchers.IO) {
             store.getToken().first()
         }
     }
 
-    override fun setUserToken(token: Token) {
+    override fun setUserToken(token: String) {
         runBlocking(Dispatchers.IO) {
             store.setToken(token)
+        }
+    }
+
+    override fun getUserID(): Long {
+        return runBlocking(Dispatchers.IO) {
+            store.getUserID().first()
+        }
+    }
+
+    override fun setUserID(ID: Long) {
+        runBlocking(Dispatchers.IO) {
+            store.setUserID(ID)
+        }
+    }
+
+    override fun getFCMToken(): String {
+        return runBlocking(Dispatchers.IO) {
+            store.getFCMToken().first()
+        }
+    }
+
+    override fun setFCMToken(FCMToken: String) {
+        runBlocking(Dispatchers.IO) {
+            store.setFCMToken(FCMToken)
         }
     }
 
@@ -74,21 +98,16 @@ class UserRepositoryImpl @Inject constructor(
     ): Response<FollowIdDTO> {
         return api.deleteFollow(followIdDTO)
     }
-
-    override fun getFCMToken(): FcmTokenDTO {
-        return runBlocking(Dispatchers.IO) {
-            fcmStore.getFCMToken().first()
-        }
-    }
-
-    override fun setFCMToken(fcmTokenDTO: FcmTokenDTO) {
-        runBlocking(Dispatchers.IO) {
-            fcmStore.setFCMToken(fcmTokenDTO)
-        }
-    }
     override suspend fun postFCMToken(
         fcmTokenDTO: FcmTokenDTO
     ) {
         return api.postFCMToken(fcmTokenDTO)
+    }
+    override suspend fun getBadges(): Response<BadgesDTO>{
+        return api.getBadges()
+    }
+    override suspend fun postBadge(badgeRequestDTO: BadgeRequestDTO)
+            : Response<BadgeRequestDTO> {
+        return api.postBadge(badgeRequestDTO)
     }
 }

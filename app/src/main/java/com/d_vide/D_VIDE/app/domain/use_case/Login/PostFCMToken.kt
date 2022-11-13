@@ -1,4 +1,4 @@
-package com.d_vide.D_VIDE.app.domain.use_case
+package com.d_vide.D_VIDE.app.domain.use_case.Login
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository

@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.d_vide.D_VIDE.MainActivity
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.storage.dataStore
-import com.d_vide.D_VIDE.app.domain.use_case.UserUseCases
+import com.d_vide.D_VIDE.app.domain.use_case.Login.LoginUseCases
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MyFirebaseMessageService : FirebaseMessagingService() {
     @Inject
-    lateinit var userUseCases: UserUseCases
+    lateinit var loginUseCases: LoginUseCases
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -51,7 +51,8 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
         "onNewToken $token".log()
         GlobalScope.launch {
             val fcmTokenDTO = FcmTokenDTO(token)
-            userUseCases.setFCMToken(fcmTokenDTO)
+            loginUseCases.setFCMToken(fcmTokenDTO.fcmToken)
+            loginUseCases.postFCMToken(fcmTokenDTO)
             "onNewToken에서 Save 하는 중".log()
             saveGCMToken(token)
         }
