@@ -152,8 +152,6 @@ fun Message(
                     .clickable(onClick = { onAuthorClick(msg.author) })
                     .padding(horizontal = 16.dp)
                     .size(42.dp)
-                    .border(1.5.dp, borderColor, CircleShape)
-                    .border(3.dp, MaterialTheme.colorScheme.surface, CircleShape)
                     .clip(CircleShape)
                     .align(Alignment.Top),
                 painter = painterResource(id = msg.authorImage),
