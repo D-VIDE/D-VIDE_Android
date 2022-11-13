@@ -9,4 +9,5 @@ sealed class PostRecruitingOrderEvent{
     data class EnteredImage(val value: Uri?, val index: Int): PostRecruitingOrderEvent()
     data class DeleteImage(val index: Int): PostRecruitingOrderEvent()
     object SaveRecruitingOrder: PostRecruitingOrderEvent()
+    data class EnterChatting(val value: Long?): PostRecruitingOrderEvent()
 }

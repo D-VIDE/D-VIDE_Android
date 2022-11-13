@@ -41,7 +41,8 @@ import kotlin.math.absoluteValue
 fun RecruitingDetailScreen(
     postId: Int = 0,
     navController: NavController,
-    upPress: () -> Unit = {}
+    upPress: () -> Unit = {},
+    onChattingSelected: (Long) -> Unit,
 ){
     val scrollableState = rememberScrollState()
     val viewModel  = hiltViewModel<RecruitingDetailViewModel>()
@@ -52,7 +53,8 @@ fun RecruitingDetailScreen(
 
     BottomSheetOrderForm(
         navController = navController,
-        postId = postId
+        postId = postId,
+        onChattingSelected = onChattingSelected
     ) { state, scope ->
         Box(
             modifier = Modifier
@@ -156,6 +158,7 @@ fun RecruitingDetailScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BottomSheetOrderForm(
+    onChattingSelected: (Long) -> Unit,
     navController: NavController,
     postId: Long = 0,
     activityContentScope: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit,
@@ -175,6 +178,7 @@ fun BottomSheetOrderForm(
                 navController = navController,
                 postId = postId,
                 modifier = Modifier.fillMaxHeight(0.7f),
+                onChattingSelected = onChattingSelected
             )
         }
     ) {
