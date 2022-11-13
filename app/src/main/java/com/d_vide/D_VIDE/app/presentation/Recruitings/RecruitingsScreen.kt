@@ -5,9 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -15,26 +12,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.d_vide.D_VIDE.app._enums.Category
-import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.CategoryContainer
-import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingCategory
 import com.d_vide.D_VIDE.app.presentation.Recruitings.component.RecruitingItem
-import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedViewModel
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
-import com.d_vide.D_VIDE.app.presentation.component.TopRoundContainer
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientCompponent
 import com.d_vide.D_VIDE.app.presentation.util.LocationConverter
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToHour
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToMinute
-import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 import com.d_vide.D_VIDE.ui.theme.background
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
@@ -44,13 +35,14 @@ import kotlinx.coroutines.launch
 fun RecruitingsScreen(
     navController: NavController,
     viewModel: RecruitingsViewModel = hiltViewModel(),
+    userFeedViewModel: UserFeedViewModel = hiltViewModel(),
     onReviewSelected: (Int) -> Unit,
     onTagClick: (String) -> Unit,
     onRecruitingClick: (Int) -> Unit
 ) {
-    val userViewModel = hiltViewModel<UserProfileViewModel>()
     val userId = rememberSaveable { mutableStateOf(0L) }
-    BottomSheetUserFeedSreen(
+
+    BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,
@@ -90,7 +82,8 @@ fun RecruitingsScreen(
                                     onUserClick = {
                                         scope.launch {
                                             userId.value = it.user.id
-                                            userViewModel.getOtherUserInfo(it.user.id)
+                                            userFeedViewModel.getOtherUserInfo(userId.value)
+                                            userFeedViewModel.getOtherUserReviews(userId.value)
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)

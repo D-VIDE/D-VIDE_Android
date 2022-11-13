@@ -1,7 +1,7 @@
-package com.d_vide.D_VIDE.app.domain.use_case
+package com.d_vide.D_VIDE.app.domain.use_case.Login
 
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
-import com.d_vide.D_VIDE.app.domain.model.Token
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.IdentificationDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class DoLogin @Inject constructor(
     private val repository: UserRepository
 ) {
-    operator fun invoke(emailPw: EmailPasswordDTO): Flow<Resource<Token>> = flow {
+    operator fun invoke(emailPw: EmailPasswordDTO): Flow<Resource<IdentificationDTO>> = flow {
         try {
             emit(Resource.Loading())
             val r = repository.doLogin(emailPw)
@@ -22,7 +22,7 @@ class DoLogin @Inject constructor(
                     emit(Resource.Success(r.body()!!))
                 }
                 else -> {
-                    "usecase ERROR ${r.code()}: ${r.errorBody().toString()}".log()
+                    "use case ERROR ${r.code()}: ${r.errorBody().toString()}".log()
                 }
             }
 

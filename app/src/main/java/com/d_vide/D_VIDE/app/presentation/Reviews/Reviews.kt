@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -24,7 +23,8 @@ import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewInPostDTO
 import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.Followings.FollowViewModel
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
-import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedViewModel
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.component.TopRoundBarWithImage
@@ -42,7 +42,8 @@ import kotlinx.coroutines.launch
 fun Reviews(
     navController: NavController,
     onReviewSelected: (Int) -> Unit,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    userFeedViewModel: UserFeedViewModel = hiltViewModel(),
 ){
     val userId = rememberSaveable{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
@@ -50,7 +51,7 @@ fun Reviews(
     val reviews = viewModel.state.value.reviews
     val recommend = viewModel.state.value.recommendStore
 
-    BottomSheetUserFeedSreen(
+    BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,
@@ -83,8 +84,8 @@ fun Reviews(
                             ReviewItem(
                                 onUserClick = {
                                     userId.value = item.user.id
-                                    userViewModel.getOtherUserInfo(item.user.id)
                                     scope.launch {
+                                        userFeedViewModel.getOtherUserInfo(item.user.id)
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },

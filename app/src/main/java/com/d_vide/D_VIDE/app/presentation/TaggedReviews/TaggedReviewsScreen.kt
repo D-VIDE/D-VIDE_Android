@@ -13,16 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.component.ReviewItem
-import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedSreen
+import com.d_vide.D_VIDE.app.presentation.UserFeed.BottomSheetUserFeedScreen
 import com.d_vide.D_VIDE.app.presentation.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
 import com.d_vide.D_VIDE.app.presentation.component.FloatingButton
@@ -45,7 +42,7 @@ fun TaggedReviewsScreen(
     val viewModel = hiltViewModel<TaggedReviewsViewModel>()
     val reviews = viewModel.state.value.reviews
     val userId = rememberSaveable{ mutableStateOf(0L) }
-    BottomSheetUserFeedSreen(
+    BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
         onTagClick = onTagClick,

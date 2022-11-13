@@ -1,9 +1,9 @@
-package com.d_vide.D_VIDE.app.domain.use_case.Follow
+package com.d_vide.D_VIDE.app.domain.use_case.Review
 
 import android.util.Log
-import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
-import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
-import com.d_vide.D_VIDE.app.domain.repository.UserRepository
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewsDTO
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.UserlessReviewsDTO
+import com.d_vide.D_VIDE.app.domain.repository.ReviewRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,19 +11,16 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class PostFollow @Inject constructor(
-    private val repository: UserRepository
-){
-    operator fun invoke(userIdDTO: UserIdDTO): Flow<Resource<FollowIdDTO>> = flow {
+class GetOtherReviews @Inject constructor(
+    private val repository: ReviewRepository,
+) {
+    operator fun invoke(first: Int, userId: Long): Flow<Resource<UserlessReviewsDTO>> = flow {
 
         try {
             emit(Resource.Loading())
-            val r = repository.postFollow(userIdDTO)
+            val r = repository.getMyOtherReviews(first, userId)
             when(r.code()) {
-                201 -> {
-                    Log.d("test", r.body()!!.toString())
-                    emit(Resource.Success(r.body()!!))
-                }
+                200 -> { emit(Resource.Success(r.body()!!)) }
                 else -> {
                     Log.d("test", "usecase ERROR ${r.code()}: ${r.errorBody().toString()}")
                 }
