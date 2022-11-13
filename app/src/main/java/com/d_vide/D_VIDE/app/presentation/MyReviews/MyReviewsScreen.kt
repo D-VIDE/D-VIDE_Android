@@ -82,7 +82,7 @@ fun MyReviewsScreen(
                 ReviewItem(
                     onReviewClick = { onReviewSelected(item.review.reviewId.toInt()) },
                     onTagClick = { onTagClick(item.review.storeName) },
-                    isliked = false
+                    isLiked = item.review.isLiked
                 )
             }
         }

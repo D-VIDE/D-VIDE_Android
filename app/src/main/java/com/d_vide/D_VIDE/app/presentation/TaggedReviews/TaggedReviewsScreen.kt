@@ -76,11 +76,15 @@ fun TaggedReviewsScreen(
                                         state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
                                     }
                                 },
-                                onReviewClick = { onReviewSelected(review.reviewId.toInt()) },
-                                onTagClick = { onTagClick(review.storeName) },
-                                userImageURL = review.profileImgUrl,
-                                userName = review.nickname,
-                                isliked = false
+                                onReviewClick = { onReviewSelected(review.user.id.toInt()) },
+                                onTagClick = { onTagClick(review.review.storeName) },
+                                userImageURL = review.user.profileImgUrl,
+                                userName = review.user.nickname,
+                                isLiked = review.review.isLiked,
+                                reviewImage = review.review.reviewImgUrl,
+                                reviewText = review.review.content,
+                                reviewTitle = review.review.storeName,
+                                starRating = review.review.starRating
                             )
                         }
 
@@ -104,7 +108,7 @@ fun TagTitle(title: String = "금돼지 식당") {
         shape = RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
     ) {
         Text(
-            text = "#금돼지식당 복천점",
+            text = "#$title",
             style = TextStyles.Big1,
             color = gray3,
             modifier = Modifier
