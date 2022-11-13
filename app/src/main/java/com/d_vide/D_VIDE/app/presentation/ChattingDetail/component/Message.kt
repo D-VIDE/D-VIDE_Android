@@ -1,27 +1,7 @@
 package com.d_vide.D_VIDE.app.presentation.ChattingDetail.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -49,10 +29,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
@@ -60,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.app.domain.model.Message
+import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
@@ -103,7 +87,7 @@ fun Messages(
                         DayHeader("Today")
                     }
                 }
-
+                //메세지 보여주는 곳
                 item {
                     Message(
                         onAuthorClick = { name -> navigateToProfile(name) },
@@ -161,8 +145,8 @@ fun Message(
 
     val spaceBetweenAuthors = if (isLastMessageByAuthor) Modifier.padding(top = 8.dp) else Modifier
     Row(modifier = spaceBetweenAuthors) {
-        if (isLastMessageByAuthor) {
-            // Avatar
+        if (isLastMessageByAuthor && !isUserMe) {
+            // 프로필 사진
             Image(
                 modifier = Modifier
                     .clickable(onClick = { onAuthorClick(msg.author) })
@@ -202,11 +186,28 @@ fun AuthorAndTextMessage(
     authorClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Column(modifier = modifier) {
-        if (isLastMessageByAuthor) {
-            AuthorNameTimestamp(msg)
+        if (isLastMessageByAuthor && !isUserMe) {
+            AuthorName(msg)
         }
-        ChatItemBubble(msg, isUserMe, authorClicked = authorClicked)
+        Row(Modifier.align(if (isUserMe) Alignment.End else Alignment.Start)) {
+            if (isUserMe) {
+                MessageTime(msg = msg,
+                    Modifier
+                        .align(Alignment.Bottom)
+                        .width(40.dp))
+                Spacer(modifier = Modifier.size(13.dp))
+                ChatItemBubble(msg, isUserMe, authorClicked = authorClicked)
+            } else {
+                ChatItemBubble(msg, isUserMe, authorClicked = authorClicked)
+                Spacer(modifier = Modifier.size(13.dp))
+                MessageTime(msg = msg,
+                    Modifier
+                        .align(Alignment.Bottom)
+                        .width(40.dp))
+            }
+        }
         if (isFirstMessageByAuthor) {
             // Last bubble before next author
             Spacer(modifier = Modifier.height(8.dp))
@@ -217,9 +218,11 @@ fun AuthorAndTextMessage(
     }
 }
 
-
+/**
+ * 보낸 사람을 표시 하는 부분
+ */
 @Composable
-private fun AuthorNameTimestamp(msg: Message) {
+private fun AuthorName(msg: Message) {
     // Combine author and timestamp for a11y.
     Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Text(
@@ -229,17 +232,20 @@ private fun AuthorNameTimestamp(msg: Message) {
                 .alignBy(LastBaseline)
                 .paddingFrom(LastBaseline, after = 8.dp) // Space to 1st bubble
         )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = msg.timestamp.toString(),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.alignBy(LastBaseline),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+
     }
 }
 
-private val ChatBubbleShape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+@Composable
+private fun MessageTime(msg: Message, modifier: Modifier) {
+    Text(
+        modifier = modifier,
+        text = msg.timestamp.toString(),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant
+    )
+}
+
 
 @Composable
 fun DayHeader(dayString: String) {
@@ -269,23 +275,41 @@ private fun RowScope.DayHeaderLine() {
     )
 }
 
+
+/**
+ * 메세지 UI를 그리는 코드
+ * @param message 입력되는 메세지
+ * @param isUserMe 보낸사람이 나 일 경우(true) 아닐경우 (false)
+ * @param authorClicked 보낸사람을 클릭했을 경우 작동하는 함수
+ */
 @Composable
 fun ChatItemBubble(
     message: Message,
     isUserMe: Boolean,
     authorClicked: (String) -> Unit
 ) {
+    //디바이스 스크린 width 구하기
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
 
+    //shape color(배경색)
     val backgroundBubbleColor = if (isUserMe) {
-        MaterialTheme.colorScheme.primary
+        main1
     } else {
-        MaterialTheme.colorScheme.surfaceVariant
+        gray7
     }
 
-    Column {
+    val backgroundShape = if (isUserMe) {
+        RoundedCornerShape(30.dp, 0.dp, 30.dp, 30.dp)
+    } else {
+        RoundedCornerShape(0.dp, 30.dp, 30.dp, 30.dp)
+    }
+
+    Column(Modifier.widthIn(0.dp, screenWidth - 40.dp - 74.dp - 16.dp)) {
         Surface(
             color = backgroundBubbleColor,
-            shape = ChatBubbleShape
+            shape = backgroundShape,
+            border = BorderStroke(if (isUserMe) 0.dp else 2.dp, main0)
         ) {
             ClickableMessage(
                 message = message,
@@ -294,11 +318,14 @@ fun ChatItemBubble(
             )
         }
 
+
+        //이미지일 경우 메세지
         message.image?.let {
             Spacer(modifier = Modifier.height(4.dp))
             Surface(
                 color = backgroundBubbleColor,
-                shape = ChatBubbleShape
+                shape = backgroundShape,
+                border = BorderStroke(2.dp, main0)
             ) {
                 Image(
                     painter = painterResource(it),
@@ -309,6 +336,8 @@ fun ChatItemBubble(
             }
         }
     }
+    
+
 }
 
 @Composable
@@ -317,6 +346,13 @@ fun ClickableMessage(
     isUserMe: Boolean,
     authorClicked: (String) -> Unit
 ) {
+
+    val textColor = if (isUserMe) {
+        gray7
+    } else {
+        gray5
+    }
+
     val uriHandler = LocalUriHandler.current
 
     val styledMessage = messageFormatter(
@@ -326,7 +362,7 @@ fun ClickableMessage(
 
     ClickableText(
         text = styledMessage,
-        style = MaterialTheme.typography.bodyLarge.copy(color = LocalContentColor.current),
+        style = MaterialTheme.typography.bodyLarge.copy(color = textColor),
         modifier = Modifier.padding(16.dp),
         onClick = {
             styledMessage
