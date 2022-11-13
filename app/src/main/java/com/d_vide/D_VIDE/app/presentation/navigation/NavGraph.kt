@@ -26,7 +26,7 @@ fun NavGraphBuilder.divideGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
@@ -70,7 +70,7 @@ fun NavGraphBuilder.divideGraph(
 
     composable(
         "${Screen.ChattingDetailScreen.route}/{${DetailDestinationKey.CHATTING}}",
-        arguments = listOf(navArgument(DetailDestinationKey.CHATTING) { type = NavType.IntType })
+        arguments = listOf(navArgument(DetailDestinationKey.CHATTING) { type = NavType.LongType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val chattingId = arguments.getInt(DetailDestinationKey.CHATTING)
@@ -83,7 +83,12 @@ fun NavGraphBuilder.divideGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val recruitingId = arguments.getInt(DetailDestinationKey.RECRUITING)
-        RecruitingDetailScreen(postId = recruitingId, upPress = upPress, navController = navController)
+        RecruitingDetailScreen(
+            postId = recruitingId,
+            upPress = upPress,
+            navController = navController,
+            onChattingSelected = {id -> onChattingClick(id, backStackEntry)}
+        )
     }
 
 
@@ -114,7 +119,7 @@ private fun NavGraphBuilder.MainNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
@@ -154,7 +159,7 @@ private fun NavGraphBuilder.MyPageNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){
@@ -195,7 +200,7 @@ private fun NavGraphBuilder.MyReviewNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ){

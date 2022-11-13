@@ -34,7 +34,7 @@ class ChattingDetailViewModel @Inject constructor(
     val state = _state
 
     private var userId = "ascdf"
-    private var chatId = savedStateHandle.get<Int>(DetailDestinationKey.CHATTING)!!
+    private var chatId = savedStateHandle.get<Long>(DetailDestinationKey.CHATTING)!!
 
 
     init {

@@ -60,7 +60,7 @@ class DivideAppState(
         }
     }
 
-    fun navigateToChatting(chattingId: Int, from: NavBackStackEntry) {
+    fun navigateToChatting(chattingId: Long, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("${Screen.ChattingDetailScreen.route}/$chattingId")

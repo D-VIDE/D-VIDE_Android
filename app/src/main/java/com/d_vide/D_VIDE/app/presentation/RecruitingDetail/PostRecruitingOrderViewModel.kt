@@ -10,10 +10,12 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.RecruitingOrderDTO
+import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruitingOrder
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.UriUtil
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingsEvent
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,9 +23,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * 나중에 userId 수정
+ */
 @HiltViewModel
 class PostRecruitingOrderViewModel @Inject constructor(
      val postRecruitingOrderUseCase: PostRecruitingOrder,
+
      @ApplicationContext val context: Context
 ) : ViewModel() {
     private var _imageUris = mutableStateListOf<Uri>()
@@ -32,12 +38,18 @@ class PostRecruitingOrderViewModel @Inject constructor(
     private var _orderId = mutableStateOf(0L)
     val orderId: State<Long> = _orderId
 
-
     private var _recruitingOrder = mutableStateOf(RecruitingOrderDTO())
     val recruitingOrderDTO: State<RecruitingOrderDTO> = _recruitingOrder
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val databaseReference = firebaseDatabase.reference
+
+    //유저의 아이디 넣는 곳
+    //차후 수정 필요
+    var userId = "userId"
 
     fun onEvent(event: PostRecruitingOrderEvent){
         when (event) {
@@ -111,10 +123,24 @@ class PostRecruitingOrderViewModel @Inject constructor(
                     }
                     }
                 }
+            /**
+             * 유저를 채팅방에 넣기 위한 작업
+             */
+            is PostRecruitingOrderEvent.EnterChatting -> {
+                databaseReference.child("chatrooms")
+                .child("${event.value}")
+                .child("users/$userId").setValue(ChatUserInfo(userId,"nickname",false))
+
+                viewModelScope.launch {
+                    _eventFlow.emit(
+                        UiEvent.SaveRecruiting
+                    )
+                }
             }
         }
-        sealed class UiEvent {
-            data class ShowSnackbar(val message: String) : UiEvent()
-            object SaveRecruiting : UiEvent()
-        }
+    }
+    sealed class UiEvent {
+        data class ShowSnackbar(val message: String) : UiEvent()
+        object SaveRecruiting : UiEvent()
+    }
 }

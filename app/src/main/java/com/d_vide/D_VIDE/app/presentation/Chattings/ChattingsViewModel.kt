@@ -21,7 +21,7 @@ class ChattingsViewModel @Inject constructor(
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private val databaseReference = firebaseDatabase.reference
 
-    var chatList : MutableList<Pair<Int,Chat>> = mutableStateListOf()
+    var chatList : MutableList<Pair<Long,Chat>> = mutableStateListOf()
     var userId: String = "ascdf"
 
     init {
@@ -37,7 +37,7 @@ class ChattingsViewModel @Inject constructor(
                     viewModelScope.launch {
                         chatList.clear()
                         for (c in snapshot.children) {
-                            chatList.add(0, Pair(c.key?.toInt() ?: -1, c.getValue(Chat::class.java) ?: Chat()))
+                            chatList.add(0, Pair(c.key?.toLong() ?: -1, c.getValue(Chat::class.java) ?: Chat()))
                         }
                         chatList.sortByDescending { it.second.lastMessage.timestamp }
 

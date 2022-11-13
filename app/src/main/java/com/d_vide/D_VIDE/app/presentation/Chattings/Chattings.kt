@@ -43,7 +43,7 @@ import com.d_vide.D_VIDE.ui.theme.*
 @Composable
 fun Chattings(
     navController: NavController,
-    onChattingSelected: (Int) -> Unit,
+    onChattingSelected: (Long) -> Unit,
     viewModel: ChattingsViewModel = hiltViewModel()
 ){
     Scaffold(
