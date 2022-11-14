@@ -3,6 +3,7 @@ package com.d_vide.D_VIDE.app.presentation.navigation
 sealed class Screen(val route: String) {
     object SplashScreen: Screen("splash_screen")
     object LoginScreen: Screen("login_screen")
+    object SocialLoginScreen: Screen("social_login_screen")
     object HomeScreen: Screen("home_screen")
     object RecruitingsScreen: Screen("recruitings_screen")
     object PostRecruitingScreen: Screen("post_recruiting_screen")
@@ -39,5 +40,6 @@ val shouldNotShowBottomScreen = listOf(
     Screen.PostRecruitingScreen.route,
     Screen.SplashScreen.route,
     Screen.LoginScreen.route,
+    Screen.SocialLoginScreen.route,
     Screen.ChattingDetailScreen.route+"/{${DetailDestinationKey.CHATTING}}"
 )

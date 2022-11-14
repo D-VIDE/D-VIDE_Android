@@ -26,6 +26,7 @@ android {
             useSupportLibrary true
         }
         manifestPlaceholders = [ MAPS_API_KEY:"${properties.getProperty('MAPS_API_KEY')}"]
+        buildConfigField "String", "KAKAO_NATIVE_APPKEY", properties['KAKAO_NATIVE_APPKEY']
     }
 
     buildTypes {
@@ -127,7 +128,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.24.13-rc"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.24.13-rc"
 
-    //systemuicontroller
+    // system ui controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 
     // FireBase
@@ -142,6 +143,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    // kakao sdk
+    implementation "com.kakao.sdk:v2-all:2.11.2" // 전체 모듈 설치, 2.11.0 버전부터 지원
+//    implementation "com.kakao.sdk:v2-user:2.11.2" // 카카오 로그인
+//    implementation "com.kakao.sdk:v2-talk:2.11.2" // 친구, 메시지(카카오톡)
+//    implementation "com.kakao.sdk:v2-story:2.11.2" // 카카오스토리
+//    implementation "com.kakao.sdk:v2-share:2.11.2" // 메시지(카카오톡 공유)
+//    implementation "com.kakao.sdk:v2-navi:2.11.2" // 카카오내비
+//    implementation "com.kakao.sdk:v2-friend:2.11.2" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
 }
 
 kapt {

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app._constants.Const.UIConst.DURATION_ANIMATION_SPLASH
+import com.d_vide.D_VIDE.app.presentation.Login.KakaoLoginViewModel
 import com.d_vide.D_VIDE.app.presentation.Login.LoginViewModel
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.ui.theme.TextStyles.Big1
@@ -26,9 +27,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavController
+    navController: NavController,
+    loginViewModel: KakaoLoginViewModel = hiltViewModel()
 ) {
-    val loginViewModel = hiltViewModel<LoginViewModel>()
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
@@ -38,7 +39,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         val nextScreen = when (loginViewModel.isLoggedIn()) {
             true -> Screen.HomeScreen
-            false -> Screen.LoginScreen
+            false -> Screen.SocialLoginScreen
         }
         startAnimation = true
 

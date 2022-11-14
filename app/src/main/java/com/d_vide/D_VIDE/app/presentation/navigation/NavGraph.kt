@@ -9,6 +9,7 @@ import com.d_vide.D_VIDE.app.presentation.Followings.OtherFollowScreen
 import com.d_vide.D_VIDE.app.presentation.Followings.MyFollowScreen
 import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
 import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
+import com.d_vide.D_VIDE.app.presentation.Login.SocialLoginScreen
 import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
 import com.d_vide.D_VIDE.app.presentation.MyReviews.MyReviewsScreen
 import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
@@ -19,7 +20,6 @@ import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
 import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
 import com.d_vide.D_VIDE.app.presentation.SplashScreen
 import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
-import com.d_vide.D_VIDE.app.presentation.UserFeed.UserFeedScreen
 
 
 fun NavGraphBuilder.divideGraph(
@@ -55,6 +55,13 @@ fun NavGraphBuilder.divideGraph(
     ) {
         LoginScreen(navController)
     }
+
+    composable(
+        route = Screen.SocialLoginScreen.route
+    ) {
+        SocialLoginScreen(navController)
+    }
+
 
     composable(
         "${Screen.ReviewDetailScreen.route}/{${DetailDestinationKey.REVIEW}}",
