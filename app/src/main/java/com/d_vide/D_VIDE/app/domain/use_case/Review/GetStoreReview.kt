@@ -2,6 +2,7 @@ package com.d_vide.D_VIDE.app.domain.use_case.Review
 
 import android.util.Log
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.RecommendStores
+import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.ReviewsDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.Review.StoreReviewsDTO
 import com.d_vide.D_VIDE.app.domain.repository.ReviewRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
@@ -14,11 +15,11 @@ import javax.inject.Inject
 class GetStoreReview @Inject constructor(
     private val repository: ReviewRepository,
 ) {
-    operator fun invoke(storeName: String): Flow<Resource<StoreReviewsDTO>> = flow {
+    operator fun invoke(first: Int, storeName: String): Flow<Resource<ReviewsDTO>> = flow {
 
         try {
             emit(Resource.Loading())
-            val r = repository.getStoreReview(storeName)
+            val r = repository.getStoreReview(first, storeName)
             when(r.code()) {
                 200 -> {
                     Log.d("test", r.body()!!.toString())

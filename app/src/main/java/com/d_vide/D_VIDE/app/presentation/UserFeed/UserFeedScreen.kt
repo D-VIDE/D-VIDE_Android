@@ -36,8 +36,12 @@ fun UserFeedScreen(
     UserFeedBackground(modifier) {
         UserFeedContent {
             UserProfile(
-                onFollowingClick = { navController.navigate("${Screen.OtherFollowScreen.route}/true") },
-                onFollowerClick = { navController.navigate("${Screen.OtherFollowScreen.route}/false") },
+                onFollowingClick = {
+                    navController.navigate("${Screen.OtherFollowScreen.route}/true/$userId")
+                },
+                onFollowerClick  ={
+                    navController.navigate("${Screen.OtherFollowScreen.route}/false/$userId")
+                },
                 userName = userProfile.nickname,
                 imageUrl = userProfile.profileImgUrl,
                 userBadge = userProfile.badge.name,
@@ -99,7 +103,7 @@ fun ColumnScope.UserFeedList(
 //                onLikeClick = {if(item.review.liked) viewModel.postUnlike(index) else viewModel.postLike(index)},
                 // 추후 기능 추가 필요
                 onLikeClick = {},
-                isliked = item.liked,
+                isLiked = item.isLiked,
                 userImageURL = imageUrl,
                 userName = userName,
                 reviewTitle = item.storeName,

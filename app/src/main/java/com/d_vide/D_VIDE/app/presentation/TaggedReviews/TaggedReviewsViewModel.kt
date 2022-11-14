@@ -29,14 +29,14 @@ class TaggedReviewsViewModel @Inject constructor(
     val state: State<TaggedReviewsState> = _state
 
     init{
-        getReviews(storeName)
+        getReviews(0, storeName)
     }
 
-    private fun getReviews(storeName: String){
-        getStoreReviewUseCase(storeName).onEach { result ->
+    private fun getReviews(first: Int = 0, storeName: String){
+        getStoreReviewUseCase(first, storeName).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = result.data?.let { TaggedReviewsState(reviews = result.data.data) }!!
+                    _state.value = result.data?.let { TaggedReviewsState(reviews = result.data.reviews) }!!
                 }
                 is Resource.Error -> {
                     _state.value = TaggedReviewsState(error = result.message ?: "An unexpected error occured")

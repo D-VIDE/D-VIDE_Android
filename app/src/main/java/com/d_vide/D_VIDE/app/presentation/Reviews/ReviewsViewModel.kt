@@ -77,7 +77,7 @@ class ReviewsViewModel @Inject constructor(
     }
 
     fun postLike(index: Int){
-        _state.value.reviews[index].review.liked = !_state.value.reviews[index].review.liked
+        _state.value.reviews[index].review.isLiked = !_state.value.reviews[index].review.isLiked
 
         postLikeUseCase(state.value.reviews[index].review.reviewId).onEach {
             when (it) {
@@ -88,7 +88,7 @@ class ReviewsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
     fun postUnlike(index: Int){
-        _state.value.reviews[index].review.liked = !_state.value.reviews[index].review.liked
+        _state.value.reviews[index].review.isLiked = !_state.value.reviews[index].review.isLiked
 
         postUnlikeUseCase(state.value.reviews[index].review.reviewId).onEach {
             Log.d("스크랩", "스크랩 2")

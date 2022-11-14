@@ -26,7 +26,7 @@ fun NavGraphBuilder.divideGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ) {
@@ -77,11 +77,11 @@ fun NavGraphBuilder.divideGraph(
 
     composable(
         "${Screen.ChattingDetailScreen.route}/{${DetailDestinationKey.CHATTING}}",
-        arguments = listOf(navArgument(DetailDestinationKey.CHATTING) { type = NavType.IntType })
+        arguments = listOf(navArgument(DetailDestinationKey.CHATTING) { type = NavType.LongType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val chattingId = arguments.getInt(DetailDestinationKey.CHATTING)
-        ChattingDetail(chattingId = chattingId, upPress)
+        ChattingDetail(chattingId = chattingId, upPress = upPress)
     }
 
     composable(
@@ -93,7 +93,8 @@ fun NavGraphBuilder.divideGraph(
         RecruitingDetailScreen(
             postId = recruitingId,
             upPress = upPress,
-            navController = navController
+            navController = navController,
+            onChattingSelected = {id -> onChattingClick(id, backStackEntry)}
         )
     }
 
@@ -132,7 +133,7 @@ private fun NavGraphBuilder.MainNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ) {
@@ -175,7 +176,7 @@ private fun NavGraphBuilder.MyPageNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ) {
@@ -195,17 +196,14 @@ private fun NavGraphBuilder.MyPageNavGraph(
         )
     }
 
-    composable(route = "${Screen.OtherFollowScreen.route}/{isFollowing}",
-        arguments = listOf(navArgument("isFollowing") { type = NavType.BoolType })
-    ) { from ->
+    composable(route = "${Screen.OtherFollowScreen.route}/{isFollowing}/{userId}",
+        arguments = listOf(navArgument("isFollowing"){type = NavType.BoolType},
+        navArgument("userId"){type = NavType.LongType}
+        )) { from ->
         val isFollowing = from.arguments?.getBoolean("isFollowing") ?: false
-        OtherFollowScreen(
-            navController,
-            upPress,
-            onReviewSelected = { id -> onReviewClick(id, from) },
-            onTagClick = { id -> onTagClick(id, from) },
-            isFollowing = isFollowing
-        )
+        val userId = from.arguments?.getLong("userId") ?: 0
+        OtherFollowScreen(navController, upPress, onReviewSelected = {id -> onReviewClick(id, from)},
+            onTagClick = { id -> onTagClick(id, from)}, isFollowing = isFollowing, userId = userId)
     }
 
     navigation(
@@ -227,7 +225,7 @@ private fun NavGraphBuilder.MyReviewNavGraph(
     navController: NavController,
     upPress: () -> Unit,
     onReviewClick: (Int, NavBackStackEntry) -> Unit,
-    onChattingClick: (Int, NavBackStackEntry) -> Unit,
+    onChattingClick: (Long, NavBackStackEntry) -> Unit,
     onTagClick: (String, NavBackStackEntry) -> Unit,
     onRecruitingClick: (Int, NavBackStackEntry) -> Unit
 ) {
@@ -254,6 +252,6 @@ private fun NavGraphBuilder.MyReviewNavGraph(
     }
 
     composable(route = Screen.PostReviewScreen.route) { from ->
-        PostReviewScreen(navController, upPress)
+        PostReviewScreen(navController, upPress, onReviewClick = { id -> onReviewClick(id, from) })
     }
 }

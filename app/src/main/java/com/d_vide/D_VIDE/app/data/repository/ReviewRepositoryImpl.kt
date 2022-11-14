@@ -34,8 +34,8 @@ class ReviewRepositoryImpl @Inject constructor(
         return api.getRecommend()
     }
 
-    override suspend fun getStoreReview(storeName: String): Response<StoreReviewsDTO> {
-        return api.getStoreReviews(storeName)
+    override suspend fun getStoreReview(first: Int, storeName: String): Response<ReviewsDTO> {
+        return api.getStoreReviews(first, storeName)
     }
 
     override suspend fun getMyReviews(first: Int): Response<ReviewsDTO> {

@@ -13,6 +13,8 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +25,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -189,6 +193,27 @@ fun TopRectangleBar(
 
 
         Text(title, style = TextStyles.Basics5, color = gray7)
+    }
+}
+
+@Composable
+fun TopBarChatting(
+    text: String = "TopAppBar",
+    upPress: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .statusBarsPadding()
+            .height(55.dp)
+            .fillMaxWidth()
+            .background(main1)
+            .padding(start = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        NavigateButton(tint = gray7, onClick = upPress)
+
+        Text(text, style = TextStyles.Basics5, color = gray7)
     }
 }
 

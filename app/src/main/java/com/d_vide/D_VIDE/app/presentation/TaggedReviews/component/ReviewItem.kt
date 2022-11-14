@@ -45,14 +45,15 @@ fun ReviewItem(
     onReviewClick: () -> Unit,
     onTagClick: (String) -> Unit,
     onLikeClick: () -> Unit = {},
-    isliked: Boolean = true,
+    isLiked: Boolean = true,
     userImageURL: String = "",
     userName: String = "",
     reviewTitle : String = "",
     reviewText : String = "",
-    reviewImage: String = ""
+    reviewImage: String = "",
+    starRating: Double = 5.0
 ){
-    var liked by remember { mutableStateOf(isliked) }
+    var liked by remember { mutableStateOf(isLiked) }
     CardEndRound(
         onClick = onReviewClick,
         modifier = Modifier.padding(end = 20.dp, start = if(liked) 0.dp else 20.dp)
@@ -103,7 +104,8 @@ fun ReviewItem(
                     onTagClick = onTagClick,
                     reviewTitle = reviewTitle,
                     reviewText = reviewText,
-                    reviewImage = reviewImage
+                    reviewImage = reviewImage,
+                    starRating = starRating
                 )
             }
         }
@@ -116,7 +118,8 @@ fun Review(
     reviewTitle: String = "금돼지식당 복천점",
     reviewText: String = "금돼지식당 드실분~제가 LA에 있을때는 말이죠 정말 제가 꿈에무대 메이저리그로 진출하고 식당마다 싸인해달라 기자들은 항상 붙어다니며 ...",
     reviewImage: String = "https://img.siksinhot.com/article/1622690644980620.jpg",
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
+    starRating: Double = 5.0
 ){
     Row(
         modifier = modifier,
@@ -133,7 +136,7 @@ fun Review(
         ){
             Text( text = "# ${reviewTitle}", maxLines = 1, style = TextStyles.Point2, color = red0, modifier = Modifier.clickable { onTagClick(reviewTitle) })
             Text( text = reviewText, maxLines = 3, style = TextStyles.Small1, color = gray3, modifier = Modifier.height(40.dp))
-            Text(text = "⭐⭐⭐⭐⭐️", style = TextStyles.Basics1)
+            Text(text = "⭐".repeat(starRating.toInt()), style = TextStyles.Basics1)
         }
     }
 }

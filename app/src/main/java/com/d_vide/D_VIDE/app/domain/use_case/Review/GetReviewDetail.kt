@@ -20,12 +20,12 @@ class GetReviewDetail @Inject constructor(
             emit(Resource.Loading())
             val r = repository.getReviewDetail(reviewId)
             when(r.code()) {
-                201 -> {
+                200 -> {
                     Log.d("test", r.body()!!.toString())
                     emit(Resource.Success(r.body()!!))
                 }
                 else -> {
-                    Log.d("test", "usecase ERROR ${r.code()}: ${r.errorBody().toString()}")
+                    Log.d("test", "usecasea ERROR ${r.code()}: ${r.errorBody().toString()}")
                 }
             }
 

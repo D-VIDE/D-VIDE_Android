@@ -75,6 +75,11 @@ object TextStyles{
         fontSize = 16.sp,
         letterSpacing = 0.4.sp
     )
+    val Point5 = TextStyle(
+        fontFamily = SpoqaHanSansNeo,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 13.sp,
+    )
 
     val Basics1 = TextStyle(
         fontFamily = SpoqaHanSansNeo,

@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitingOrderForm(
+    onChattingSelected: (Long) -> Unit,
     navController: NavController,
     postId: Long = 0,
     viewModel: PostRecruitingOrderViewModel = hiltViewModel(),
@@ -52,9 +53,8 @@ fun RecruitingOrderForm(
                     navController.navigateUp()
                 }
                 is PostRecruitingOrderViewModel.UiEvent.SaveRecruiting -> {
-                    navController.navigate(Screen.ChattingsScreen.route){
-                        popUpTo(0)
-                    }
+                    navController.navigateUp()
+                    navController.navigate("${Screen.ChattingDetailScreen.route}/$postId")
                     Log.d("test", "성공 & 뒤로가자")
                 }
             }
@@ -149,6 +149,8 @@ fun RecruitingOrderForm(
             onClick = {
                 viewModel.onEvent(PostRecruitingOrderEvent.EnteredPostId(postId))
                 viewModel.onEvent(PostRecruitingOrderEvent.SaveRecruitingOrder)
+                viewModel.onEvent(PostRecruitingOrderEvent.EnterChatting(postId))
+                //onChattingSelected(postId)
             },
             modifier = Modifier
                 .padding(bottom = 50.dp)
