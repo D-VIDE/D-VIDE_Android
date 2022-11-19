@@ -15,9 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
@@ -42,7 +42,6 @@ import coil.request.ImageRequest
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.BadgeDTO
-import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
@@ -71,16 +70,16 @@ fun MyPageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MyPageUserProfile(
-                username = viewModelState.nickname ?: "알 수 없는 사용자",
-                badges = viewModel.badge ?: "알 수 없는 사용자",
-                followerCount = viewModelState.followerCount ?: 0,
-                followingCount = viewModelState.followingCount ?: 0,
-                image = viewModelState.profileImgUrl ?: "",
+                username = viewModelState.nickname,
+                badges = viewModel.badge,
+                followerCount = viewModelState.followerCount,
+                followingCount = viewModelState.followingCount,
+                image = viewModelState.profileImgUrl,
                 onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
                 onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")},
-                allBadges = viewModel.state.badgesDTO ?: emptyList(),
+                allBadges = viewModel.state.badgesDTO,
             )
-            MyPageSavings(viewModelState.savedPrice ?: 0)
+            MyPageSavings(viewModelState.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
                 navController.navigate(NavGraph.MYREVIEW)
             }
@@ -129,12 +128,12 @@ fun MyPageCommonCell(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = mainOrange,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Center)
             )
             Icon(
                 modifier = Modifier
                     .size(11.dp)
-                    .align(Alignment.CenterEnd),
+                    .align(CenterEnd),
                 imageVector = Icons.Default.ArrowForwardIos,
                 contentDescription = "arrow",
                 tint = mainOrange
@@ -154,7 +153,7 @@ fun MyPageSavings(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("절약한 탄소배출", fontSize = 12.sp)
-            Divider(modifier = Modifier.size(0.dp, 12.dp), )
+            Divider(modifier = Modifier.size(0.dp, 12.dp))
             Text("절약한 배달비", fontSize = 12.sp)
         }
         Spacer(modifier = Modifier.size(15.dp))
@@ -194,7 +193,7 @@ fun MyPageUserProfile(
             painter = painterResource(id = R.drawable.setting),
             contentDescription = "setting",
             modifier = Modifier
-                .align(Alignment.TopEnd)
+                .align(TopEnd)
                 .size(23.dp)
                 .clickable { isDialogOpen.value = !isDialogOpen.value }
         )
@@ -232,90 +231,83 @@ fun MyPageUserProfile(
         }
     }
     if (isDialogOpen.value)
-        BadgeDialog(onDismiss = { isDialogOpen.value = !isDialogOpen.value })
+        BadgeDialog(onDismiss = { isDialogOpen.value = !isDialogOpen.value }, badges = allBadges)
 }
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BadgeDialog(
     onDismiss:() -> Unit = {},
+    badges: List<BadgeDTO> = emptyList(),
     viewModel: MyPageViewModel = hiltViewModel()
 ){
-    val pagerState = rememberPagerState(initialPage = 1)
+    val pagerState = rememberPagerState(initialPage = 0)
     Dialog(
         onDismissRequest = onDismiss,
     ) {
-        Column(
-            horizontalAlignment = CenterHorizontally
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
         ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .padding(top = 7.dp)
-                        .padding(10.dp)
-                        .clickable {
-                            "뱃지 리스트 : ${viewModel.state.badgesDTO}".log()
-                            if (pagerState.currentPage > 0) viewModel.postBadges(viewModel.state.badgesDTO[pagerState.currentPage - 1].name)
-                            onDismiss()
-                        }
-                        .align(CenterEnd),
-                    verticalAlignment = CenterVertically
-                ) {
-                    Text(
-                        text = "저장하기",
-                        style = TextStyles.Point2,
-                        color = main_gray2,
-                        modifier = Modifier
-                            .width(80.dp)
-                            .clip(RoundedCornerShape(15.dp))
-                            .background(Color.White),
-                        textAlign = TextAlign.Center
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.setting_unselected),
-                        contentDescription = "setting",
-                        modifier = Modifier.size(23.dp)
-                    )
-                }
-            }
-            Spacer(
-                Modifier
-                    .clickable(onClick = onDismiss)
-                    .padding(bottom = 100.dp))
-            Box {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(31.dp)
-                        .padding(top = 4.dp)
-                        .clip(RoundedCornerShape(15.5.dp))
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center
-                ) {
-                    HorizontalPager(
-                        count = viewModel.state.badgesDTO.size,
-                        contentPadding = PaddingValues(start = 213.dp),
-                        state = pagerState
-                    ) { page ->
-                        Text(
-                            text = viewModel.state.badgesDTO[page].name,
-                            style = if (page == pagerState.currentPage - 1) TextStyles.Point2 else TextStyles.Small3,
-                            color = if (page == pagerState.currentPage - 1) mainYellow else main_gray2,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .border(4.dp, mainYellow, RoundedCornerShape(19.5.dp))
-                        .size(140.dp, 35.dp)
-                )
-            }
-            Spacer(
-                Modifier
-                    .clickable(onClick = onDismiss)
-                    .padding(bottom = 500.dp))
+            Image(
+                painter = painterResource(id = R.drawable.setting_unselected),
+                contentDescription = "setting",
+                modifier = Modifier
+                    .align(TopEnd)
+                    .padding(10.dp)
+                    .size(30.dp)
+            )
         }
+        Box(
+            modifier = Modifier.padding(vertical = 100.dp),
+            contentAlignment = Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(31.dp)
+                    .clip(RoundedCornerShape(15.5.dp))
+                    .background(Color.White),
+                contentAlignment = Center
+            ) {
+                HorizontalPager(
+                    count = badges.size,
+                    contentPadding = PaddingValues(horizontal = 105.dp),
+                    state = pagerState
+                ) { page ->
+                    Text(
+                        text = badges[page].name,
+                        style = if (page == pagerState.currentPage) TextStyles.Point2 else TextStyles.Small3,
+                        color = if (page == pagerState.currentPage) mainYellow else main_gray2,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .align(Center)
+                    .border(4.dp, mainYellow, RoundedCornerShape(19.5.dp))
+                    .size(140.dp, 39.dp)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .padding(vertical = 160.dp)
+                .fillMaxWidth(),
+            contentAlignment = CenterEnd
+        ) {
+            Text(
+                text = "저장하기",
+                style = TextStyles.Point2,
+                color = main_gray2,
+                modifier = Modifier
+                    .clickable { viewModel.postBadges(viewModel.state.badgesDTO[pagerState.currentPage].name); onDismiss()}
+                    .width(80.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(Color.White),
+                textAlign = TextAlign.Center
+            )
+        }
+        Spacer(modifier = Modifier.padding(vertical = 300.dp).fillMaxSize().clickable(onClick = onDismiss))
     }
 }
 
