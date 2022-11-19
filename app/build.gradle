@@ -152,6 +152,9 @@ dependencies {
 //    implementation "com.kakao.sdk:v2-share:2.11.2" // 메시지(카카오톡 공유)
 //    implementation "com.kakao.sdk:v2-navi:2.11.2" // 카카오내비
 //    implementation "com.kakao.sdk:v2-friend:2.11.2" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
+
+    // serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 }
 
 kapt {
