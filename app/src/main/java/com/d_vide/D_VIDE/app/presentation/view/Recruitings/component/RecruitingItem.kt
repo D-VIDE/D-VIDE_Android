@@ -96,7 +96,7 @@ fun RecruitingItem(
                         Column(
                             modifier = Modifier.weight(0.5f)
                         ) {
-                            RecruitingDeadLine(Modifier.align(Start), deadLineHour, deadLineMinute)
+                            RecruitingDeadLine(Modifier.align(CenterHorizontally), deadLineHour, deadLineMinute)
                         }
                         Divider(
                             color = line_gray,
@@ -108,7 +108,7 @@ fun RecruitingItem(
                         Column(
                             modifier = Modifier.weight(0.5f)
                         ) {
-                           RecruitingInsufficientMoney(Modifier.align(End), insufficientMoney)
+                           RecruitingInsufficientMoney(Modifier.align(CenterHorizontally), insufficientMoney)
                         }
                     }
                 }
