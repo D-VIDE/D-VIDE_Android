@@ -3,23 +3,23 @@ package com.d_vide.D_VIDE.app.presentation.navigation
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
-import com.d_vide.D_VIDE.app.presentation.Chattings.Chattings
-import com.d_vide.D_VIDE.app.presentation.Followings.OtherFollowScreen
-import com.d_vide.D_VIDE.app.presentation.Followings.MyFollowScreen
-import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageScreen
-import com.d_vide.D_VIDE.app.presentation.Login.LoginScreen
-import com.d_vide.D_VIDE.app.presentation.Login.SocialLoginScreen
-import com.d_vide.D_VIDE.app.presentation.MyOrders.MyOrdersScreen
-import com.d_vide.D_VIDE.app.presentation.MyReviews.MyReviewsScreen
-import com.d_vide.D_VIDE.app.presentation.PostRecruiting.PostRecruitingScreen
-import com.d_vide.D_VIDE.app.presentation.PostReview.PostReviewScreen
-import com.d_vide.D_VIDE.app.presentation.RecruitingDetail.RecruitingDetailScreen
-import com.d_vide.D_VIDE.app.presentation.Recruitings.RecruitingsScreen
-import com.d_vide.D_VIDE.app.presentation.ReviewDetail.ReviewDetail
-import com.d_vide.D_VIDE.app.presentation.Reviews.Reviews
 import com.d_vide.D_VIDE.app.presentation.SplashScreen
-import com.d_vide.D_VIDE.app.presentation.TaggedReviews.TaggedReviewsScreen
+import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.ChattingDetail
+import com.d_vide.D_VIDE.app.presentation.view.Chattings.Chattings
+import com.d_vide.D_VIDE.app.presentation.view.Followings.MyFollowScreen
+import com.d_vide.D_VIDE.app.presentation.view.Followings.OtherFollowScreen
+import com.d_vide.D_VIDE.app.presentation.view.Login.LoginScreen
+import com.d_vide.D_VIDE.app.presentation.view.Login.SocialLoginScreen
+import com.d_vide.D_VIDE.app.presentation.view.MyOrders.MyOrdersScreen
+import com.d_vide.D_VIDE.app.presentation.view.MyPage.MyPageScreen
+import com.d_vide.D_VIDE.app.presentation.view.MyReviews.MyReviewsScreen
+import com.d_vide.D_VIDE.app.presentation.view.PostRecruiting.PostRecruitingScreen
+import com.d_vide.D_VIDE.app.presentation.view.PostReview.PostReviewScreen
+import com.d_vide.D_VIDE.app.presentation.view.RecruitingDetail.RecruitingDetailScreen
+import com.d_vide.D_VIDE.app.presentation.view.Recruitings.RecruitingsScreen
+import com.d_vide.D_VIDE.app.presentation.view.ReviewDetail.ReviewDetail
+import com.d_vide.D_VIDE.app.presentation.view.Reviews.Reviews
+import com.d_vide.D_VIDE.app.presentation.view.TaggedReviews.TaggedReviewsScreen
 
 
 fun NavGraphBuilder.divideGraph(

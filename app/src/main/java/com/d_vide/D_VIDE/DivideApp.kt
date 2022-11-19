@@ -2,10 +2,10 @@ package com.d_vide.D_VIDE
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import com.d_vide.D_VIDE.app.presentation.component.BottomNavigationBar
-import com.d_vide.D_VIDE.app.presentation.component.DivideScaffold
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.navigation.divideGraph
+import com.d_vide.D_VIDE.app.presentation.view.component.BottomNavigationBar
+import com.d_vide.D_VIDE.app.presentation.view.component.DivideScaffold
 import com.d_vide.D_VIDE.ui.theme.DVIDETheme
 
 @Composable
