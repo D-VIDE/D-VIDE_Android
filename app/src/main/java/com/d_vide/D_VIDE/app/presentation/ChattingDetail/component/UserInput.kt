@@ -29,9 +29,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.d_vide.D_VIDE.R
-import com.d_vide.D_VIDE.app.presentation.PostReview.PostReviewEvent
-import com.d_vide.D_VIDE.app.presentation.Recruitings.component.PhotoPicker
 import com.d_vide.D_VIDE.ui.theme.*
 
 enum class InputSelector {

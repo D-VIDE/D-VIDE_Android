@@ -1,32 +1,23 @@
 package com.d_vide.D_VIDE.app.presentation.ChattingDetail
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
 import com.d_vide.D_VIDE.app.domain.model.Message
-import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.Messages
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.UserInput
-import com.d_vide.D_VIDE.app.presentation.MyPage.MyPageViewModel
-import com.d_vide.D_VIDE.app.presentation.component.TopBarChatting
+import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.ChattingDetailViewModel
+import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.component.Messages
+import com.d_vide.D_VIDE.app.presentation.view.component.TopBarChatting
 import kotlinx.coroutines.launch
 
 @Composable
