@@ -11,9 +11,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.d_vide.D_VIDE.app.presentation.component.BottomSections
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.navigation.shouldNotShowBottomScreen
+import com.d_vide.D_VIDE.app.presentation.view.component.BottomSections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

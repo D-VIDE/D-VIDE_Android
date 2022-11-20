@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -19,7 +18,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.d_vide.D_VIDE.ui.theme.*
 
 @Composable
-fun GradientCompponent(modifier: Modifier = Modifier){
+fun GradientComponent(modifier: Modifier = Modifier){
     GradientView(
         modifier = modifier.fillMaxWidth().height(235.dp),
         colors = intArrayOf(

@@ -9,5 +9,5 @@ data class ReviewInPostDTO(
     val reviewImgUrl: String,
     val storeName: String,
     val likeCount: Integer,
-    var liked: Boolean
+    var isLiked: Boolean
 )

@@ -10,6 +10,8 @@ import retrofit2.Response
 interface UserRepository {
 
     suspend fun doLogin(emailPw: EmailPasswordDTO): Response<IdentificationDTO>
+    suspend fun doKakaoLogin(token: String): Response<IdentificationDTO>
+
     suspend fun getUserInfo(): Response<UserDTO>
 
     fun getUserToken(): String
