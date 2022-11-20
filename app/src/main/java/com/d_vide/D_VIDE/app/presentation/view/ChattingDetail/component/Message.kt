@@ -42,7 +42,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.model.Message
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToTime
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -154,7 +156,7 @@ fun Message(
                     .size(42.dp)
                     .clip(CircleShape)
                     .align(Alignment.Top),
-                painter = painterResource(id = msg.authorImage),
+                painter = painterResource(id = R.drawable.character_circle),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
@@ -193,15 +195,17 @@ fun AuthorAndTextMessage(
             if (isUserMe) {
                 MessageTime(msg = msg,
                     Modifier
+                        .padding(bottom = 4.dp)
                         .align(Alignment.Bottom)
                         .width(40.dp))
-                Spacer(modifier = Modifier.size(13.dp))
+                Spacer(modifier = Modifier.size(3.dp))
                 ChatItemBubble(msg, isUserMe, authorClicked = authorClicked)
             } else {
                 ChatItemBubble(msg, isUserMe, authorClicked = authorClicked)
-                Spacer(modifier = Modifier.size(13.dp))
+                Spacer(modifier = Modifier.size(3.dp))
                 MessageTime(msg = msg,
                     Modifier
+                        .padding(bottom = 4.dp)
                         .align(Alignment.Bottom)
                         .width(40.dp))
             }
@@ -238,7 +242,7 @@ private fun AuthorName(msg: Message) {
 private fun MessageTime(msg: Message, modifier: Modifier) {
     Text(
         modifier = modifier,
-        text = msg.timestamp.toString(),
+        text = msg.timestamp.convertTimestampToTime(),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
