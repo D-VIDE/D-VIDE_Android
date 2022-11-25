@@ -1,6 +1,9 @@
 package com.d_vide.D_VIDE.app.presentation.view.MyPage
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.SnapshotMutationPolicy
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.BadgeRequestDTO
