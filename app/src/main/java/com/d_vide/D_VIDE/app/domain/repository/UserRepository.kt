@@ -5,6 +5,7 @@ import com.d_vide.D_VIDE.app.data.remote.requestDTO.EmailPasswordDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
+import com.d_vide.D_VIDE.app.domain.model.UserInfo
 import retrofit2.Response
 
 interface UserRepository {
@@ -12,13 +13,16 @@ interface UserRepository {
     suspend fun doLogin(emailPw: EmailPasswordDTO): Response<IdentificationDTO>
     suspend fun doKakaoLogin(token: String): Response<IdentificationDTO>
 
-    suspend fun getUserInfo(): Response<UserDTO>
+    suspend fun getUser(): Response<UserDTO>
 
     fun getUserToken(): String
     fun setUserToken(token: String)
 
     fun getUserID(): Long
     fun setUserID(ID: Long)
+
+    fun getUserInfo(): UserInfo
+    fun setUserInfo(userInfo: UserInfo)
 
     fun getFCMToken(): String
     fun setFCMToken(token: String)

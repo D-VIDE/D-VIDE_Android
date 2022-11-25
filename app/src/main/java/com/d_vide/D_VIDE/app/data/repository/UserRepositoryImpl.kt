@@ -8,6 +8,7 @@ import com.d_vide.D_VIDE.app.data.remote.requestDTO.FcmTokenDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.data.remote.responseDTO.*
 import com.d_vide.D_VIDE.app.data.storage.UserStore
+import com.d_vide.D_VIDE.app.domain.model.UserInfo
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -15,7 +16,6 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.first
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
@@ -30,7 +30,7 @@ class UserRepositoryImpl @Inject constructor(
         return api.kakaoLogin(AccessToken(token))
     }
 
-    override suspend fun getUserInfo(): Response<UserDTO> {
+    override suspend fun getUser(): Response<UserDTO> {
         return api.getUserInfo()
     }
 
@@ -55,6 +55,18 @@ class UserRepositoryImpl @Inject constructor(
     override fun setUserID(ID: Long) {
         runBlocking(Dispatchers.IO) {
             store.setUserID(ID)
+        }
+    }
+
+    override fun getUserInfo(): UserInfo {
+        return runBlocking(Dispatchers.IO) {
+            store.getUserInfo().first()
+        }
+    }
+
+    override fun setUserInfo(userInfo: UserInfo) {
+        runBlocking(Dispatchers.IO) {
+            store.setUserInfo(userInfo)
         }
     }
 

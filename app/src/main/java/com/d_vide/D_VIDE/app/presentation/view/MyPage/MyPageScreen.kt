@@ -46,6 +46,7 @@ import com.d_vide.D_VIDE.app.domain.util.log
 import com.d_vide.D_VIDE.app.presentation.navigation.NavGraph
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.formatAmountOrMessage
+import com.d_vide.D_VIDE.app.presentation.view.Followings.FollowViewModel
 import com.d_vide.D_VIDE.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -54,9 +55,8 @@ import com.google.accompanist.pager.rememberPagerState
 @Composable
 fun MyPageScreen(
     navController: NavController,
-    viewModel: MyPageViewModel = hiltViewModel()
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    val viewModelState = viewModel.state.userDTO
     val scrollState = rememberScrollState()
 
     Box(modifier = Modifier.background(background)) {
@@ -65,29 +65,32 @@ fun MyPageScreen(
                 .fillMaxSize()
                 .padding(20.dp)
                 .zIndex(2F)
-                .verticalScroll(scrollState)
-            ,
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MyPageUserProfile(
-                username = viewModelState.nickname ?: "알 수 없는 사용자",
-                badges = viewModel.badge ?: "알 수 없는 사용자",
-                followerCount = viewModelState.followerCount ?: 0,
-                followingCount = viewModelState.followingCount ?: 0,
-                image = viewModelState.profileImgUrl ?: "",
-                onFollowerClick = { navController.navigate("${Screen.MyFollowScreen.route}/false") },
-                onFollowingClick = { navController.navigate("${Screen.MyFollowScreen.route}/true")},
-                allBadges = viewModel.state.badgesDTO ?: emptyList(),
+                username = viewModel.user.nickname,
+                badges = viewModel.user.badge.name,
+                followerCount = viewModel.user.followerCount,
+                followingCount = viewModel.user.followingCount,
+                image = viewModel.user.profileImgUrl,
+                onFollowerClick = {
+                    navController.navigate("${Screen.MyFollowScreen.route}/false")
+                },
+                onFollowingClick = {
+                    navController.navigate("${Screen.MyFollowScreen.route}/true")
+                },
+                allBadges = viewModel.state.badgesDTO,
             )
-            MyPageSavings(viewModelState.savedPrice ?: 0)
+            MyPageSavings(viewModel.user.savedPrice)
             MyPageCommonCell("나의 주문내역 보기") {
                 navController.navigate(NavGraph.MYREVIEW)
             }
-            MyPageCommonCell("내가 쓴 리뷰 보기"){
+            MyPageCommonCell("내가 쓴 리뷰 보기") {
                 navController.navigate(Screen.MyReviewsScreen.route)
             }
-            MyPageCommonCell("고객센터로 이동 "){
+            MyPageCommonCell("고객센터로 이동 ") {
                 navController.navigate(Screen.PostReviewScreen.route)
             }
         }
@@ -108,21 +111,21 @@ fun BackgroundImage(
             .size(200.dp)
             .zIndex(1F)
             .clipToBounds()
-            .offset(x = (90).dp)
-        ,
+            .offset(x = (90).dp),
         alpha = 0.2F
     )
 }
 
 @Composable
 fun MyPageCommonCell(
-    text : String,
-    onClick : () -> Unit = {}
+    text: String,
+    onClick: () -> Unit = {}
 ) {
     CardContainer(onClick = onClick) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
         ) {
             Text(
                 text = text,
@@ -154,7 +157,7 @@ fun MyPageSavings(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("절약한 탄소배출", fontSize = 12.sp)
-            Divider(modifier = Modifier.size(0.dp, 12.dp), )
+            Divider(modifier = Modifier.size(0.dp, 12.dp))
             Text("절약한 배달비", fontSize = 12.sp)
         }
         Spacer(modifier = Modifier.size(15.dp))
@@ -165,12 +168,22 @@ fun MyPageSavings(
             horizontalArrangement = SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(formatAmountOrMessage(savedPrice.toString())+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text(
+                formatAmountOrMessage(savedPrice.toString()) + " 원",
+                fontSize = 22.sp,
+                color = mainOrange,
+                fontWeight = FontWeight.ExtraBold
+            )
             Divider(
                 modifier = Modifier.size(1.dp, 31.dp),
                 color = Color.Gray,
             )
-            Text(formatAmountOrMessage((savedPrice*0.6).toInt().toString())+" 원", fontSize = 22.sp, color = mainOrange, fontWeight = FontWeight.ExtraBold)
+            Text(
+                formatAmountOrMessage((savedPrice * 0.6).toInt().toString()) + " 원",
+                fontSize = 22.sp,
+                color = mainOrange,
+                fontWeight = FontWeight.ExtraBold
+            )
         }
     }
 }
@@ -234,12 +247,13 @@ fun MyPageUserProfile(
     if (isDialogOpen.value)
         BadgeDialog(onDismiss = { isDialogOpen.value = !isDialogOpen.value })
 }
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BadgeDialog(
-    onDismiss:() -> Unit = {},
+    onDismiss: () -> Unit = {},
     viewModel: MyPageViewModel = hiltViewModel()
-){
+) {
     val pagerState = rememberPagerState(initialPage = 1)
     Dialog(
         onDismissRequest = onDismiss,
@@ -280,7 +294,8 @@ fun BadgeDialog(
             Spacer(
                 Modifier
                     .clickable(onClick = onDismiss)
-                    .padding(bottom = 100.dp))
+                    .padding(bottom = 100.dp)
+            )
             Box {
                 Box(
                     modifier = Modifier
@@ -314,7 +329,8 @@ fun BadgeDialog(
             Spacer(
                 Modifier
                     .clickable(onClick = onDismiss)
-                    .padding(bottom = 500.dp))
+                    .padding(bottom = 500.dp)
+            )
         }
     }
 }
@@ -346,18 +362,18 @@ fun Following(
     onFollowingClick: () -> Unit = {},
     Following: Int = 6,
     Follower: Int = 3
-){
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .height(56.dp)
             .clip(RoundedCornerShape(14.dp))
-    ){
+    ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -388,7 +404,7 @@ fun Following(
                     .clickable(onClick = onFollowerClick)
                     .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Text(
                     text = formatAmountOrMessage(Follower.toString()),
                     textAlign = TextAlign.Center,

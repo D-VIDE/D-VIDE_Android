@@ -80,10 +80,10 @@ fun RecruitingsScreen(
                                 Log.d("testProgress","${it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()}")
                                 RecruitingItem(
                                     onUserClick = {
+                                        userId.value = it.user.id
+                                        userFeedViewModel.getOtherUserInfo(userId.value)
+                                        userFeedViewModel.getOtherUserReviews(userId.value)
                                         scope.launch {
-                                            userId.value = it.user.id
-                                            userFeedViewModel.getOtherUserInfo(userId.value)
-                                            userFeedViewModel.getOtherUserReviews(userId.value)
                                             state.animateTo(
                                                 ModalBottomSheetValue.Expanded,
                                                 tween(500)
