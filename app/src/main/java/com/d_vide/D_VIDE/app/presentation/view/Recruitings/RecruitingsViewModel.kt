@@ -10,20 +10,22 @@ import com.d_vide.D_VIDE.app.domain.use_case.GetRecruitings
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RecruitingsViewModel @Inject constructor(
     private val getRecruitingsUseCase: GetRecruitings
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = mutableStateOf(RecruitingsState())
     val state: State<RecruitingsState> = _state
 
     init {
-        getRecruitings(  37.49015482509, 127.030767490, Category.ALL, 0)
+        getRecruitings(37.49015482509, 127.030767490, Category.ALL, 0)
     }
 
     fun getRecruitings(
@@ -32,22 +34,26 @@ class RecruitingsViewModel @Inject constructor(
         category: Category = Category.ALL,
         offset: Int = 0
     ) {
-        getRecruitingsUseCase(latitude, longitude, category, offset).onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _state.value = result.data?.let { RecruitingsState(recruitingDTOS = it.recruitingDTOS) }!!
-                    result.data.recruitingDTOS.toString().log()
-                }
-                is Resource.Error -> {
-                    _state.value = RecruitingsState(error = result.message ?: "An unexpected error occured")
-                    Log.d("test", "error")
-                }
-                is Resource.Loading -> {
-                    _state.value = RecruitingsState(isLoading = true)
-                    Log.d("test", "loading")
+        viewModelScope.launch {
+            getRecruitingsUseCase(latitude, longitude, category, offset).collect() { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _state.value =
+                            result.data?.let { RecruitingsState(recruitingDTOS = it.recruitingDTOS) }!!
+                        result.data.recruitingDTOS.toString().log()
+                    }
+                    is Resource.Error -> {
+                        _state.value = RecruitingsState(
+                            error = result.message ?: "An unexpected error occured"
+                        )
+                        Log.d("test", "error")
+                    }
+                    is Resource.Loading -> {
+                        _state.value = RecruitingsState(isLoading = true)
+                        Log.d("test", "loading")
+                    }
                 }
             }
-
-        }.launchIn(viewModelScope)
+        }
     }
 }

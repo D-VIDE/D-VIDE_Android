@@ -12,6 +12,7 @@ import com.d_vide.D_VIDE.app.domain.use_case.PostBadge
 import com.d_vide.D_VIDE.app.domain.use_case.User.GetUserInfo
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,38 +23,27 @@ class MyPageViewModel @Inject constructor(
     val postBadgeUseCase: PostBadge,
     val getUserInfoUseCase: GetUserInfo,
 ) : ViewModel() {
-
     var state by mutableStateOf(MyPageState())
+        private set
     var badge by mutableStateOf("")
+        private set
+
+    var user by mutableStateOf(UserInformation.userInfo)
+        private set
 
     init {
         getUserInfo()
         getBadges()
     }
 
-    private fun counterPolicy(): SnapshotMutationPolicy<MyPageState?> =
-        object : SnapshotMutationPolicy<MyPageState?> {
-            override fun equivalent(a: MyPageState?, b: MyPageState?): Boolean {
-                if(a?.userDTO!!.badge == b?.userDTO!!.badge) return a.userDTO.badge == b.userDTO.badge
-                return a == b
-            }
-            override fun merge(
-                previous: MyPageState?,
-                current: MyPageState?,
-                applied: MyPageState?
-            ): MyPageState? = previous
-        }
-
     private fun getUserInfo() {
         viewModelScope.launch {
             getUserInfoUseCase().collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        state.userDTO = result.data!!
-                        badge = result.data.badge.name
+                        badge = UserInformation.userInfo.badge.name
 
                         "내 정보 가져오기 성공".log()
-                        "뱃지 이름 : ${badge}, ${result.data.badge.name}"
                     }
                     is Resource.Error -> "내 정보 가져오기 실패".log()
                     is Resource.Loading -> "내 정보 가져오는 중".log()
@@ -68,6 +58,7 @@ class MyPageViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         state = state.copy(badgesDTO = result.data!!.badges)
+                        "뱃지 가져오기 성공".log()
                     }
                     is Resource.Error -> "뱃지 가져오기 실패".log()
                     is Resource.Loading -> "뱃지 가져오는 중".log()
