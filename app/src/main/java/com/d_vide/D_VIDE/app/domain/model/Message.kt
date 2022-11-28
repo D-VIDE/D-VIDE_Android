@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import com.d_vide.D_VIDE.R
 
 data class ConversationUiState(
-    val channelName: String = "채팅방 이름",
+    var channelName: String = "채팅방 이름",
     val chatId: String = "",
     val messages: MutableList<Message> = mutableListOf(),
     var users: MutableMap<String, ChatUserInfo>  = HashMap()

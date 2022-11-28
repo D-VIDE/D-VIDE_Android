@@ -3,8 +3,8 @@ package com.d_vide.D_VIDE.app.presentation.navigation
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
+import com.d_vide.D_VIDE.app.presentation.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.SplashScreen
-import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.ChattingDetail
 import com.d_vide.D_VIDE.app.presentation.view.Chattings.Chattings
 import com.d_vide.D_VIDE.app.presentation.view.Followings.MyFollowScreen
 import com.d_vide.D_VIDE.app.presentation.view.Followings.OtherFollowScreen
