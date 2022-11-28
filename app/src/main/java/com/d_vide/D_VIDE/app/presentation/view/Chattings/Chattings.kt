@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.app.domain.model.Chat
 import com.d_vide.D_VIDE.app.presentation.util.GradientComponent
+import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToTime
 import com.d_vide.D_VIDE.app.presentation.view.component.CardRound
 import com.d_vide.D_VIDE.app.presentation.view.component.DivideImage
 import com.d_vide.D_VIDE.app.presentation.view.component.TopRoundBar
@@ -80,7 +81,8 @@ fun ChattingItem(
             ChattingItem(
                 Modifier.border(2.dp, mainYellow, RoundedCornerShape(25.dp)),
                 onChattingSelected = onChattingSelected,
-                title = chatroom.title
+                title = chatroom.title,
+                time = chatroom.lastMessage.timestamp.convertTimestampToTime()
             )
             ChatNumber(
                 modifier = Modifier.align(Alignment.BottomEnd)
@@ -89,7 +91,8 @@ fun ChattingItem(
             ChattingItem(
                 onChattingSelected = onChattingSelected,
                 title = chatroom.title,
-                text = chatroom.lastMessage.content
+                text = chatroom.lastMessage.content,
+                time = chatroom.lastMessage.timestamp.convertTimestampToTime()
             )
         }
     }
