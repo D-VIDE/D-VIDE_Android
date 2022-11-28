@@ -88,7 +88,8 @@ fun ColumnScope.UserFeedList(
     userId: Long,
     viewModel: UserReviewsViewModel = hiltViewModel()
 ) {
-    viewModel.getOtherUserReviews(userId)
+//     viewModel.getOtherUserReviews(userId)
+
     LazyColumn(
         modifier = Modifier.weight(1f),
         verticalArrangement = Arrangement.spacedBy(10.dp)

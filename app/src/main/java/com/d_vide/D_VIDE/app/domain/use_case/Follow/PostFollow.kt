@@ -5,6 +5,7 @@ import com.d_vide.D_VIDE.app.data.remote.responseDTO.FollowIdDTO
 import com.d_vide.D_VIDE.app.data.remote.requestDTO.UserIdDTO
 import com.d_vide.D_VIDE.app.domain.repository.UserRepository
 import com.d_vide.D_VIDE.app.domain.util.Resource
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation.userInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -22,6 +23,8 @@ class PostFollow @Inject constructor(
             when(r.code()) {
                 201 -> {
                     Log.d("test", r.body()!!.toString())
+                    userInfo.followingCount++
+                    repository.setUserInfo(userInfo)
                     emit(Resource.Success(r.body()!!))
                 }
                 else -> {

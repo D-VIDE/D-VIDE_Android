@@ -13,11 +13,10 @@ import com.d_vide.D_VIDE.app.domain.use_case.Follow.GetOtherFollow
 import com.d_vide.D_VIDE.app.domain.use_case.Follow.PostFollow
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation.userInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,38 +30,36 @@ class FollowViewModel @Inject constructor(
     private var _state = MutableStateFlow(FollowState())
     val state = _state
 
-    private var _userIdDTO = mutableStateOf(
-        UserIdDTO(userId = 1L)
-    )
+    private var _userIdDTO = mutableStateOf(UserIdDTO(userInfo.userId))
     var userIdDTO: State<UserIdDTO> = _userIdDTO
 
-    private var _followIdDTO = mutableStateOf(
-        FollowIdDTO(followId = 1L)
-    )
+    private var _followIdDTO = mutableStateOf(FollowIdDTO(userInfo.userId))
     var followIdDTO: State<FollowIdDTO> = _followIdDTO
 
-    init{
-        getFollowInfo(relation = "FOLLOWER", first=1)
-    }
-
     fun getFollowInfo(relation: String="FOLLOWER", first: Int=0){
-        getFollowInfoUseCase(relation, first).onEach{ result ->
-            when (result){
-                is Resource.Success -> {
-                    _state.update{
-                        it.copy(follows = result.data?.follows ?: emptyList(), isLoading = false)
+        viewModelScope.launch {
+            getFollowInfoUseCase(relation, first).collect() { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                follows = result.data?.follows ?: emptyList(),
+                                isLoading = false
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        _state.value =
+                            FollowState(error = result.message ?: "An unexpected error occured")
+                        Log.d("test", "error")
+                    }
+                    is Resource.Loading -> {
+                        _state.value = FollowState(isLoading = true)
+                        Log.d("test", "loading")
                     }
                 }
-                is Resource.Error -> {
-                    _state.value = FollowState(error = result.message ?: "An unexpected error occured")
-                    Log.d("test", "error")
-                }
-                is Resource.Loading -> {
-                    _state.value = FollowState(isLoading = true)
-                    Log.d("test", "loading")
-                }
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
     fun getOtherFollow(relation: String="FOLLOWER", first: Int=0, userId: Long){

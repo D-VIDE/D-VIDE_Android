@@ -37,7 +37,7 @@ class KakaoLoginViewModel @Inject constructor(
     }
 
     private suspend fun loginWithKakao(token: String) {
-        loginUseCases.doKakaoLogin(token).collect() { it ->
+        loginUseCases.doKakaoLogin(token).collect() {
             when (it) {
                 is Resource.Success -> {
                     "userID: ${it.data!!.userId}, token: ${it.data!!.token}".log()
@@ -112,6 +112,7 @@ class KakaoLoginViewModel @Inject constructor(
                     }
                 }
             }
+            else -> {}
         }
     }
 
