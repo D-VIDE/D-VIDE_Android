@@ -156,7 +156,7 @@ fun Message(
             // 프로필 사진
             Image(
                 modifier = Modifier
-                    .clickable(onClick = { onAuthorClick(msg.author) })
+                    .clickable(onClick = { onAuthorClick(msg.author.replace("userId", "")) })
                     .padding(horizontal = 16.dp)
                     .size(42.dp)
                     .clip(CircleShape)

@@ -81,7 +81,12 @@ fun NavGraphBuilder.divideGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val chattingId = arguments.getInt(DetailDestinationKey.CHATTING)
-        ChattingDetail(chattingId = chattingId, upPress = upPress)
+        ChattingDetail(
+            navController,
+            onReviewSelected = { id -> onReviewClick(id, backStackEntry) },
+            onTagClick = { id -> onTagClick(id, backStackEntry) },
+            chattingId = chattingId,
+            upPress = upPress)
     }
 
     composable(
