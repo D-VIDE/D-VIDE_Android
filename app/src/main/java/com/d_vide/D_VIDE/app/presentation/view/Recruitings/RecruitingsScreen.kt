@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -41,6 +42,10 @@ fun RecruitingsScreen(
     onRecruitingClick: (Int) -> Unit
 ) {
     val userId = rememberSaveable { mutableStateOf(0L) }
+    val pagingLoading by viewModel.pagingLoading.collectAsState()
+    val endReached by viewModel.endReached.collectAsState()
+    val recruitings by viewModel.recruitings.collectAsState()
+    //val recruitings by viewModel.state.collectAsState()
 
     BottomSheetUserFeedScreen(
         navController = navController,
@@ -75,43 +80,46 @@ fun RecruitingsScreen(
                         item {
                             Spacer(modifier = Modifier.width(9.dp))
                         }
-                        viewModel.state.value.recruitingDTOS.forEach {
-                            item {
-                                Log.d("testProgress","${it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()}")
-                                RecruitingItem(
-                                    onUserClick = {
-                                        userId.value = it.user.id
-                                        userFeedViewModel.getOtherUserInfo(userId.value)
-                                        userFeedViewModel.getOtherUserReviews(userId.value)
-                                        scope.launch {
-                                            state.animateTo(
-                                                ModalBottomSheetValue.Expanded,
-                                                tween(500)
-                                            )
-                                        }
-                                    },
-                                    onClick = { onRecruitingClick(it.post.id) },
-                                    userName = it.user.nickname,
-                                    userLocation = LocationConverter(
-                                        LatLng(
-                                            it.post.latitude,
-                                            it.post.longitude
-                                        )
-                                    ),
-                                    title = it.post.title,
-                                    imageURL = it.post.postImgUrl,
-                                    profileURL = it.user.profileImgUrl,
-                                    insufficientMoney =
-                                    if(it.post.targetPrice > it.post.orderedPrice)
-                                        it.post.targetPrice - it.post.orderedPrice
-                                    else 0,
-                                    timeRemaining = ((it.post.targetTime - System.currentTimeMillis() / 1000) / 60),
-                                    deadLineHour = it.post.targetTime.convertTimestampToHour(),
-                                    deadLineMinute = it.post.targetTime.convertTimestampToMinute(),
-                                    progress = it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()
-                                )
+                        itemsIndexed(recruitings) { index, it ->
+                            if (index >= recruitings.size - 1 && !endReached && !pagingLoading) {
+                                viewModel.getRecruitings()
                             }
+                            Log.d("testProgress","${it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()}")
+                            RecruitingItem(
+                                onUserClick = {
+                                    userId.value = it.user.id
+                                    userFeedViewModel.getOtherUserInfo(userId.value)
+                                    userFeedViewModel.getOtherUserReviews(userId.value)
+                                    scope.launch {
+                                        state.animateTo(
+                                            ModalBottomSheetValue.Expanded,
+                                            tween(500)
+                                        )
+                                    }
+                                },
+                                onClick = { onRecruitingClick(it.post.id) },
+                                userName = it.user.nickname,
+                                userLocation = LocationConverter(
+                                    LatLng(
+                                        it.post.latitude,
+                                        it.post.longitude
+                                    )
+                                ),
+                                title = it.post.title,
+                                imageURL = it.post.postImgUrl,
+                                profileURL = it.user.profileImgUrl,
+                                insufficientMoney =
+                                if(it.post.targetPrice > it.post.orderedPrice)
+                                    it.post.targetPrice - it.post.orderedPrice
+                                else 0,
+                                timeRemaining = ((it.post.targetTime - System.currentTimeMillis() / 1000) / 60),
+                                deadLineHour = it.post.targetTime.convertTimestampToHour(),
+                                deadLineMinute = it.post.targetTime.convertTimestampToMinute(),
+                                progress = it.post.orderedPrice.toFloat()/it.post.targetPrice.toFloat()
+                            )
                         }
+
+
                         item {
                             BlankIndicator(
                                 modifier = Modifier

@@ -18,7 +18,7 @@ class GetRecruitings @Inject constructor(
         latitude: Double,
         longitude: Double,
         category: Category,
-        offset: Int
+        offset: Int = 0
     ): Flow<Resource<RecruitingsDTO>> = flow {
 
         try {
