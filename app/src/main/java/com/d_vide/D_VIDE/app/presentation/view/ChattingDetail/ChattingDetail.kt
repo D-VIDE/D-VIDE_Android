@@ -75,6 +75,7 @@ fun ConversationContent(
                 //.nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 Messages(
+                    users = uiState.users,
                     messages = uiState.messages,
                     navigateToProfile = navigateToProfile,
                     modifier = Modifier.weight(1f),

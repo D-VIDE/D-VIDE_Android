@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.model.Message
 import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToTime
@@ -51,6 +52,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Messages(
+    users: MutableMap<String, ChatUserInfo>,
     messages: List<Message>,
     navigateToProfile: (String) -> Unit,
     scrollState: LazyListState,
@@ -93,6 +95,7 @@ fun Messages(
                 //메세지 보여주는 곳
                 item {
                     Message(
+                        author = users[content.author]?.nickname ?: "",
                         onAuthorClick = { name -> navigateToProfile(name) },
                         msg = content,
                         isUserMe = content.author == authorMe,
@@ -134,6 +137,7 @@ fun Messages(
 
 @Composable
 fun Message(
+    author: String = "",
     onAuthorClick: (String) -> Unit,
     msg: Message,
     isUserMe: Boolean,
@@ -166,6 +170,7 @@ fun Message(
             Spacer(modifier = Modifier.width(74.dp))
         }
         AuthorAndTextMessage(
+            author = author,
             msg = msg,
             isUserMe = isUserMe,
             isFirstMessageByAuthor = isFirstMessageByAuthor,
@@ -180,6 +185,7 @@ fun Message(
 
 @Composable
 fun AuthorAndTextMessage(
+    author: String = "",
     msg: Message,
     isUserMe: Boolean,
     isFirstMessageByAuthor: Boolean,
@@ -190,7 +196,7 @@ fun AuthorAndTextMessage(
 
     Column(modifier = modifier) {
         if (isLastMessageByAuthor && !isUserMe) {
-            AuthorName(msg)
+            AuthorName(author)
         }
         Row(Modifier.align(if (isUserMe) Alignment.End else Alignment.Start)) {
             if (isUserMe) {
@@ -225,11 +231,11 @@ fun AuthorAndTextMessage(
  * 보낸 사람을 표시 하는 부분
  */
 @Composable
-private fun AuthorName(msg: Message) {
+private fun AuthorName(author: String) {
     // Combine author and timestamp for a11y.
     Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Text(
-            text = msg.author,
+            text = author,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .alignBy(LastBaseline)
