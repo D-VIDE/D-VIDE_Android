@@ -27,7 +27,7 @@ fun ChattingDetail(
     viewModel: ChattingDetailViewModel = hiltViewModel()
 ) {
     ConversationContent(
-        uiState = viewModel.state.value,
+        uiState = viewModel.state,
         navigateToProfile = { user ->
         },
         // Add padding so that we are inset from any navigation bars
@@ -37,7 +37,7 @@ fun ChattingDetail(
                 .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
         ),
         onMessageSent = { content ->
-            viewModel.send(Message("authorMe", content, System.currentTimeMillis()))
+            viewModel.send(content)
         },
         upPress = upPress
     )

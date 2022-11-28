@@ -44,6 +44,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.d_vide.D_VIDE.R
 import com.d_vide.D_VIDE.app.domain.model.Message
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import com.d_vide.D_VIDE.app.presentation.util.convertTimestampToTime
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
@@ -59,7 +60,7 @@ fun Messages(
     Box(modifier = modifier) {
 
         //자신의 아이디값을 얻음
-        val authorMe = "authorMe"
+        val authorMe by mutableStateOf(UserInformation.userInfo.userId.toString() + "userId")
         LazyColumn(
             reverseLayout = true,
             state = scrollState,

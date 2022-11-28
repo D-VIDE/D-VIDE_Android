@@ -3,9 +3,7 @@ package com.d_vide.D_VIDE.app.presentation.view.RecruitingDetail
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +12,7 @@ import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.use_case.PostRecruitingOrder
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.UriUtil
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import com.d_vide.D_VIDE.app.presentation.view.PostRecruiting.PostRecruitingsEvent
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,9 +46,9 @@ class PostRecruitingOrderViewModel @Inject constructor(
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private val databaseReference = firebaseDatabase.reference
 
-    //유저의 아이디 넣는 곳
-    //차후 수정 필요
-    var userId = "userId"
+    var user by mutableStateOf(UserInformation.userInfo)
+        private set
+    var userId by mutableStateOf(user.userId.toString() + "userId")
 
     fun onEvent(event: PostRecruitingOrderEvent){
         when (event) {
@@ -129,7 +128,7 @@ class PostRecruitingOrderViewModel @Inject constructor(
             is PostRecruitingOrderEvent.EnterChatting -> {
                 databaseReference.child("chatrooms")
                 .child("${event.value}")
-                .child("users/$userId").setValue(ChatUserInfo(userId,"nickname",false))
+                .child("users/$userId").setValue(ChatUserInfo(userId,user.nickname,false))
 
                 viewModelScope.launch {
                     _eventFlow.emit(
