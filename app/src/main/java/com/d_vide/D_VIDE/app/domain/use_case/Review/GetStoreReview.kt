@@ -15,7 +15,7 @@ import javax.inject.Inject
 class GetStoreReview @Inject constructor(
     private val repository: ReviewRepository,
 ) {
-    operator fun invoke(first: Int, storeName: String): Flow<Resource<ReviewsDTO>> = flow {
+    operator fun invoke(first: Int = 0, storeName: String): Flow<Resource<ReviewsDTO>> = flow {
 
         try {
             emit(Resource.Loading())

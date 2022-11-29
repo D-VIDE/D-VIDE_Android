@@ -10,6 +10,8 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -27,6 +29,7 @@ import com.d_vide.D_VIDE.app.presentation.view.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.view.component.TopRoundBarWithImage
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientComponent
+import com.d_vide.D_VIDE.app.presentation.view.component.BlankIndicator
 import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
 
@@ -44,9 +47,11 @@ fun Reviews(
 ){
     val userId = rememberSaveable{ mutableStateOf(0L) }
     val viewModel = hiltViewModel<ReviewsViewModel>()
-    val userViewModel = hiltViewModel<UserProfileViewModel>()
-    val reviews = viewModel.state.value.reviews
+    val viewModelState by viewModel.state.collectAsState()
+    val reviews  =  viewModelState.reviews
     val recommend = viewModel.state.value.recommendStore
+    val endReached =  viewModelState.endReached
+    val pagingLoading = viewModelState.pagingLoading
 
     BottomSheetUserFeedScreen(
         navController = navController,
@@ -71,6 +76,7 @@ fun Reviews(
             ) {
                 Box() {
                     LazyColumn(
+                        modifier = Modifier.align(Alignment.Center),
                         contentPadding = PaddingValues(top = 15.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp),
                     ) {
@@ -78,6 +84,9 @@ fun Reviews(
                             RecommendRow(onTagClick, recommend)
                         }
                         itemsIndexed(reviews){ index, item ->
+                            if (index >= reviews.size - 1 && !endReached && !pagingLoading) {
+                                viewModel.getReviews()
+                            }
                             ReviewItem(
                                 onUserClick = {
                                     userId.value = item.user.id
@@ -97,7 +106,17 @@ fun Reviews(
                                 reviewImage = item.review.reviewImgUrl
                             )
                         }
-                        item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
+
+                        if(reviews.isEmpty()) {
+                            item {
+                                BlankIndicator(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(vertical = 78.dp)
+                                )
+                            }
+                        }
+                        item { Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)) }
                     }
                     GradientComponent(Modifier.align(Alignment.BottomCenter))
                 }

@@ -6,9 +6,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -18,12 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.view.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.view.UserFeed.BottomSheetUserFeedScreen
 import com.d_vide.D_VIDE.app.presentation.view.UserFeed.UserProfileViewModel
 import com.d_vide.D_VIDE.app.presentation.view.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientComponent
+import com.d_vide.D_VIDE.app.presentation.view.component.BlankIndicator
 import com.d_vide.D_VIDE.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -38,8 +43,13 @@ fun TaggedReviewsScreen(
 
     val userViewModel = hiltViewModel<UserProfileViewModel>()
     val viewModel = hiltViewModel<TaggedReviewsViewModel>()
-    val reviews = viewModel.state.value.reviews
+    val viewModelState by viewModel.state.collectAsState()
     val userId = rememberSaveable{ mutableStateOf(0L) }
+    val reviews = viewModelState.reviews
+    val endReached =  viewModelState.endReached
+    val pagingLoading = viewModelState.pagingLoading
+
+
     BottomSheetUserFeedScreen(
         navController = navController,
         onReviewSelected = onReviewSelected,
@@ -57,6 +67,7 @@ fun TaggedReviewsScreen(
             Box() {
                 Column(
                     modifier = Modifier
+                        .align(Alignment.Center)
                         .fillMaxSize()
                         .background(background)
                 ) {
@@ -65,7 +76,10 @@ fun TaggedReviewsScreen(
                         contentPadding = PaddingValues(vertical = 28.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        items(reviews){ review ->
+                        itemsIndexed(reviews){ index, review ->
+                            if (index >= reviews.size - 1 && !endReached && !pagingLoading) {
+                                viewModel.getReviews()
+                            }
                             ReviewItem(
                                 onUserClick = {
                                     userId.value = 1 // need to change
@@ -85,7 +99,16 @@ fun TaggedReviewsScreen(
                                 starRating = review.review.starRating
                             )
                         }
-
+                        if(reviews.isEmpty()) {
+                            item {
+                                BlankIndicator(
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .padding(vertical = 78.dp)
+                                )
+                            }
+                        }
+                        item { Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)) }
 
                     }
                 }

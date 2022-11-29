@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
@@ -18,8 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.view.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.util.MoreButton
+import com.d_vide.D_VIDE.app.presentation.view.component.BlankIndicator
 import com.d_vide.D_VIDE.ui.theme.TextStyles
 import com.d_vide.D_VIDE.ui.theme.gray2
 
@@ -31,7 +36,10 @@ fun MyReviewsScreen(
     upPress: () -> Unit = {}
 ){
     val viewModel  = hiltViewModel<MyReviewsViewModel>()
-    val reviews  =  viewModel.state.value.reviewsDTO
+    val viewModelState  by  viewModel.state.collectAsState()
+    val reviews = viewModelState.reviews
+    val endReached =  viewModelState.endReached
+    val pagingLoading = viewModelState.pagingLoading
 
     Column(
         modifier = Modifier
@@ -65,16 +73,38 @@ fun MyReviewsScreen(
             )
         }
         LazyColumn(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
             contentPadding = PaddingValues(vertical = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(reviews) { item ->
+            itemsIndexed(reviews) { index, item ->
+                if (index >= reviews.size - 1 && !endReached && !pagingLoading) {
+                    viewModel.getMyOrders()
+                }
                 ReviewItem(
                     onReviewClick = { onReviewSelected(item.review.reviewId.toInt()) },
                     onTagClick = { onTagClick(item.review.storeName) },
-                    isLiked = item.review.isLiked
+                    onLikeClick = {if(item.review.isLiked) viewModel.postUnlike(index) else viewModel.postLike(index)},
+                    isLiked = item.review.isLiked,
+                    userImageURL = item.user.profileImgUrl,
+                    userName = item.user.nickname,
+                    reviewTitle = item.review.storeName,
+                    reviewText = item.review.content,
+                    reviewImage = item.review.reviewImgUrl
                 )
             }
+            if(reviews.isEmpty()) {
+                item {
+                    BlankIndicator(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(vertical = 78.dp)
+                    )
+                }
+            }
+            item { Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)) }
         }
     }
 }

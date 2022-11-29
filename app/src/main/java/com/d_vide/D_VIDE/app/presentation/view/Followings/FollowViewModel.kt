@@ -36,48 +36,86 @@ class FollowViewModel @Inject constructor(
     private var _followIdDTO = mutableStateOf(FollowIdDTO(userInfo.userId))
     var followIdDTO: State<FollowIdDTO> = _followIdDTO
 
-    fun getFollowInfo(relation: String="FOLLOWER", first: Int=0){
+    fun getFollowInfo(relation: String="FOLLOWER"){
         viewModelScope.launch {
-            getFollowInfoUseCase(relation, first).collect() { result ->
+            getFollowInfoUseCase(relation, _state.value.offset).collect() { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.update {
                             it.copy(
-                                follows = result.data?.follows ?: emptyList(),
-                                isLoading = false
+                                follows = it.follows + (result.data?.follows ?: emptyList()),
+                                isLoading = false,
+                                offset = it.offset + (result.data?.follows?.size ?: 0),
+                                pagingLoading = false,
+                                endReached = result.data?.follows?.size!! < 10
                             )
                         }
+                        Log.d("팔로잉", "성공")
                     }
                     is Resource.Error -> {
-                        _state.value =
-                            FollowState(error = result.message ?: "An unexpected error occured")
-                        Log.d("test", "error")
+                        _state.update {
+                            it.copy(
+                                error = result.message ?: "An unexpected error occured in my review",
+                                isLoading = false,
+                                pagingLoading = false,
+                                endReached = true
+                            )
+                        }
+                        Log.d("팔로잉", "error")
                     }
                     is Resource.Loading -> {
-                        _state.value = FollowState(isLoading = true)
-                        Log.d("test", "loading")
+                        _state.update {
+                            it.copy(
+                                isLoading = true,
+                                pagingLoading = true
+                            )
+                        }
+                        Log.d("팔로잉", "loading")
                     }
                 }
             }
         }
     }
 
-    fun getOtherFollow(relation: String="FOLLOWER", first: Int=0, userId: Long){
-        getOtherFollowUseCase(relation, first, userId).onEach { result ->
-            when (result){
-                is Resource.Success -> {
-                    _state.value = result.data?.let { FollowState(otherFollows = it, isLoading = false)}!!
-                }
-                is Resource.Error -> {
-                    _state.value = FollowState(error = result.message ?: "An unexpected error occured")
-                    Log.d("test", "error")
-                }
-                is Resource.Loading -> {
-                    _state.value = FollowState(isLoading = true)
-                    Log.d("test", "loading")
+    fun getOtherFollow(relation: String="FOLLOWER", userId: Long){
+        viewModelScope.launch {
+            getOtherFollowUseCase(relation, _state.value.offset, userId).collect() { result ->
+                when (result){
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                otherFollows = it.otherFollows + (result.data ?: emptyList()),
+                                isLoading = false,
+                                offset = it.offset + (result.data?.size ?: 0),
+                                pagingLoading = false,
+                                endReached = result.data?.size!! < 10
+                            )
+                        }
+                        Log.d("팔로워", "성공 ${_state.value.endReached}")
+                    }
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                error = result.message ?: "An unexpected error occured in my review",
+                                isLoading = false,
+                                pagingLoading = false,
+                                endReached = true
+                            )
+                        }
+                        Log.d("팔로워", "error")
+                    }
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = true,
+                                pagingLoading = true
+                            )
+                        }
+                        Log.d("팔로워", "loading")
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+        }
     }
     fun postFollow(userId: Long){
         _userIdDTO.value = userIdDTO.value.copy(

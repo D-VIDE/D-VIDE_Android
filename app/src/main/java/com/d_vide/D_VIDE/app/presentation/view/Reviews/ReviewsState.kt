@@ -7,5 +7,8 @@ data class ReviewsState(
     val isLoading: Boolean = false,
     var reviews: List<ReviewDTO> = emptyList(),
     val error: String = "",
-    val recommendStore: List<RecommendStore> = emptyList()
+    val recommendStore: List<RecommendStore> = emptyList(),
+    val offset: Int = 1,
+    val endReached: Boolean = false,
+    val pagingLoading : Boolean = false,
 )
