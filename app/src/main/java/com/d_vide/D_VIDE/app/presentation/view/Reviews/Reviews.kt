@@ -29,6 +29,7 @@ import com.d_vide.D_VIDE.app.presentation.view.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.view.component.TopRoundBarWithImage
 import com.d_vide.D_VIDE.app.presentation.navigation.Screen
 import com.d_vide.D_VIDE.app.presentation.util.GradientComponent
+import com.d_vide.D_VIDE.app.presentation.view.component.BlankIndicator
 import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
 
@@ -75,6 +76,7 @@ fun Reviews(
             ) {
                 Box() {
                     LazyColumn(
+                        modifier = Modifier.align(Alignment.Center),
                         contentPadding = PaddingValues(top = 15.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp),
                     ) {
@@ -103,6 +105,16 @@ fun Reviews(
                                 reviewText = item.review.content,
                                 reviewImage = item.review.reviewImgUrl
                             )
+                        }
+
+                        if(reviews.isEmpty()) {
+                            item {
+                                BlankIndicator(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(vertical = 78.dp)
+                                )
+                            }
                         }
                         item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
                     }

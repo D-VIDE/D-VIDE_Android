@@ -55,10 +55,9 @@ class RecruitingsViewModel @Inject constructor(
                         }
 
                         offset.value += result.data?.recruitingDTOS?.size ?: 0
-                        endReached.value= false
+                        endReached.value = result.data?.recruitingDTOS?.size!! < 10
                         pagingLoading.value = false
                         Log.d("가희", "호출 ${recruitings.value.size}")
-                        //result.data.recruitingDTOS.toString().log()
 
                     }
                     is Resource.Error -> {

@@ -18,7 +18,8 @@ import com.d_vide.D_VIDE.ui.theme.gray1
 
 @Composable
 fun BlankIndicator(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text: String = "아직 새로운 글이 \n 업로드 되지 않았어요"
 ){
     Box(
       modifier = modifier
@@ -33,7 +34,7 @@ fun BlankIndicator(
                 modifier = Modifier.size(82.9.dp, 82.33.dp)
             )
             Text(
-                text = "아직 새로운 모집글이\n업로드 되지 않았어요",
+                text = text,
                 modifier = Modifier.padding(top = 11.67.dp),
                 textAlign = TextAlign.Center,
                 color = gray1,

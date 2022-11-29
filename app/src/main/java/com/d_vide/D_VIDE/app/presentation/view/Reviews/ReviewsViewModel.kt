@@ -57,7 +57,7 @@ class ReviewsViewModel @Inject constructor(
                                 error = result.message ?: "An unexpected error occured",
                                 isLoading = false,
                                 pagingLoading = false,
-                                endReached = true
+                                endReached = result.data?.reviews?.size!! < 10
                             )
                         }
                         Log.d("test", "error")
@@ -66,8 +66,7 @@ class ReviewsViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 isLoading = true,
-                                pagingLoading = true,
-                                endReached = false
+                                pagingLoading = true
                             )
                         }
                         Log.d("test", "loading")
