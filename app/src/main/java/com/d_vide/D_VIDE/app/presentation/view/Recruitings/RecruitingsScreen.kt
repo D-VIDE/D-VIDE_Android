@@ -120,12 +120,14 @@ fun RecruitingsScreen(
                         }
 
 
-                        item {
-                            BlankIndicator(
-                                modifier = Modifier
-                                    .align(CenterHorizontally)
-                                    .padding(vertical = 78.dp)
-                            )
+                        if(recruitings.isEmpty()) {
+                            item {
+                                BlankIndicator(
+                                    modifier = Modifier
+                                        .align(CenterHorizontally)
+                                        .padding(vertical = 78.dp)
+                                )
+                            }
                         }
                     }
                 }
