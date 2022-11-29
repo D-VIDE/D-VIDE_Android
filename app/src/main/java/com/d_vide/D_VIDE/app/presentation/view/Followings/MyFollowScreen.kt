@@ -61,7 +61,7 @@ fun MyFollowScreen(
                         item {
                             FollowingItem(
                                 userName = item.nickname,
-                                profileUrl = item.profileImageUrl,
+                                profileUrl = item.profileImgUrl,
                                 modifier = Modifier.padding(start = 33.dp, end = 40.dp),
                                 onUserClick = {
                                     userId.value = item.userId
