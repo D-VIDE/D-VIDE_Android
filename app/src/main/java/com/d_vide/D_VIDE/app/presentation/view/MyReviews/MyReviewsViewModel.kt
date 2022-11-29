@@ -46,7 +46,7 @@ class MyReviewsViewModel @Inject constructor(
                                 endReached = result.data?.reviews?.size!! < 10
                             )
                         }
-                        Log.d("가희", "나의 리뷰 :${_state.value.offset}")
+                        "내 리뷰 목록 가져오기 성공".log()
                     }
                     is Resource.Error -> {
                         _state.update {

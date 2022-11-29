@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.presentation.view.TaggedReviews.component.ReviewItem
 import com.d_vide.D_VIDE.app.presentation.util.MoreButton
 import com.d_vide.D_VIDE.app.presentation.view.component.BlankIndicator
@@ -103,6 +104,7 @@ fun MyReviewsScreen(
                     )
                 }
             }
+            item { Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)) }
         }
     }
 }

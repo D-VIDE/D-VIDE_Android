@@ -116,7 +116,7 @@ fun Reviews(
                                 )
                             }
                         }
-                        item { Spacer(modifier = Modifier.size(it.calculateBottomPadding())) }
+                        item { Spacer(Modifier.padding(bottom = Const.UIConst.HEIGHT_BOTTOM_BAR)) }
                     }
                     GradientComponent(Modifier.align(Alignment.BottomCenter))
                 }
