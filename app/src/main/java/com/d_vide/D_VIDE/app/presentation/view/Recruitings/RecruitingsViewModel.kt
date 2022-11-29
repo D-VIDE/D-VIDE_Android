@@ -47,14 +47,14 @@ class RecruitingsViewModel @Inject constructor(
             getRecruitingsUseCase(latitude, longitude, category, offset.value).collect() { result ->
                 when (result) {
                     is Resource.Success -> {
-                        recruitings.value = recruitings.value + result.data!!.recruitingDTOS
+                        recruitings.value = recruitings.value + (result.data?.recruitingDTOS ?: emptyList())
                         state.update {
                             it.copy(
                                 recruitingDTOS = it.recruitingDTOS + result.data!!.recruitingDTOS
                             )
                         }
 
-                        offset.value++
+                        offset.value += result.data?.recruitingDTOS?.size ?: 0
                         endReached.value= false
                         pagingLoading.value = false
                         Log.d("가희", "호출 ${recruitings.value.size}")

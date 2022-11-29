@@ -16,7 +16,7 @@ class GetReviews @Inject constructor(
     operator fun invoke(
         longitude: Double,
         latitude: Double,
-        first: Int
+        first: Int = 1
     ): Flow<Resource<ReviewsDTO>> = flow {
 
         try {

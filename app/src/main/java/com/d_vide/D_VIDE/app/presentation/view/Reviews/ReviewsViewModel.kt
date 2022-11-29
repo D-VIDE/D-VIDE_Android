@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,29 +28,54 @@ class ReviewsViewModel @Inject constructor(
     val state = _state
 
     init{
-        getReviews( latitude = 37.49015482509, longitude = 127.030767490, first = 1)
+        getReviews( latitude = 37.49015482509, longitude = 127.030767490)
         getRecommend()
     }
 
-    private fun getReviews(longitude: Double, latitude: Double, first: Int){
-        getReviewsUseCase(longitude, latitude, first).onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _state.update {
-                        it.copy(reviews = result.data?.reviews ?: emptyList(), isLoading = false)
+    fun getReviews(
+        longitude: Double = 127.030767490,
+        latitude: Double = 37.49015482509
+    ){
+        viewModelScope.launch {
+            getReviewsUseCase(longitude, latitude, _state.value.offset).collect() { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                reviews = it.reviews + (result.data?.reviews ?: emptyList()),
+                                isLoading = false,
+                                offset = it.offset + (result.data?.reviews?.size ?: 0),
+                                pagingLoading = false,
+                                endReached = false
+                            )
+                        }
+                        Log.d("가희", "리뷰 호출 ${result.data?.reviews ?: emptyList()}")
+                    }
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                error = result.message ?: "An unexpected error occured",
+                                isLoading = false,
+                                pagingLoading = false,
+                                endReached = true
+                            )
+                        }
+                        Log.d("test", "error")
+                    }
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = true,
+                                pagingLoading = true,
+                                endReached = false
+                            )
+                        }
+                        Log.d("test", "loading")
                     }
                 }
-                is Resource.Error -> {
-                    _state.value = ReviewsState(error = result.message ?: "An unexpected error occured")
-                    Log.d("test", "error")
-                }
-                is Resource.Loading -> {
-                    _state.value = ReviewsState(isLoading = true)
-                    Log.d("test", "loading")
-                }
-            }
 
-        }.launchIn(viewModelScope)
+            }
+        }
     }
 
     private fun getRecommend(){
