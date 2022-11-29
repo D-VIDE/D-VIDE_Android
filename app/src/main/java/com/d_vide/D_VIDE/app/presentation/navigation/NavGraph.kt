@@ -236,7 +236,8 @@ private fun NavGraphBuilder.MyReviewNavGraph(
             navController = navController,
             onReviewSelected = { id -> onReviewClick(id, from) },
             onTagClick = { id -> onTagClick(id, from) },
-            onRecruitingClick = { id -> onRecruitingClick(id, from) }
+            onRecruitingClick = { id -> onRecruitingClick(id, from) },
+            upPress = upPress
         )
     }
 
