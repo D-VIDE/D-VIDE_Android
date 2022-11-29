@@ -1,46 +1,96 @@
 package com.d_vide.D_VIDE.app.presentation.ChattingDetail
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.d_vide.D_VIDE.R
+import com.d_vide.D_VIDE.app._constants.Const
 import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
 import com.d_vide.D_VIDE.app.domain.model.Message
 import com.d_vide.D_VIDE.app.presentation.ChattingDetail.component.UserInput
+import com.d_vide.D_VIDE.app.presentation.Reviews.RecommendRow
+import com.d_vide.D_VIDE.app.presentation.navigation.Screen
+import com.d_vide.D_VIDE.app.presentation.util.GradientComponent
 import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.ChattingDetailViewModel
 import com.d_vide.D_VIDE.app.presentation.view.ChattingDetail.component.Messages
+import com.d_vide.D_VIDE.app.presentation.view.TaggedReviews.component.ReviewItem
+import com.d_vide.D_VIDE.app.presentation.view.UserFeed.BottomSheetUserFeedScreen
+import com.d_vide.D_VIDE.app.presentation.view.UserFeed.UserFeedViewModel
+import com.d_vide.D_VIDE.app.presentation.view.component.RecruitingWriteButton
 import com.d_vide.D_VIDE.app.presentation.view.component.TopBarChatting
+import com.d_vide.D_VIDE.app.presentation.view.component.TopRoundBarWithImage
+import com.d_vide.D_VIDE.ui.theme.gray6
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChattingDetail(
+    navController: NavController,
+    onReviewSelected: (Int) -> Unit,
+    onTagClick: (String) -> Unit,
     chattingId: Int,
     upPress: () -> Unit = {},
-    viewModel: ChattingDetailViewModel = hiltViewModel()
+    viewModel: ChattingDetailViewModel = hiltViewModel(),
+    userFeedViewModel: UserFeedViewModel = hiltViewModel(),
 ) {
-    ConversationContent(
-        uiState = viewModel.state.value,
-        navigateToProfile = { user ->
-        },
-        // Add padding so that we are inset from any navigation bars
-        modifier = Modifier.windowInsetsPadding(
-            WindowInsets
-                .navigationBars
-                .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-        ),
-        onMessageSent = { content ->
-            viewModel.send(Message("authorMe", content, System.currentTimeMillis()))
-        },
-        upPress = upPress
-    )
+    val userId = rememberSaveable{ mutableStateOf(0L) }
+
+
+    BottomSheetUserFeedScreen(
+        navController = navController,
+        onReviewSelected = onReviewSelected,
+        onTagClick = onTagClick,
+        userId = userId.value
+    ) { state, scope ->
+        ConversationContent(
+            navigateToProfile = {
+                userId.value = it.toLong()
+                scope.launch {
+                    userFeedViewModel.getOtherUserInfo(it.toLong())
+                    state.animateTo(ModalBottomSheetValue.Expanded, tween(500))
+                }
+            },
+            uiState = viewModel.state,
+            // Add padding so that we are inset from any navigation bars
+            modifier = Modifier.windowInsetsPadding(
+                WindowInsets
+                    .navigationBars
+                    .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            ),
+            onMessageSent = { content ->
+                viewModel.send(content)
+            },
+            upPress = upPress
+        )
+        BackHandler (
+            enabled = (state.currentValue == ModalBottomSheetValue.HalfExpanded ||
+                    state.currentValue == ModalBottomSheetValue.Expanded),
+            onBack = {
+                scope.launch{
+                    state.animateTo(ModalBottomSheetValue.Hidden, tween(300))
+                }
+            }
+        )
+    }
+
+
+
 }
 
 
@@ -75,6 +125,7 @@ fun ConversationContent(
                 //.nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 Messages(
+                    users = uiState.users,
                     messages = uiState.messages,
                     navigateToProfile = navigateToProfile,
                     modifier = Modifier.weight(1f),

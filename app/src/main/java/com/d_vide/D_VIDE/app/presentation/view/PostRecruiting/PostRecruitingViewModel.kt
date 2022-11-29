@@ -13,6 +13,7 @@ import com.d_vide.D_VIDE.app.domain.use_case.PostRecruiting
 import com.d_vide.D_VIDE.app.domain.util.Resource
 import com.d_vide.D_VIDE.app.domain.util.UriUtil.toFile
 import com.d_vide.D_VIDE.app.domain.util.log
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
@@ -41,7 +42,9 @@ class PostRecruitingViewModel @Inject constructor(
     private var _postId = mutableStateOf(0)
     val postId: State<Int> = _postId
 
-    private var userId = "ascdf"
+    var user by mutableStateOf(UserInformation.userInfo)
+        private set
+    var userId by mutableStateOf(user.userId.toString() + "userId")
 
     private var _recruitingBody = mutableStateOf(RecruitingBodyDTO())
     val recruitingBodyDTO: State<RecruitingBodyDTO> = _recruitingBody
@@ -136,13 +139,15 @@ class PostRecruitingViewModel @Inject constructor(
                             when (it) {
                                 is Resource.Success -> {
                                     it.data!!.postId.also { _postId.value = it }
-                                    Log.d("가희", "모집글 올리기 성공 postId: ${it.data!!.postId}")
+                                    Log.d("가희", "모집글 올리기 성공 postId: ${it.data!!.postId}  ${user.nickname}")
                                     _eventFlow.emit(UiEvent.SaveRecruiting(it.data.postId.toLong()))
+
+                                    var chatUserInfo = ChatUserInfo(userId, user.nickname,false)
 
                                     //채팅방 생성
                                     databaseReference.child("chatrooms")
                                         .child("${it.data.postId}")
-                                        .child("users/$userId").setValue(ChatUserInfo(userId,"nickname",false))
+                                        .child("users/$userId").setValue(chatUserInfo)
 
                                     databaseReference.child("chatrooms")
                                         .child("${it.data.postId}")

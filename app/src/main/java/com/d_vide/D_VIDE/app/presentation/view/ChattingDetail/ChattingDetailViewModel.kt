@@ -1,7 +1,7 @@
 package com.d_vide.D_VIDE.app.presentation.view.ChattingDetail
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +9,7 @@ import com.d_vide.D_VIDE.app.domain.model.ChatUserInfo
 import com.d_vide.D_VIDE.app.domain.model.ConversationUiState
 import com.d_vide.D_VIDE.app.domain.model.Message
 import com.d_vide.D_VIDE.app.presentation.navigation.DetailDestinationKey
+import com.d_vide.D_VIDE.app.presentation.state.UserInformation
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -30,17 +31,19 @@ class ChattingDetailViewModel @Inject constructor(
     private val databaseReference = firebaseDatabase.reference
 
 
-    private var _state = mutableStateOf(ConversationUiState())
-    val state = _state
+    var state by mutableStateOf(ConversationUiState())
+        private set
 
-    private var userId = "ascdf"
+    var user by mutableStateOf(UserInformation.userInfo)
+        private set
+    var userId by mutableStateOf(user.userId.toString() + "userId")
     private var chatId = savedStateHandle.get<Long>(DetailDestinationKey.CHATTING)!!
 
 
     init {
+        getTitle()
         getChattingInfo()
         getUsersInfo()
-        getTitle()
     }
 
     //채팅 불러오기 user.id
@@ -55,7 +58,7 @@ class ChattingDetailViewModel @Inject constructor(
                         for (c in snapshot.children) {
                             mList.add(0, c.getValue(Message::class.java) ?: Message("", ""))
                         }
-                        _state.value = ConversationUiState(messages = mList)
+                        state = state.copy(messages = mList)
                         //메세지 읽음(false로 수정)
                         changeUnRead(userId, unRead = false)
                     }
@@ -86,8 +89,8 @@ class ChattingDetailViewModel @Inject constructor(
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     viewModelScope.launch {
-                        _state.value.users = snapshot.getValue<MutableMap<String, ChatUserInfo>>()!!
-                        Log.d("가희1", _state.value.users.toString())
+                        state = state.copy(users = snapshot.getValue<MutableMap<String, ChatUserInfo>>()!!)
+                        Log.d("가희1", state.users.toString())
                     }
                 }
 
@@ -106,8 +109,8 @@ class ChattingDetailViewModel @Inject constructor(
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     viewModelScope.launch {
-                        _state.value.channelName = snapshot.getValue<String>() ?: "title"
-                        Log.d("가희1", _state.value.users.toString())
+                        state = state.copy(channelName = snapshot.getValue<String>() ?: "title")
+                        Log.d("가희1", state.channelName)
                     }
                 }
 
@@ -122,11 +125,14 @@ class ChattingDetailViewModel @Inject constructor(
      * 메세지를 보내는 함수
      * @param msg 보내려는 메세지
      */
-    fun send(msg: Message) {
+    fun send(content: String) {
         //메세지 안읽음(true)로 수정
-        state.value.users.forEach {
+        state.users.forEach {
             changeUnRead(it.key, unRead = true)
         }
+
+        var msg = Message(userId, content, System.currentTimeMillis())
+
         //메세지 보내기
         databaseReference.child("chatrooms")
             .child("$chatId")
